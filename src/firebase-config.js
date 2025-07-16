@@ -1,14 +1,11 @@
-// Firebase configuration
-// You'll need to replace this with your actual Firebase config from the Firebase Console
-export const firebaseConfig = {
-  apiKey: "your-api-key",
-  authDomain: "your-project-id.firebaseapp.com",
-  databaseURL: "https://your-project-id-default-rtdb.firebaseio.com/",
-  projectId: "your-project-id",
-  storageBucket: "your-project-id.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "your-app-id"
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+const firebaseConfig = {
+  apiKey: "AIzaSyA7Y2ppKIFumXd5aa7Lwj-263p-p1jiK7M",
+  authDomain: "rndmform-56a7b.firebaseapp.com",
+  databaseURL: "https://rndmform-56a7b-default-rtdb.firebaseio.com",
+  projectId: "rndmform-56a7b",
+  storageBucket: "rndmform-56a7b.appspot.com",
+  messagingSenderId: "592358469137",
+  appId: "1:592358469137:web:b2d18e70a70c4c42958bb0",
+  measurementId: "G-FB38H9S3QC"
 };
-
-// Note: Replace the above configuration with your actual Firebase project config
-// You can find this in your Firebase Console > Project Settings > General > Your apps
