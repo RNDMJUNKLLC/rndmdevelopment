@@ -259,7 +259,8 @@ body::before {
 }
 
 .form-group input,
-.form-group textarea {
+.form-group textarea,
+.form-group select {
   width: 100%;
   padding: 12px;
   background: rgba(255, 255, 255, 0.1);
@@ -270,8 +271,15 @@ body::before {
   transition: all 0.3s ease;
 }
 
+.form-group select option {
+  background: var(--bg-dark);
+  color: var(--text-light);
+  padding: 8px;
+}
+
 .form-group input:focus,
-.form-group textarea:focus {
+.form-group textarea:focus,
+.form-group select:focus {
   outline: none;
   border-color: var(--primary-color);
   box-shadow: 0 0 15px rgba(0, 255, 255, 0.2);

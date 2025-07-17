@@ -5,7 +5,7 @@ import { firebaseService } from './firebase-service.js';
 const appState = {
   currentPage: 'home',
   isAdminLoggedIn: false,
-  adminPassword: 'rndmdev2025' // Simple password protection
+  currentUser: null
 };
 
 // Initialize the application
@@ -18,6 +18,17 @@ function initializeApp() {
   renderCurrentPage();
   attachEventListeners();
   createFloatingElements();
+  
+  // Set up Firebase Auth state listener
+  firebaseService.onAuthStateChange((user) => {
+    appState.isAdminLoggedIn = !!user;
+    appState.currentUser = user;
+    
+    // If we're on the admin page, re-render to show/hide content
+    if (appState.currentPage === 'admin') {
+      renderCurrentPage();
+    }
+  });
 }
 
 // Navigation rendering
@@ -125,7 +136,7 @@ function renderContactPage() {
             
             <div class="form-group">
               <label for="project">Project Type</label>
-              <select id="project" name="project" style="width: 100%; padding: 12px; background: rgba(255, 255, 255, 0.1); border: 1px solid var(--border-color); border-radius: 5px; color: var(--text-light); font-size: 1rem;">
+              <select id="project" name="project">
                 <option value="">Select a project type</option>
                 <option value="website">Website Development</option>
                 <option value="redesign">Website Redesign</option>
@@ -138,13 +149,13 @@ function renderContactPage() {
             
             <div class="form-group">
               <label for="budget">Budget Range</label>
-              <select id="budget" name="budget" style="width: 100%; padding: 12px; background: rgba(255, 255, 255, 0.1); border: 1px solid var(--border-color); border-radius: 5px; color: var(--text-light); font-size: 1rem;">
+              <select id="budget" name="budget">
                 <option value="">Select budget range</option>
-                <option value="under-1k">Under $1,000</option>
-                <option value="1k-5k">$1,000 - $5,000</option>
-                <option value="5k-10k">$5,000 - $10,000</option>
-                <option value="10k-25k">$10,000 - $25,000</option>
-                <option value="25k-plus">$25,000+</option>
+                <option value="under-100">Under $100</option>
+                <option value="100-500">$100 - $500</option>
+                <option value="500-1k">$500 - $1,000</option>
+                <option value="1k-2.5k">$1,000 - $2,500</option>
+                <option value="2.5k-plus">$2,500+</option>
                 <option value="discuss">Let's discuss</option>
               </select>
             </div>
@@ -172,13 +183,29 @@ function renderAdminPage() {
         <div class="container">
           <div class="admin-login">
             <h2>Admin Access</h2>
-            <p style="margin-bottom: 2rem; color: var(--text-gray);">Enter password to view contact submissions</p>
-            <form id="adminLoginForm">
+            <p style="margin-bottom: 2rem; color: var(--text-gray);">
+              Sign in to view contact submissions
+            </p>
+            
+            <form id="adminAuthForm">
               <div class="form-group">
-                <input type="password" id="adminPassword" placeholder="Admin Password" style="width: 100%; padding: 12px; background: rgba(255, 255, 255, 0.1); border: 1px solid var(--border-color); border-radius: 5px; color: var(--text-light); font-size: 1rem; text-align: center;">
+                <label for="adminEmail">Email</label>
+                <input type="email" id="adminEmail" placeholder="Email" required style="width: 100%; padding: 12px; background: rgba(255, 255, 255, 0.1); border: 1px solid var(--border-color); border-radius: 5px; color: var(--text-light); font-size: 1rem;">
               </div>
-              <button type="submit" class="btn">Access Dashboard</button>
+              <div class="form-group">
+                <label for="adminPassword">Password</label>
+                <input type="password" id="adminPassword" placeholder="Password" required style="width: 100%; padding: 12px; background: rgba(255, 255, 255, 0.1); border: 1px solid var(--border-color); border-radius: 5px; color: var(--text-light); font-size: 1rem;">
+              </div>
+              <button type="submit" class="btn" style="width: 100%;">
+                Sign In
+              </button>
             </form>
+            
+            <div style="margin-top: 2rem; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 5px; border: 1px solid var(--border-color);">
+              <p style="color: var(--text-gray); font-size: 0.9rem; margin: 0; text-align: center;">
+                � Authorized personnel only
+              </p>
+            </div>
           </div>
         </div>
       </div>
@@ -190,9 +217,14 @@ function renderAdminPage() {
       <div class="container">
         <h1 class="section-title">Admin Dashboard</h1>
         <div class="admin-section">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-            <h2 style="color: var(--primary-color);">Contact Form Submissions</h2>
-            <button class="btn btn-secondary" onclick="logout()">Logout</button>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; flex-wrap: wrap; gap: 1rem;">
+            <div>
+              <h2 style="color: var(--primary-color); margin: 0;">Contact Form Submissions</h2>
+              <p style="color: var(--text-gray); margin: 0.5rem 0 0 0;">
+                Signed in as: ${appState.currentUser?.email || 'Unknown'}
+              </p>
+            </div>
+            <button class="btn btn-secondary" onclick="handleSignOut()">Sign Out</button>
           </div>
           <div id="submissionsContainer">
             <div class="loading">
@@ -217,10 +249,13 @@ function attachEventListeners() {
   });
   
   // Make logout function globally available
-  window.logout = () => {
-    appState.isAdminLoggedIn = false;
-    navigateToPage('admin');
-    showNotification('Logged out successfully', 'success');
+  window.handleSignOut = async () => {
+    const result = await firebaseService.signOutAdmin();
+    if (result.success) {
+      showNotification(result.message, 'success');
+    } else {
+      showNotification(result.message, 'error');
+    }
   };
 }
 
@@ -266,22 +301,42 @@ function attachContactFormListener() {
   }
 }
 
-// Admin login event listener
+// Admin authentication event listener
 function attachAdminLoginListener() {
-  const form = document.getElementById('adminLoginForm');
+  const form = document.getElementById('adminAuthForm');
   if (form) {
-    form.addEventListener('submit', (e) => {
+    form.addEventListener('submit', async (e) => {
       e.preventDefault();
       
+      const email = document.getElementById('adminEmail').value;
       const password = document.getElementById('adminPassword').value;
       
-      if (password === appState.adminPassword) {
-        appState.isAdminLoggedIn = true;
-        renderCurrentPage();
-        showNotification('Welcome to admin dashboard', 'success');
-      } else {
-        showNotification('Invalid password', 'error');
-        document.getElementById('adminPassword').value = '';
+      if (!email || !password) {
+        showNotification('Please fill in all fields', 'error');
+        return;
+      }
+      
+      // Show loading state
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Signing In...';
+      submitBtn.disabled = true;
+      
+      try {
+        const result = await firebaseService.signInAdmin(email, password);
+        
+        if (result.success) {
+          showNotification(result.message, 'success');
+          // The auth state listener will handle updating the UI
+        } else {
+          showNotification(result.message, 'error');
+        }
+      } catch (error) {
+        console.error('Authentication error:', error);
+        showNotification('An error occurred. Please try again.', 'error');
+      } finally {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
       }
     });
   }
