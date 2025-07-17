@@ -480,3 +480,451 @@ body::before {
   60% { transform: translateX(-1px); }
   80% { transform: translateX(1px); }
 }
+
+/* Admin Analytics Dashboard */
+.admin-analytics {
+  margin-bottom: 2rem;
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 20px var(--glow-color);
+  transform: translateY(-2px);
+}
+
+.stat-icon {
+  font-size: 2rem;
+  opacity: 0.8;
+}
+
+.stat-info h3 {
+  font-size: 1.8rem;
+  font-family: var(--font-tech);
+  color: var(--primary-color);
+  margin-bottom: 0.25rem;
+}
+
+.stat-info p {
+  color: var(--text-gray);
+  font-size: 0.9rem;
+}
+
+/* Admin Controls */
+.admin-controls {
+  margin-bottom: 2rem;
+}
+
+.controls-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.controls-left h2 {
+  color: var(--primary-color);
+  margin: 0;
+  font-family: var(--font-tech);
+}
+
+.controls-right {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.btn-icon {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
+  color: var(--text-light);
+  padding: 0.5rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-size: 1rem;
+}
+
+.btn-icon:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 10px var(--glow-color);
+}
+
+/* Filter Controls */
+.filter-controls {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.filter-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+
+.filter-row:last-child {
+  margin-bottom: 0;
+}
+
+.filter-input,
+.filter-select {
+  flex: 1;
+  min-width: 150px;
+  padding: 0.75rem;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
+  border-radius: 5px;
+  color: var(--text-light);
+  font-size: 0.9rem;
+}
+
+.filter-input::placeholder {
+  color: var(--text-gray);
+}
+
+.filter-input:focus,
+.filter-select:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 10px var(--glow-color);
+}
+
+/* Status Badges */
+.status-badge {
+  padding: 0.25rem 0.75rem;
+  border-radius: 15px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  text-transform: capitalize;
+}
+
+.status-new {
+  background: rgba(255, 255, 0, 0.2);
+  color: var(--accent-color);
+  border: 1px solid var(--accent-color);
+}
+
+.status-in-progress {
+  background: rgba(0, 255, 255, 0.2);
+  color: var(--primary-color);
+  border: 1px solid var(--primary-color);
+}
+
+.status-completed {
+  background: rgba(68, 255, 68, 0.2);
+  color: var(--success-color);
+  border: 1px solid var(--success-color);
+}
+
+.status-archived {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--text-gray);
+  border: 1px solid var(--text-gray);
+}
+
+/* Enhanced Table Styles */
+.submissions-table table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border-color);
+}
+
+.submissions-table th {
+  background: rgba(0, 255, 255, 0.1);
+  padding: 1rem;
+  text-align: left;
+  font-family: var(--font-tech);
+  color: var(--primary-color);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.submissions-table td {
+  padding: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  vertical-align: middle;
+}
+
+.submission-row:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.actions-cell {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+/* Modals */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modal-content {
+  background: var(--bg-dark);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  width: 90%;
+  max-width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+}
+
+.modal-large {
+  max-width: 800px;
+}
+
+.modal-header {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  color: var(--primary-color);
+  font-family: var(--font-tech);
+  margin: 0;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--text-light);
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 3px;
+  transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+  color: var(--primary-color);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.modal-body {
+  padding: 1.5rem;
+}
+
+/* Form Styles for Modals */
+.form-row {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.form-row .form-group {
+  flex: 1;
+}
+
+.form-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Detail Modal Styles */
+.submission-detail {
+  color: var(--text-light);
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.detail-item {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+}
+
+.detail-item label {
+  display: block;
+  color: var(--primary-color);
+  font-weight: 500;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+}
+
+.detail-item span {
+  color: var(--text-light);
+}
+
+.detail-message {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+  border-radius: 5px;
+  border: 1px solid var(--border-color);
+  margin-bottom: 2rem;
+}
+
+.detail-message label {
+  display: block;
+  color: var(--primary-color);
+  font-weight: 500;
+  margin-bottom: 1rem;
+}
+
+.message-content {
+  color: var(--text-light);
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+.detail-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: flex-end;
+}
+
+/* Notification Badge */
+.notification-badge {
+  position: fixed;
+  top: 80px;
+  right: 20px;
+  background: var(--primary-color);
+  color: var(--bg-dark);
+  padding: 0.75rem 1.5rem;
+  border-radius: 25px;
+  font-weight: 500;
+  z-index: 1000;
+  animation: slideInRight 0.3s ease;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+}
+
+.notification-badge:hover {
+  transform: scale(1.05);
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Dark Mode Toggle Styles */
+body.dark-mode {
+  --bg-dark: #000000;
+  --bg-darker: #111111;
+  --border-color: #444;
+  --text-gray: #888;
+}
+
+body.dark-mode .stat-card,
+body.dark-mode .filter-controls,
+body.dark-mode .modal-content {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+/* Mobile Responsive Improvements */
+@media (max-width: 768px) {
+  .analytics-grid {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
+  
+  .stat-card {
+    padding: 1rem;
+  }
+  
+  .stat-info h3 {
+    font-size: 1.4rem;
+  }
+  
+  .controls-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  .controls-right {
+    justify-content: center;
+  }
+  
+  .filter-row {
+    flex-direction: column;
+  }
+  
+  .filter-input,
+  .filter-select {
+    min-width: unset;
+  }
+  
+  .submissions-table {
+    overflow-x: auto;
+  }
+  
+  .submissions-table table {
+    min-width: 800px;
+  }
+  
+  .form-row {
+    flex-direction: column;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+  }
+  
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .detail-actions {
+    flex-direction: column;
+  }
+  
+  .modal-content {
+    width: 95%;
+    margin: 1rem;
+  }
+}

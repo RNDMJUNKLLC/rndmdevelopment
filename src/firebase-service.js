@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getDatabase, ref, push, onValue, off } from 'firebase/database';
+import { getDatabase, ref, push, onValue, off, update, remove } from 'firebase/database';
 import { 
   getAuth, 
   signInWithEmailAndPassword, 
@@ -163,6 +163,36 @@ export class FirebaseService {
       })) : [];
       callback(forms);
     });
+  }
+
+  // Update contact form submission
+  async updateContactSubmission(submissionId, updatedData) {
+    try {
+      const submissionRef = ref(database, `contact-forms/${submissionId}`);
+      const updateData = {
+        ...updatedData,
+        lastModified: Date.now(),
+        lastModifiedDate: new Date().toISOString()
+      };
+      
+      await update(submissionRef, updateData);
+      return { success: true, message: 'Submission updated successfully!' };
+    } catch (error) {
+      console.error('Error updating submission:', error);
+      return { success: false, message: 'Failed to update submission. Please try again.' };
+    }
+  }
+
+  // Delete contact form submission
+  async deleteContactSubmission(submissionId) {
+    try {
+      const submissionRef = ref(database, `contact-forms/${submissionId}`);
+      await remove(submissionRef);
+      return { success: true, message: 'Submission deleted successfully!' };
+    } catch (error) {
+      console.error('Error deleting submission:', error);
+      return { success: false, message: 'Failed to delete submission. Please try again.' };
+    }
   }
 
   // Stop listening for changes
