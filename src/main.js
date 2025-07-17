@@ -1,5 +1,6 @@
 import './style.css';
 import { firebaseService } from './firebase-service.js';
+import { emailService } from './email-service.js';
 
 // Application state
 const appState = {
@@ -70,6 +71,7 @@ function renderCurrentPage() {
         loadContactSubmissions();
         attachEditFormListener();
         attachFilterListeners();
+        initializeNotifications();
       }
       break;
     default:
@@ -265,6 +267,7 @@ function renderAdminPage() {
             </div>
             <div class="controls-right">
               <button class="btn btn-icon" onclick="toggleDarkMode()" title="Toggle Dark Mode">🌙</button>
+              <button class="btn btn-secondary" onclick="testEmailNotification()" title="Test Email">📧 Test Email</button>
               <button class="btn btn-secondary" onclick="exportData('csv')">📋 Export CSV</button>
               <button class="btn btn-secondary" onclick="exportData('json')">📄 Export JSON</button>
               <button class="btn btn-secondary" onclick="handleSignOut()">Sign Out</button>
@@ -530,6 +533,15 @@ function loadContactSubmissions() {
       const newCount = submissions.length - allSubmissions.length;
       newSubmissionCount += newCount;
       showNewSubmissionNotification();
+      
+      // Get the newest submission
+      const newestSubmission = submissions[submissions.length - 1];
+      
+      // Send browser notification
+      sendBrowserNotification(newestSubmission);
+      
+      // Send email notification
+      sendEmailNotification(newestSubmission);
     }
     
     allSubmissions = submissions;
@@ -941,6 +953,89 @@ function initializeDarkMode() {
   }
 }
 
+// Browser notification functions
+async function requestNotificationPermission() {
+  if ('Notification' in window) {
+    const permission = await Notification.requestPermission();
+    return permission === 'granted';
+  }
+  return false;
+}
+
+function sendBrowserNotification(submission) {
+  if ('Notification' in window && Notification.permission === 'granted') {
+    const notification = new Notification('New Contact Submission! 🚀', {
+      body: `${submission.name} submitted a ${getProjectDisplayText(submission.project)} inquiry`,
+      icon: '/favicon.ico',
+      badge: '/favicon.ico',
+      tag: 'new-submission',
+      requireInteraction: true,
+      actions: [
+        { action: 'view', title: 'View Submission' },
+        { action: 'dismiss', title: 'Dismiss' }
+      ]
+    });
+
+    notification.onclick = () => {
+      window.focus();
+      navigateToPage('admin');
+      notification.close();
+    };
+
+    // Auto-close after 10 seconds
+    setTimeout(() => notification.close(), 10000);
+  }
+}
+
+// Initialize notifications when admin logs in
+async function initializeNotifications() {
+  const hasPermission = await requestNotificationPermission();
+  if (hasPermission) {
+    showNotification('Desktop notifications enabled! 🔔', 'success');
+  } else {
+    showNotification('Enable notifications in your browser to get alerts for new submissions', 'info');
+  }
+  
+  // Initialize EmailJS (you'll need to configure this)
+  initializeEmailJS();
+}
+
+// Send email notification for new submission
+async function sendEmailNotification(submission) {
+  try {
+    const result = await emailService.sendNewSubmissionEmail(submission);
+    if (result.success) {
+      console.log('Email notification sent successfully');
+    } else {
+      console.log('Email notification not sent:', result.message);
+    }
+  } catch (error) {
+    console.error('Error sending email notification:', error);
+  }
+}
+
+// Initialize EmailJS service
+function initializeEmailJS() {
+  // TODO: Replace these with your actual EmailJS credentials
+  // Get these from https://www.emailjs.com/
+  const SERVICE_ID = 'YOUR_SERVICE_ID';
+  const TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  
+  const PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
+  
+  // Check if credentials are configured
+  if (SERVICE_ID === 'YOUR_SERVICE_ID' || !SERVICE_ID) {
+    console.log('EmailJS not configured yet. Follow the setup guide to enable email notifications.');
+    return;
+  }
+  
+  try {
+    emailService.init(SERVICE_ID, TEMPLATE_ID, PUBLIC_KEY);
+    console.log('Email notifications initialized successfully!');
+  } catch (error) {
+    console.error('Failed to initialize email service:', error);
+  }
+}
+
 // Navigation function
 function navigateToPage(page) {
   appState.currentPage = page;
@@ -1071,6 +1166,16 @@ function debounce(func, wait) {
   };
 }
 
+// Test email notification function
+async function testEmailNotification() {
+  const result = await emailService.sendTestEmail();
+  if (result.success) {
+    showNotification('Test email sent successfully! Check your inbox 📧', 'success');
+  } else {
+    showNotification(`Failed to send test email: ${result.message}`, 'error');
+  }
+}
+
 // Global window functions for onclick handlers
 window.toggleDarkMode = toggleDarkMode;
 window.exportData = exportData;
@@ -1082,3 +1187,4 @@ window.viewSubmissionDetail = viewSubmissionDetail;
 window.closeDetailModal = closeDetailModal;
 window.deleteSubmission = deleteSubmission;
 window.emailSubmission = emailSubmission;
+window.testEmailNotification = testEmailNotification;
