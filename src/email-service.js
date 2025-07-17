@@ -30,7 +30,7 @@ class EmailService {
 
     try {
       const templateParams = {
-        to_email: 'your-email@example.com', // Replace with your email
+        to_email: 'william@rndmdevs.com', // Replace with your email
         from_name: 'RNDM Development System',
         subject: 'New Contact Form Submission 🚀',
         
