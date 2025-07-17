@@ -21,6 +21,9 @@ function initializeApp() {
   createFloatingElements();
   initializeDarkMode();
   
+  // Initialize EmailJS early so it's ready for form submissions
+  initializeEmailJS();
+  
   // Set up Firebase Auth state listener
   firebaseService.onAuthStateChange((user) => {
     appState.isAdminLoggedIn = !!user;
@@ -464,6 +467,19 @@ function attachContactFormListener() {
         if (result.success) {
           showNotification(result.message, 'success');
           form.reset();
+          
+          // Send email notification for the new submission
+          try {
+            // Create submission object with timestamp for email
+            const submissionForEmail = {
+              ...data,
+              timestamp: Date.now()
+            };
+            await sendEmailNotification(submissionForEmail);
+          } catch (emailError) {
+            console.error('Failed to send email notification:', emailError);
+            // Don't show error to user since form was submitted successfully
+          }
         } else {
           showNotification(result.message, 'error');
         }
@@ -537,11 +553,8 @@ function loadContactSubmissions() {
       // Get the newest submission
       const newestSubmission = submissions[submissions.length - 1];
       
-      // Send browser notification
+      // Send browser notification (email already sent during form submission)
       sendBrowserNotification(newestSubmission);
-      
-      // Send email notification
-      sendEmailNotification(newestSubmission);
     }
     
     allSubmissions = submissions;
@@ -996,8 +1009,8 @@ async function initializeNotifications() {
     showNotification('Enable notifications in your browser to get alerts for new submissions', 'info');
   }
   
-  // Initialize EmailJS (you'll need to configure this)
-  initializeEmailJS();
+  // EmailJS is already initialized at app startup
+  console.log('Notifications ready - both email and browser alerts active!');
 }
 
 // Send email notification for new submission
