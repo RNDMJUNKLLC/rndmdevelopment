@@ -1016,11 +1016,10 @@ async function sendEmailNotification(submission) {
 
 // Initialize EmailJS service
 function initializeEmailJS() {
-  // TODO: Replace these with your actual EmailJS credentials
-  // Get these from https://www.emailjs.com/
-  const SERVICE_ID = 'YOUR_SERVICE_ID';
-  const TEMPLATE_ID = 'YOUR_TEMPLATE_ID';  
-  const PUBLIC_KEY = 'YOUR_PUBLIC_KEY';
+  // Your actual EmailJS credentials
+  const SERVICE_ID = 'service_t0c4kpl';
+  const TEMPLATE_ID = 'template_4e6fcsp';  
+  const PUBLIC_KEY = 'iqnQ8hvdneETxCkEg';
   
   // Check if credentials are configured
   if (SERVICE_ID === 'YOUR_SERVICE_ID' || !SERVICE_ID) {

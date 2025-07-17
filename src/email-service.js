@@ -10,9 +10,9 @@ class EmailService {
 
   // Initialize EmailJS with your configuration
   init(serviceId, templateId, publicKey) {
-    this.serviceId = service_t0c4kpl;
-    this.templateId = template_4e6fcsp;
-    this.publicKey = iqnQ8hvdneETxCkEg;
+    this.serviceId = 'service_t0c4kpl';
+    this.templateId = 'template_4e6fcsp';
+    this.publicKey = 'iqnQ8hvdneETxCkEg';
     
     // Initialize EmailJS
     emailjs.init(this.publicKey);
