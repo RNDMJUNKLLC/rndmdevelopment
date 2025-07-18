@@ -1,0 +1,89 @@
+/* Critical CSS - Above the fold styles */
+:root {
+  --primary-color: #00ffff;
+  --secondary-color: #ff6b6b;
+  --accent-color: #4ecdc4;
+  --bg-dark: #0a0a0a;
+  --bg-light: #1a1a1a;
+  --text-light: #ffffff;
+  --text-gray: #b0b0b0;
+  --border-color: #333;
+  --font-tech: 'Orbitron', monospace;
+  --font-main: 'Inter', sans-serif;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-main);
+  background: var(--bg-dark);
+  color: var(--text-light);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Navigation - Critical for UX */
+.nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background: rgba(10, 10, 10, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-color);
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+}
+
+.logo {
+  font-family: var(--font-tech);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  text-decoration: none;
+  position: relative;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+/* Hero Section - Critical */
+#app {
+  min-height: 100vh;
+  padding-top: 80px;
+}
+
+.hero {
+  padding: 4rem 0;
+  text-align: center;
+  position: relative;
+}
+
+.hero h1 {
+  font-family: var(--font-tech);
+  font-size: clamp(2.5rem, 8vw, 5rem);
+  font-weight: 900;
+  margin-bottom: 1rem;
+  background: linear-gradient(45deg, var(--primary-color), var(--secondary-color), var(--accent-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}

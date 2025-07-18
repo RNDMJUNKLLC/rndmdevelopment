@@ -1,0 +1,23 @@
+{
+  "name": "rndmdevelopment",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build --minify terser",
+    "preview": "vite preview",
+    "optimize": "npm run build && npm run analyze",
+    "analyze": "npx vite-bundle-analyzer dist"
+  },
+  "devDependencies": {
+    "vite": "^7.0.4",
+    "terser": "^5.19.2",
+    "vite-plugin-compression": "^0.5.1",
+    "rollup-plugin-visualizer": "^5.9.2"
+  },
+  "dependencies": {
+    "@emailjs/browser": "^4.4.1",
+    "firebase": "^11.10.0"
+  }
+}
