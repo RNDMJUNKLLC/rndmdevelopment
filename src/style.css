@@ -2556,3 +2556,527 @@ body.dark-mode .modal-content {
     max-height: 60vh;
   }
 }
+
+/* ================================
+   SERVICES PAGE STYLES
+   ================================ */
+
+.services-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem 0;
+}
+
+.services-tagline {
+  font-size: 1.4rem;
+  color: var(--secondary-color);
+  font-style: italic;
+  margin: 1rem 0;
+}
+
+.services-intro {
+  margin: 2rem 0;
+  padding: 2rem;
+  background: rgba(20, 20, 20, 0.6);
+  border-radius: 15px;
+  border: 1px solid var(--border-color);
+}
+
+.services-intro h2 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  font-family: var(--font-tech);
+}
+
+.services-why-choose {
+  margin: 3rem 0;
+  padding: 2rem;
+  background: rgba(20, 20, 20, 0.4);
+  border-radius: 15px;
+  border-left: 4px solid var(--primary-color);
+}
+
+.services-why-choose h3 {
+  color: var(--secondary-color);
+  margin-bottom: 2rem;
+  text-align: center;
+  font-family: var(--font-tech);
+}
+
+.why-choose-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.why-choose-card {
+  background: rgba(30, 30, 30, 0.8);
+  padding: 1.5rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  text-align: center;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.why-choose-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 255, 255, 0.2);
+}
+
+.why-choose-card .card-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.why-choose-card h4 {
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  font-family: var(--font-tech);
+}
+
+.website-services, .mobile-services, .business-solutions {
+  margin: 4rem 0;
+}
+
+.website-services h2, .mobile-services h2, .business-solutions h2 {
+  color: var(--accent-color);
+  margin-bottom: 2rem;
+  text-align: center;
+  font-family: var(--font-tech);
+  font-size: 2.2rem;
+}
+
+.package-includes {
+  margin: 3rem 0;
+  padding: 2rem;
+  background: rgba(0, 255, 255, 0.05);
+  border-radius: 15px;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+.package-includes h3 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-family: var(--font-tech);
+}
+
+.includes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 1rem;
+}
+
+.include-item {
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  border-left: 3px solid var(--primary-color);
+}
+
+.track-record {
+  margin: 3rem 0;
+  padding: 2rem;
+  background: rgba(255, 0, 255, 0.05);
+  border-radius: 15px;
+  border: 1px solid rgba(255, 0, 255, 0.3);
+}
+
+.track-record h3 {
+  color: var(--secondary-color);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-family: var(--font-tech);
+}
+
+.track-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.track-item {
+  background: rgba(255, 255, 255, 0.05);
+  padding: 1.5rem;
+  border-radius: 10px;
+  text-align: center;
+  border: 1px solid var(--border-color);
+}
+
+.track-item .track-icon {
+  font-size: 2rem;
+  color: var(--success-color);
+  margin-bottom: 0.5rem;
+}
+
+.track-item h4 {
+  color: var(--secondary-color);
+  margin-bottom: 0.5rem;
+  font-family: var(--font-tech);
+}
+
+.service-tiers, .app-tiers {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.service-tier {
+  background: rgba(20, 20, 20, 0.8);
+  border: 1px solid var(--border-color);
+  border-radius: 15px;
+  padding: 2rem;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.service-tier:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(0, 255, 255, 0.3);
+  border-color: var(--primary-color);
+}
+
+.service-tier.featured {
+  border: 2px solid var(--secondary-color);
+  background: rgba(255, 0, 255, 0.05);
+}
+
+.service-tier.featured::before {
+  content: "MOST POPULAR";
+  position: absolute;
+  top: 0;
+  right: 0;
+  background: var(--secondary-color);
+  color: var(--bg-dark);
+  padding: 0.5rem 1rem;
+  font-size: 0.8rem;
+  font-weight: bold;
+  transform: rotate(45deg) translate(30%, -50%);
+  transform-origin: center;
+}
+
+.tier-header h3 {
+  color: var(--primary-color);
+  font-family: var(--font-tech);
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+}
+
+.tier-subtitle {
+  color: var(--secondary-color);
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.tier-ideal {
+  margin: 1rem 0;
+  padding: 0.8rem;
+  background: rgba(255, 255, 0, 0.1);
+  border-radius: 8px;
+  border-left: 3px solid var(--accent-color);
+}
+
+.tier-price {
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--accent-color);
+  margin: 1.5rem 0;
+  text-align: center;
+  font-family: var(--font-tech);
+}
+
+.tier-timeline, .tier-commitment {
+  color: var(--text-gray);
+  margin: 1rem 0;
+  text-align: center;
+  font-style: italic;
+}
+
+.tier-features {
+  margin: 1.5rem 0;
+}
+
+.tier-features h4 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  font-family: var(--font-tech);
+}
+
+.tier-features ul {
+  list-style: none;
+  padding: 0;
+}
+
+.tier-features ul li {
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.tier-features ul li::before {
+  content: "▶";
+  position: absolute;
+  left: 0;
+  color: var(--primary-color);
+}
+
+.tier-note {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 0, 0.1);
+  border-radius: 8px;
+  border: 1px solid var(--accent-color);
+}
+
+.tier-savings {
+  margin: 1.5rem 0;
+  padding: 1rem;
+  background: rgba(0, 255, 0, 0.1);
+  border-radius: 8px;
+  border-left: 3px solid var(--success-color);
+}
+
+.tier-savings h4 {
+  color: var(--success-color);
+  margin-bottom: 0.5rem;
+  font-family: var(--font-tech);
+}
+
+.android-specialists {
+  margin: 2rem 0;
+  padding: 2rem;
+  background: rgba(0, 255, 0, 0.05);
+  border-radius: 15px;
+  border: 1px solid rgba(0, 255, 0, 0.3);
+  text-align: center;
+}
+
+.android-specialists h3 {
+  color: var(--success-color);
+  margin-bottom: 1rem;
+  font-family: var(--font-tech);
+}
+
+.business-tier {
+  background: linear-gradient(135deg, rgba(255, 0, 255, 0.1), rgba(0, 255, 255, 0.1));
+  border: 2px solid var(--secondary-color);
+  border-radius: 20px;
+  padding: 3rem;
+  text-align: center;
+  position: relative;
+}
+
+.business-quote {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  border-left: 4px solid var(--accent-color);
+  font-style: italic;
+  color: var(--accent-color);
+}
+
+.cta-section {
+  margin: 4rem 0;
+  padding: 3rem;
+  background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
+  border-radius: 20px;
+  border: 1px solid var(--primary-color);
+  text-align: center;
+}
+
+.cta-section h2 {
+  color: var(--accent-color);
+  margin-bottom: 1rem;
+  font-family: var(--font-tech);
+  font-size: 2.5rem;
+}
+
+.cta-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 3rem 0;
+}
+
+.cta-card {
+  background: rgba(20, 20, 20, 0.8);
+  padding: 2rem;
+  border-radius: 15px;
+  border: 1px solid var(--border-color);
+  text-align: left;
+}
+
+.cta-card h3 {
+  color: var(--primary-color);
+  margin-bottom: 1rem;
+  font-family: var(--font-tech);
+}
+
+.cta-card ul {
+  list-style: none;
+  padding: 0;
+}
+
+.cta-card ul li {
+  padding: 0.5rem 0;
+  padding-left: 1.5rem;
+  position: relative;
+}
+
+.cta-card ul li::before {
+  content: "✓";
+  position: absolute;
+  left: 0;
+  color: var(--success-color);
+  font-weight: bold;
+}
+
+.cta-process {
+  margin: 3rem 0;
+}
+
+.cta-process h3 {
+  color: var(--secondary-color);
+  margin-bottom: 2rem;
+  font-family: var(--font-tech);
+}
+
+.process-steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.process-step {
+  background: rgba(30, 30, 30, 0.8);
+  padding: 1.5rem;
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
+  text-align: center;
+}
+
+.step-number {
+  background: var(--primary-color);
+  color: var(--bg-dark);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.2rem;
+  margin: 0 auto 1rem auto;
+  font-family: var(--font-tech);
+}
+
+.process-step h4 {
+  color: var(--primary-color);
+  margin-bottom: 0.5rem;
+  font-family: var(--font-tech);
+}
+
+.cta-buttons {
+  margin: 3rem 0;
+}
+
+.cta-buttons .btn {
+  margin: 0 1rem;
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+}
+
+.cta-quote {
+  margin: 2rem 0;
+  padding: 1.5rem;
+  background: rgba(255, 255, 0, 0.1);
+  border-radius: 10px;
+  border-left: 4px solid var(--accent-color);
+  font-style: italic;
+  color: var(--accent-color);
+  font-size: 1.1rem;
+}
+
+/* Mobile Responsiveness for Services */
+@media (max-width: 768px) {
+  .services-header {
+    padding: 1rem 0;
+  }
+  
+  .services-tagline {
+    font-size: 1.1rem;
+  }
+  
+  .services-intro, .services-why-choose, .package-includes, .track-record {
+    padding: 1.5rem;
+    margin: 2rem 0;
+  }
+  
+  .why-choose-grid, .track-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  .includes-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .service-tiers, .app-tiers {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .service-tier {
+    padding: 1.5rem;
+  }
+  
+  .tier-price {
+    font-size: 1.6rem;
+  }
+  
+  .business-tier {
+    padding: 2rem;
+  }
+  
+  .cta-section {
+    padding: 2rem;
+  }
+  
+  .cta-section h2 {
+    font-size: 2rem;
+  }
+  
+  .cta-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .process-steps {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .cta-buttons .btn {
+    display: block;
+    margin: 1rem 0;
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .services-intro h2 {
+    font-size: 1.3rem;
+  }
+  
+  .website-services h2, .mobile-services h2, .business-solutions h2 {
+    font-size: 1.8rem;
+  }
+  
+  .process-steps {
+    grid-template-columns: 1fr;
+  }
+}

@@ -90,6 +90,7 @@ function renderNavigation() {
         <ul class="nav-links" id="navLinks">
           <li><a href="#" data-page="home">Home</a></li>
           <li><a href="#" data-page="about">About</a></li>
+          <li><a href="#" data-page="services">Services</a></li>
           <li><a href="#" data-page="contact">Contact</a></li>
           <li><a href="#" data-page="account">Account</a></li>
           <li><a href="#" data-page="admin">Admin</a></li>
@@ -183,6 +184,9 @@ function renderCurrentPage() {
       break;
     case 'about':
       app.innerHTML = renderAboutPage();
+      break;
+    case 'services':
+      app.innerHTML = renderServicesPage();
       break;
     case 'contact':
       app.innerHTML = renderContactPage();
@@ -360,6 +364,334 @@ function renderAboutPage() {
             </div>
           </section>
         </div>
+      </div>
+    </div>
+  `;
+}
+
+// Services page template
+function renderServicesPage() {
+  return `
+    <div class="page-section active">
+      <div class="container">
+        <div class="services-header">
+          <h1 class="section-title glitch">🌟 RNDM Development Services</h1>
+          <p class="services-tagline">"Random ideas become remarkable solutions"</p>
+          <div class="services-intro">
+            <h2>🚀 Your Digital Dreams, Our Expertise</h2>
+            <p>At RNDM, we turn your vision into reality. Whether you need a stunning website, a powerful mobile app, or complete digital transformation, we're here to make it happen. No project is too big, too small, or too "random" for our team.</p>
+          </div>
+        </div>
+
+        <section class="services-why-choose">
+          <h3>✨ Why Choose RNDM?</h3>
+          <div class="why-choose-grid">
+            <div class="why-choose-card">
+              <div class="card-icon">🎯</div>
+              <h4>Tailored Solutions</h4>
+              <p>Every project is unique, just like your business</p>
+            </div>
+            <div class="why-choose-card">
+              <div class="card-icon">💡</div>
+              <h4>Innovation First</h4>
+              <p>We love bringing creative ideas to life</p>
+            </div>
+            <div class="why-choose-card">
+              <div class="card-icon">🤝</div>
+              <h4>Partnership Approach</h4>
+              <p>We're not just developers, we're your digital partners</p>
+            </div>
+            <div class="why-choose-card">
+              <div class="card-icon">⚡</div>
+              <h4>Fast & Reliable</h4>
+              <p>Quality work delivered on time, every time</p>
+            </div>
+          </div>
+        </section>
+
+        <section class="website-services">
+          <h2>💻 Website Development Solutions</h2>
+          
+          <div class="package-includes">
+            <h3>🌟 What Every Package Includes</h3>
+            <div class="includes-grid">
+              <div class="include-item">✅ Complete Customization - Your vision, brought to life exactly as you imagine</div>
+              <div class="include-item">✅ Lifetime Support - We're here for you long after launch (monthly maintenance starting at $10)</div>
+              <div class="include-item">✅ Full Flexibility - Changes and updates whenever you need them</div>
+              <div class="include-item">✅ Domain & Hosting - We handle all the technical setup for you</div>
+              <div class="include-item">✅ Mobile-First Design - Looks perfect on every device</div>
+              <div class="include-item">✅ Search Engine Ready - Built with SEO best practices from day one</div>
+              <div class="include-item">✅ Security Included - SSL certificates and security measures included</div>
+              <div class="include-item">✅ Performance Optimized - Fast loading times guaranteed</div>
+            </div>
+          </div>
+
+          <div class="track-record">
+            <h3>🏆 Our Track Record</h3>
+            <div class="track-grid">
+              <div class="track-item">
+                <div class="track-icon">✅</div>
+                <h4>100% Client Satisfaction</h4>
+                <p>We don't stop until you're thrilled</p>
+              </div>
+              <div class="track-item">
+                <div class="track-icon">✅</div>
+                <h4>On-Time Delivery</h4>
+                <p>We respect your deadlines</p>
+              </div>
+              <div class="track-item">
+                <div class="track-icon">✅</div>
+                <h4>No Hidden Fees</h4>
+                <p>Transparent pricing, always</p>
+              </div>
+              <div class="track-item">
+                <div class="track-icon">✅</div>
+                <h4>Ongoing Support</h4>
+                <p>We're partners for the long haul</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="service-tiers">
+            <div class="service-tier">
+              <div class="tier-header">
+                <h3>🚀 Starter Website</h3>
+                <p class="tier-subtitle">Perfect for Getting Online Fast</p>
+              </div>
+              <div class="tier-ideal">
+                <strong>Ideal for:</strong> Personal portfolios, small projects, getting your first web presence
+              </div>
+              <div class="tier-price">FREE initial setup</div>
+              <div class="tier-timeline">Timeline: 1-2 business days</div>
+              <div class="tier-features">
+                <h4>What You Get:</h4>
+                <ul>
+                  <li>Professional landing page with your branding</li>
+                  <li>Essential pages: Home, About, Contact</li>
+                  <li>Mobile-responsive design</li>
+                  <li>Basic SEO optimization</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="service-tier featured">
+              <div class="tier-header">
+                <h3>💼 Professional Website</h3>
+                <p class="tier-subtitle">Built for Business Growth</p>
+              </div>
+              <div class="tier-ideal">
+                <strong>Ideal for:</strong> Small businesses, service providers, local companies
+              </div>
+              <div class="tier-price">Starting at $35</div>
+              <div class="tier-timeline">Timeline: 2-4 business days</div>
+              <div class="tier-features">
+                <h4>What You Get:</h4>
+                <ul>
+                  <li>Multi-page professional website</li>
+                  <li>Custom contact forms and business features</li>
+                  <li>Enhanced SEO and performance optimization</li>
+                  <li>Social media integration</li>
+                  <li>Basic analytics setup</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="service-tier">
+              <div class="tier-header">
+                <h3>🏢 Enterprise Website</h3>
+                <p class="tier-subtitle">Complete Digital Solutions</p>
+              </div>
+              <div class="tier-ideal">
+                <strong>Ideal for:</strong> Established businesses, complex requirements, e-commerce
+              </div>
+              <div class="tier-price">Starting at $100</div>
+              <div class="tier-timeline">Timeline: Varies based on complexity (we'll provide detailed timeline)</div>
+              <div class="tier-features">
+                <h4>What You Get:</h4>
+                <ul>
+                  <li>Fully custom design and functionality</li>
+                  <li>Advanced features (e-commerce, user accounts, etc.)</li>
+                  <li>Premium performance optimization</li>
+                  <li>Advanced analytics and reporting</li>
+                  <li>Priority support and faster updates</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="mobile-services">
+          <h2>📱 Mobile App Development</h2>
+          
+          <div class="android-specialists">
+            <h3>🤖 Android Specialists</h3>
+            <p>We focus exclusively on Android development to deliver the highest quality apps for your needs. You'll receive the complete app files for easy publishing to Google Play Store.</p>
+            <p><strong>Why Android?</strong> By specializing in Android, we can deliver superior quality and faster development times. Android represents over 70% of the global mobile market, ensuring your app reaches the widest possible audience.</p>
+          </div>
+
+          <div class="app-tiers">
+            <div class="service-tier">
+              <div class="tier-header">
+                <h3>📲 Personal Apps</h3>
+                <p class="tier-subtitle">Just for You</p>
+              </div>
+              <div class="tier-ideal">
+                <strong>Perfect for:</strong> Personal use, family apps, private tools
+              </div>
+              <div class="tier-price">Starting at $20</div>
+              <div class="tier-timeline">Updates: Only $5 per update request</div>
+              <div class="tier-features">
+                <h4>Features:</h4>
+                <ul>
+                  <li>Custom functionality tailored to your needs</li>
+                  <li>No app store requirements - direct installation</li>
+                  <li>Quick development and delivery</li>
+                  <li>Simple, intuitive design</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="service-tier">
+              <div class="tier-header">
+                <h3>👥 Team Apps</h3>
+                <p class="tier-subtitle">Small Group Solutions</p>
+              </div>
+              <div class="tier-ideal">
+                <strong>Perfect for:</strong> Small teams, private communities, limited user groups
+              </div>
+              <div class="tier-price">Starting at $50</div>
+              <div class="tier-timeline">Timeline: Quick development for standard features</div>
+              <div class="tier-features">
+                <h4>Features:</h4>
+                <ul>
+                  <li>Multi-user functionality</li>
+                  <li>Real-time messaging and collaboration</li>
+                  <li>User management and permissions</li>
+                  <li>Can be distributed privately or through app stores</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="service-tier">
+              <div class="tier-header">
+                <h3>🚀 Professional Apps</h3>
+                <p class="tier-subtitle">Full-Scale Solutions</p>
+              </div>
+              <div class="tier-ideal">
+                <strong>Perfect for:</strong> Business applications, public release, complex requirements
+              </div>
+              <div class="tier-price">Starting at $100</div>
+              <div class="tier-timeline">Timeline: Varies based on complexity (detailed timeline provided)</div>
+              <div class="tier-features">
+                <h4>Features:</h4>
+                <ul>
+                  <li>Advanced functionality and integrations</li>
+                  <li>Scalable architecture for growth</li>
+                  <li>Professional UI/UX design</li>
+                  <li>Full Google Play Store optimization</li>
+                  <li>Comprehensive testing and quality assurance</li>
+                </ul>
+              </div>
+              <div class="tier-note">
+                <p><strong>Note:</strong> We'll honestly assess if we're the right fit for your specific needs</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="business-solutions">
+          <h2>🏆 Complete Business Solutions</h2>
+          <div class="business-tier">
+            <div class="tier-header">
+              <h3>💎 Full-Service Partnership</h3>
+              <p class="tier-subtitle">Everything You Need</p>
+            </div>
+            <div class="tier-ideal">
+              <strong>Perfect for:</strong> Growing businesses that need comprehensive digital solutions
+            </div>
+            <div class="tier-price">Starting at $100/month</div>
+            <div class="tier-commitment">Commitment: Month-to-month flexibility</div>
+            <div class="tier-features">
+              <h4>What's Included:</h4>
+              <ul>
+                <li>Website AND Mobile App (when needed)</li>
+                <li>Priority Development - Your projects come first</li>
+                <li>Direct Developer Access - Skip the middleman</li>
+                <li>Unlimited Updates - No extra fees for changes</li>
+                <li>24/7 Support - We're here when you need us</li>
+                <li>Monthly Strategy Sessions - Keep your digital presence competitive</li>
+              </ul>
+            </div>
+            <div class="tier-savings">
+              <h4>What You Save:</h4>
+              <p>No setup fees, no update charges, no surprise costs</p>
+            </div>
+            <div class="business-quote">
+              <p><em>"Think of us as your in-house development team, without the overhead."</em></p>
+            </div>
+          </div>
+        </section>
+
+        <section class="cta-section">
+          <h2>🎯 Ready to Get Started?</h2>
+          <p>Every great project starts with a conversation. We'd love to hear about your ideas, challenges, and goals.</p>
+          
+          <div class="cta-grid">
+            <div class="cta-card">
+              <h3>📞 Get In Touch</h3>
+              <ul>
+                <li>Quick Response - We typically respond within 24 hours</li>
+                <li>Free Consultation - No obligation, just honest advice</li>
+                <li>Clear Communication - We speak your language, not just tech jargon</li>
+                <li>Flexible Meeting Options - Phone, video call, or email - whatever works for you</li>
+              </ul>
+            </div>
+            
+            <div class="cta-card">
+              <h3>🎁 Special Offers</h3>
+              <ul>
+                <li>First-Time Clients - Free consultation and project planning session</li>
+                <li>Students & Nonprofits - Ask about our special pricing</li>
+                <li>Referral Program - Earn credits for bringing us new clients</li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="cta-process">
+            <h3>🔒 What You Can Expect</h3>
+            <div class="process-steps">
+              <div class="process-step">
+                <div class="step-number">1</div>
+                <h4>Discovery Call</h4>
+                <p>We'll discuss your needs and vision</p>
+              </div>
+              <div class="process-step">
+                <div class="step-number">2</div>
+                <h4>Proposal & Timeline</h4>
+                <p>Clear scope, pricing, and delivery dates</p>
+              </div>
+              <div class="process-step">
+                <div class="step-number">3</div>
+                <h4>Regular Updates</h4>
+                <p>Stay informed throughout development</p>
+              </div>
+              <div class="process-step">
+                <div class="step-number">4</div>
+                <h4>Launch & Support</h4>
+                <p>We don't disappear after delivery</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="cta-buttons">
+            <a href="#" class="btn" data-page="contact">Start Your Project</a>
+            <a href="#" class="btn btn-secondary" data-page="about">Learn More About Us</a>
+          </div>
+          
+          <div class="cta-quote">
+            <p><em>"Your success is our success. Let's build something amazing together."</em></p>
+          </div>
+        </section>
       </div>
     </div>
   `;
