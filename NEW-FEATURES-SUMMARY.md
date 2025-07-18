@@ -1,4 +1,4 @@
-ca# 🎉 New Features Added: About Page & User Accounts
+# 🎉 New Features Added: About Page & User Accounts
 
 ## ✅ **What's New:**
 
