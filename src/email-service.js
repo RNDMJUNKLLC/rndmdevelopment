@@ -40,6 +40,7 @@ class EmailService {
         client_company: submission.company || 'Not provided',
         project_type: this.getProjectDisplayText(submission.project),
         budget_range: this.getBudgetDisplayText(submission.budget),
+        timeline: this.getTimelineDisplayText(submission.timeline),
         submission_message: submission.message || 'No message provided',
         submission_date: new Date(submission.timestamp).toLocaleString(),
         
@@ -56,6 +57,7 @@ Email: ${submission.email || 'Not provided'}
 Company: ${submission.company || 'Not provided'}
 Project Type: ${this.getProjectDisplayText(submission.project)}
 Budget: ${this.getBudgetDisplayText(submission.budget)}
+Timeline: ${this.getTimelineDisplayText(submission.timeline)}
 Date: ${new Date(submission.timestamp).toLocaleString()}
 
 💬 MESSAGE:
@@ -117,6 +119,17 @@ This email was sent automatically by your RNDM Development website.
     return budgetRanges[value] || value || 'N/A';
   }
 
+  // Helper method to get timeline display text
+  getTimelineDisplayText(value) {
+    const timelines = {
+      'asap': 'ASAP',
+      '1-month': 'Within 1 month',
+      '2-3-months': '2-3 months',
+      'flexible': 'Flexible'
+    };
+    return timelines[value] || value || 'N/A';
+  }
+
   // Test email function
   async sendTestEmail() {
     if (!this.initialized) {
@@ -129,6 +142,7 @@ This email was sent automatically by your RNDM Development website.
       company: 'Test Company',
       project: 'website',
       budget: '1k-2.5k',
+      timeline: '2-3-months',
       message: 'This is a test submission to verify email notifications are working correctly.',
       timestamp: Date.now()
     };

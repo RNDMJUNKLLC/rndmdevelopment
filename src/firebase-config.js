@@ -12,10 +12,8 @@ export const firebaseConfig = {
 
 // Admin configuration
 export const adminConfig = {
-  // You can add specific admin user emails here if needed
+  // Specific admin user emails - only these emails can access admin dashboard
   allowedAdminEmails: [
-    // Add admin email addresses here
-    // "admin@rndmdevelopment.com",
-    // "your-email@gmail.com"
+    "admin@rndmdevs.com",
   ]
 };
