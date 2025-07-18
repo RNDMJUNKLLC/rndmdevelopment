@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite'
+import { visualizer } from 'rollup-plugin-visualizer'
 
 export default defineConfig({
   build: {
@@ -17,8 +18,8 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          firebase: ['firebase/app', 'firebase/auth', 'firebase/database'],
-          emailjs: ['@emailjs/browser'],
+          vendor: ['firebase', '@emailjs/browser'],
+          ui: ['./src/main.js'],
         },
         chunkFileNames: 'assets/[name]-[hash].js',
         entryFileNames: 'assets/[name]-[hash].js',
@@ -36,7 +37,15 @@ export default defineConfig({
   },
   // Optimize images and assets
   assetsInclude: ['**/*.svg', '**/*.png', '**/*.jpg', '**/*.jpeg', '**/*.gif', '**/*.webp'],
+  plugins: [
+    visualizer({
+      filename: 'dist/stats.html',
+      open: false,
+      gzipSize: true,
+      brotliSize: true,
+    }),
+  ],
   optimizeDeps: {
-    include: ['firebase/app', 'firebase/auth', 'firebase/database', '@emailjs/browser'],
+    include: ['firebase/app', 'firebase/auth', 'firebase/firestore', '@emailjs/browser'],
   },
 })
