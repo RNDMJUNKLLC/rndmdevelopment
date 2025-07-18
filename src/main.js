@@ -78,7 +78,16 @@ function renderNavigation() {
     <nav class="nav">
       <div class="nav-container">
         <a href="#" class="logo" data-page="home">RNDM DEVS</a>
-        <ul class="nav-links">
+        
+        <!-- Hamburger Menu Button -->
+        <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation menu">
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+          <span class="hamburger-line"></span>
+        </button>
+        
+        <!-- Navigation Links -->
+        <ul class="nav-links" id="navLinks">
           <li><a href="#" data-page="home">Home</a></li>
           <li><a href="#" data-page="about">About</a></li>
           <li><a href="#" data-page="contact">Contact</a></li>
@@ -90,6 +99,78 @@ function renderNavigation() {
   `;
   
   document.body.insertAdjacentHTML('afterbegin', navigation);
+  
+  // Add hamburger menu functionality
+  attachHamburgerMenu();
+}
+
+// Hamburger menu functionality
+function attachHamburgerMenu() {
+  const hamburgerBtn = document.getElementById('hamburgerBtn');
+  const navLinks = document.getElementById('navLinks');
+  const nav = document.querySelector('.nav');
+  
+  if (hamburgerBtn && navLinks) {
+    hamburgerBtn.addEventListener('click', () => {
+      // Toggle active states
+      const isActive = hamburgerBtn.classList.contains('active');
+      
+      hamburgerBtn.classList.toggle('active');
+      navLinks.classList.toggle('active');
+      nav.classList.toggle('menu-open');
+      
+      // Toggle body scroll
+      if (!isActive) {
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.overflow = '';
+      }
+      
+      // Toggle aria-expanded for accessibility
+      const isExpanded = hamburgerBtn.getAttribute('aria-expanded') === 'true';
+      hamburgerBtn.setAttribute('aria-expanded', !isExpanded);
+    });
+    
+    // Close menu when clicking on nav links
+    navLinks.addEventListener('click', (e) => {
+      if (e.target.hasAttribute('data-page')) {
+        closeHamburgerMenu();
+      }
+    });
+    
+    // Close menu when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!nav.contains(e.target) && navLinks.classList.contains('active')) {
+        closeHamburgerMenu();
+      }
+    });
+    
+    // Close menu on escape key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && navLinks.classList.contains('active')) {
+        closeHamburgerMenu();
+      }
+    });
+    
+    // Helper function to close menu
+    function closeHamburgerMenu() {
+      hamburgerBtn.classList.remove('active');
+      navLinks.classList.remove('active');
+      nav.classList.remove('menu-open');
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+    }
+    
+    // Set initial aria-expanded state
+    hamburgerBtn.setAttribute('aria-expanded', 'false');
+    
+    // Close menu when resizing to desktop
+    window.addEventListener('resize', () => {
+      if (window.innerWidth > 768 && navLinks.classList.contains('active')) {
+        closeHamburgerMenu();
+      }
+    });
+  }
 }
 
 // Page rendering
@@ -126,6 +207,7 @@ function renderCurrentPage() {
           attachEditFormListener();
           attachFilterListeners();
           initializeNotifications();
+          enhanceAdminTabsForMobile();
         }, 100);
       }
       break;
@@ -1177,7 +1259,17 @@ function switchAdminTab(tabName) {
   document.querySelectorAll('.admin-tab').forEach(tab => {
     tab.classList.remove('active');
   });
-  document.querySelector(`[data-tab="${tabName}"]`).classList.add('active');
+  const activeTab = document.querySelector(`[data-tab="${tabName}"]`);
+  activeTab.classList.add('active');
+  
+  // Scroll active tab into view on mobile
+  if (window.innerWidth <= 768) {
+    activeTab.scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'nearest',
+      inline: 'center'
+    });
+  }
   
   // Update tab panels
   document.querySelectorAll('.tab-panel').forEach(panel => {
@@ -1202,6 +1294,44 @@ function switchAdminTab(tabName) {
     case 'metrics':
       loadMetricsContent();
       break;
+  }
+}
+
+// Enhance admin tabs for mobile experience
+function enhanceAdminTabsForMobile() {
+  const adminTabs = document.querySelector('.admin-tabs');
+  if (!adminTabs) return;
+  
+  // Add touch-friendly enhancements
+  let isScrolling = false;
+  
+  adminTabs.addEventListener('scroll', () => {
+    if (!isScrolling) {
+      // Add visual feedback during scroll
+      adminTabs.style.boxShadow = 'inset 0 0 0 2px rgba(0, 255, 255, 0.3)';
+      isScrolling = true;
+      
+      setTimeout(() => {
+        adminTabs.style.boxShadow = '';
+        isScrolling = false;
+      }, 300);
+    }
+  });
+  
+  // Add momentum scrolling for better mobile experience
+  adminTabs.style.webkitOverflowScrolling = 'touch';
+  
+  // Check if tabs are scrollable and add visual hint
+  if (adminTabs.scrollWidth > adminTabs.clientWidth) {
+    adminTabs.classList.add('scrollable');
+    
+    // Add a subtle animation hint on page load
+    setTimeout(() => {
+      adminTabs.scrollLeft = 20;
+      setTimeout(() => {
+        adminTabs.scrollTo({ left: 0, behavior: 'smooth' });
+      }, 500);
+    }, 1000);
   }
 }
 

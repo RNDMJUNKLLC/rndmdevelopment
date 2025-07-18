@@ -123,6 +123,48 @@ body::before {
   width: 100%;
 }
 
+/* Hamburger Menu */
+.hamburger {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 30px;
+  height: 30px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 1001;
+  transition: transform 0.3s ease;
+}
+
+.hamburger:hover {
+  transform: scale(1.1);
+}
+
+.hamburger-line {
+  width: 100%;
+  height: 3px;
+  background: var(--primary-color);
+  border-radius: 2px;
+  transition: all 0.3s ease;
+  transform-origin: center;
+}
+
+/* Hamburger Animation */
+.hamburger.active .hamburger-line:nth-child(1) {
+  transform: rotate(45deg) translate(6px, 6px);
+}
+
+.hamburger.active .hamburger-line:nth-child(2) {
+  opacity: 0;
+  transform: translateX(-20px);
+}
+
+.hamburger.active .hamburger-line:nth-child(3) {
+  transform: rotate(-45deg) translate(6px, -6px);
+}
+
 /* Main Container */
 #app {
   min-height: 100vh;
@@ -322,6 +364,29 @@ body::before {
   gap: 0.5rem;
   margin-bottom: 2rem;
   border-bottom: 1px solid var(--border-color);
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+  position: relative;
+}
+
+.admin-tabs::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
+}
+
+/* Gradient fade to indicate scrollable content */
+.admin-tabs::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 20px;
+  background: linear-gradient(to right, transparent, var(--bg-dark));
+  pointer-events: none;
+  z-index: 1;
 }
 
 .admin-tab {
@@ -336,6 +401,10 @@ body::before {
   transition: all 0.3s ease;
   border-bottom: 2px solid transparent;
   font-size: 0.95rem;
+  white-space: nowrap;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 2;
 }
 
 .admin-tab:hover {
@@ -902,10 +971,120 @@ body::before {
 @media (max-width: 768px) {
   .nav-container {
     padding: 0 1rem;
+    position: relative;
   }
   
+  /* Show hamburger menu on mobile */
+  .hamburger {
+    display: flex;
+  }
+  
+  /* Hide nav links by default on mobile */
   .nav-links {
-    gap: 1rem;
+    position: fixed;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background: rgba(10, 10, 10, 0.98);
+    backdrop-filter: blur(15px);
+    flex-direction: column;
+    padding: 2rem 0;
+    gap: 0;
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+    transform: translateY(-100%);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  }
+  
+  /* Show nav links when active */
+  .nav-links.active {
+    transform: translateY(0);
+    opacity: 1;
+    visibility: visible;
+  }
+  
+  .nav-links li {
+    width: 100%;
+    text-align: center;
+    margin: 0;
+  }
+  
+  .nav-links a {
+    display: block;
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .nav-links a:last-child {
+    border-bottom: none;
+  }
+  
+  .nav-links a::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(0, 255, 255, 0.1), transparent);
+    transition: left 0.5s ease;
+  }
+  
+  .nav-links a:hover::before {
+    left: 100%;
+  }
+  
+  .nav-links a::after {
+    display: none;
+  }
+  
+  .nav-links a:hover {
+    background: rgba(0, 255, 255, 0.05);
+    color: var(--primary-color);
+    transform: none;
+    text-shadow: 0 0 10px var(--primary-color);
+  }
+  
+  /* Add cool glow effect when menu is open */
+  .nav.menu-open {
+    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+  }
+  
+  /* Prevent body scroll when menu is open */
+  .nav.menu-open ~ * {
+    filter: brightness(0.7) blur(2px);
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
+  
+  /* Add stagger animation to menu items */
+  .nav-links.active li {
+    animation: slideInFromRight 0.5s ease forwards;
+  }
+  
+  .nav-links.active li:nth-child(1) { animation-delay: 0.1s; }
+  .nav-links.active li:nth-child(2) { animation-delay: 0.2s; }
+  .nav-links.active li:nth-child(3) { animation-delay: 0.3s; }
+  .nav-links.active li:nth-child(4) { animation-delay: 0.4s; }
+  .nav-links.active li:nth-child(5) { animation-delay: 0.5s; }
+  
+  @keyframes slideInFromRight {
+    from {
+      opacity: 0;
+      transform: translateX(50px);
+    }
+    to {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
   
   .container {
@@ -1552,9 +1731,71 @@ body.dark-mode .modal-content {
     flex-direction: column;
   }
   
+  /* Admin tabs mobile improvements */
+  .admin-tabs {
+    margin-bottom: 1.5rem;
+    padding-bottom: 0;
+    border-bottom: none;
+    background: rgba(20, 20, 20, 0.8);
+    border-radius: 10px;
+    padding: 0.5rem;
+    gap: 0.25rem;
+    box-shadow: inset 0 0 0 1px var(--border-color);
+  }
+  
+  /* Enhanced gradient for mobile to show scrollability */
+  .admin-tabs::after {
+    width: 30px;
+    background: linear-gradient(to right, transparent, rgba(20, 20, 20, 0.8));
+  }
+  
+  .admin-tab {
+    padding: 0.8rem 1rem;
+    font-size: 0.85rem;
+    border-radius: 8px;
+    border-bottom: none;
+    min-width: auto;
+  }
+  
+  .admin-tab.active {
+    background: var(--primary-color);
+    color: var(--bg-dark);
+    border-bottom: none;
+    box-shadow: 0 2px 10px rgba(0, 255, 255, 0.3);
+  }
+  
+  .admin-tab:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+  
+  .admin-tab.active:hover {
+    background: var(--primary-color);
+  }
+  
+  .tab-label {
+    display: none; /* Hide labels on very small screens */
+  }
+  
+  .tab-icon {
+    font-size: 1.2rem;
+  }
+  
   .modal-content {
     width: 95%;
     margin: 1rem;
+  }
+}
+
+/* Medium screen adjustments - show labels */
+@media (min-width: 481px) and (max-width: 768px) {
+  .tab-label {
+    display: block !important;
+    font-size: 0.75rem;
+  }
+  
+  .admin-tab {
+    padding: 0.8rem 0.8rem;
+    gap: 0.4rem;
   }
 }
 
