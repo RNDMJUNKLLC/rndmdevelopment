@@ -6,51 +6,23 @@ class EmailService {
     this.templateId = null;
     this.publicKey = null;
     this.initialized = false;
-    this.initializationAttempted = false;
   }
 
-  // Initialize EmailJS with your configuration and error resilience
+  // Initialize EmailJS with your configuration
   init(serviceId, templateId, publicKey) {
-    try {
-      this.serviceId = 'service_t0c4kpl';
-      this.templateId = 'template_4e6fcsp';
-      this.publicKey = 'iqnQ8hvdneETxCkEg';
-      
-      // Initialize EmailJS with error handling
-      emailjs.init(this.publicKey);
-      this.initialized = true;
-      this.initializationAttempted = true;
-      
-      console.log('EmailJS initialized successfully');
-    } catch (error) {
-      this.initializationAttempted = true;
-      // Silent handling to prevent console errors from affecting Best Practices score
-      console.warn('EmailJS initialization deferred due to network conditions');
-      
-      // Set up retry mechanism
-      setTimeout(() => {
-        this.retryInitialization();
-      }, 3000);
-    }
-  }
-
-  // Retry initialization method
-  retryInitialization() {
-    try {
-      emailjs.init(this.publicKey);
-      this.initialized = true;
-    } catch (error) {
-      // Silent retry failure - prevents console errors
-    }
-  }
-
-  // Send email notification for new submission with enhanced error handling
-  async sendNewSubmissionEmail(submission) {
-    if (!this.initialized && !this.initializationAttempted) {
-      // Try to initialize if not already attempted
-      this.retryInitialization();
-    }
+    this.serviceId = 'service_t0c4kpl';
+    this.templateId = 'template_4e6fcsp';
+    this.publicKey = 'iqnQ8hvdneETxCkEg';
     
+    // Initialize EmailJS
+    emailjs.init(this.publicKey);
+    this.initialized = true;
+    
+    console.log('EmailJS initialized successfully');
+  }
+
+  // Send email notification for new submission
+  async sendNewSubmissionEmail(submission) {
     if (!this.initialized) {
       console.warn('EmailJS not initialized. Skipping email notification.');
       return { success: false, message: 'EmailJS not configured' };
