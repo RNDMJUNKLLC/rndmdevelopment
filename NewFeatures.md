@@ -273,7 +273,7 @@ Keep up with the latest developments at RNDM! Our updates page showcases:
 
 ---
 
-# 🚀 Join the RNDM Team
+# 🚀 Join the RNDM Team **career**
 
 ## Why Work With RNDM?
 

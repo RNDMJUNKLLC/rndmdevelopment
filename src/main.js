@@ -355,6 +355,177 @@ function renderAboutPage() {
             </div>
           </section>
 
+          <section class="career-section">
+            <h2>🚀 Join the RNDM Team</h2>
+            
+            <div class="career-intro">
+              <h3>Why Work With RNDM?</h3>
+            </div>
+
+            <div class="career-benefits">
+              <div class="benefit-card">
+                <div class="card-icon">🌍</div>
+                <h4>Make Your Mark</h4>
+                <p>Help us expand RNDM's reach and bring innovative solutions to clients worldwide. Be part of a growing tech company that values creativity and innovation.</p>
+              </div>
+
+              <div class="benefit-card">
+                <div class="card-icon">📈</div>
+                <h4>Career Growth</h4>
+                <ul>
+                  <li>Gain real-world experience in a fast-paced tech environment</li>
+                  <li>Build an impressive portfolio with diverse projects</li>
+                  <li>Develop skills across multiple technologies and platforms</li>
+                  <li>Perfect for resume building and professional references</li>
+                </ul>
+              </div>
+
+              <div class="benefit-card">
+                <div class="card-icon">⏰</div>
+                <h4>Flexible Schedule</h4>
+                <ul>
+                  <li>Work on your own schedule</li>
+                  <li>Perfect for students, freelancers, or side projects</li>
+                  <li>No rigid office hours - results matter, not time clocks</li>
+                  <li>Remote-first environment</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="who-we-seek">
+              <h3>👥 Who We're Looking For</h3>
+              
+              <div class="ideal-candidates">
+                <h4>🎯 Our Ideal Candidates</h4>
+                <div class="candidate-qualities">
+                  <div class="quality-item">
+                    <span class="quality-icon">💪</span>
+                    <div>
+                      <strong>Passion over Perfection</strong> - We value enthusiasm and willingness to learn
+                    </div>
+                  </div>
+                  <div class="quality-item">
+                    <span class="quality-icon">🎓</span>
+                    <div>
+                      <strong>No Degree Required</strong> - Skills and dedication matter more than credentials
+                    </div>
+                  </div>
+                  <div class="quality-item">
+                    <span class="quality-icon">🌟</span>
+                    <div>
+                      <strong>All Experience Levels Welcome</strong> - From beginners to seasoned pros
+                    </div>
+                  </div>
+                  <div class="quality-item">
+                    <span class="quality-icon">🌈</span>
+                    <div>
+                      <strong>Diverse Perspectives</strong> - We believe different backgrounds strengthen our team
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="what-matters">
+                <h4>💡 What Matters Most</h4>
+                <div class="matters-list">
+                  <span class="matter-item">Problem-solving mindset</span>
+                  <span class="matter-item">Communication skills</span>
+                  <span class="matter-item">Reliability and commitment</span>
+                  <span class="matter-item">Eagerness to grow and learn</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="compensation-info">
+              <h3>💰 Compensation Structure</h3>
+              
+              <div class="compensation-card">
+                <h4>📊 Commission-Based Opportunity</h4>
+                <ul>
+                  <li><strong>Performance-Driven Pay</strong> - Your success determines your earnings</li>
+                  <li><strong>Project-Based Compensation</strong> - Get paid for completed work</li>
+                  <li><strong>Growth Potential</strong> - Successful team members see increasing opportunities</li>
+                  <li><strong>Side-Income Friendly</strong> - Perfect as supplemental income</li>
+                </ul>
+                <p class="compensation-note"><em>Compensation details and structure will be discussed during the interview process to ensure mutual fit.</em></p>
+              </div>
+            </div>
+
+            <div class="application-process">
+              <h3>📝 Ready to Apply?</h3>
+              
+              <div class="application-requirements">
+                <h4>🎯 Application Requirements</h4>
+                <p>We've made applying simple and straightforward:</p>
+                
+                <div class="requirements-list">
+                  <div class="requirement-item">
+                    <span class="req-icon">📝</span>
+                    <strong>Required Information:</strong>
+                    <ul>
+                      <li>Full Name</li>
+                      <li>Email Address</li>
+                      <li>Phone Number</li>
+                      <li>Resume Upload (PDF preferred)</li>
+                    </ul>
+                  </div>
+                  
+                  <div class="requirement-item">
+                    <span class="req-icon">⚡</span>
+                    <strong>Application Features:</strong>
+                    <ul>
+                      <li>Dedicated career application form</li>
+                      <li>Secure resume upload system</li>
+                      <li>Direct contact with our hiring team</li>
+                      <li>Quick response time on applications</li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="next-steps">
+                <h4>🤝 What Happens Next?</h4>
+                <div class="steps-list">
+                  <div class="step-item">
+                    <span class="step-number">1</span>
+                    <div>
+                      <strong>Submit Your Application</strong> - Use our streamlined application form
+                    </div>
+                  </div>
+                  <div class="step-item">
+                    <span class="step-number">2</span>
+                    <div>
+                      <strong>Initial Review</strong> - We'll review your background and experience
+                    </div>
+                  </div>
+                  <div class="step-item">
+                    <span class="step-number">3</span>
+                    <div>
+                      <strong>Interview Process</strong> - Casual conversation about fit and opportunities
+                    </div>
+                  </div>
+                  <div class="step-item">
+                    <span class="step-number">4</span>
+                    <div>
+                      <strong>Project Assignment</strong> - Small test project to demonstrate skills
+                    </div>
+                  </div>
+                  <div class="step-item">
+                    <span class="step-number">5</span>
+                    <div>
+                      <strong>Welcome to the Team</strong> - Onboarding and first project assignment
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="career-cta">
+                <p><em>Ready to start your journey with RNDM? We're excited to hear from you!</em></p>
+                <a href="#" class="btn" data-page="contact">Apply Now</a>
+              </div>
+            </div>
+          </section>
+
           <section class="cta-section">
             <h2>Ready to Build Something Amazing?</h2>
             <p>Let's turn your vision into digital reality. Whether it's a simple website or a complex web application, we're here to make it happen.</p>
