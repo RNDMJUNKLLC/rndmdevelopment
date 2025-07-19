@@ -472,6 +472,25 @@ export class FirebaseService {
     }
   }
 
+  // Submit career application
+  async submitApplication(applicationData) {
+    try {
+      const applicationsRef = ref(database, 'applications');
+      const newApplicationData = {
+        ...applicationData,
+        timestamp: Date.now(),
+        dateSubmitted: new Date().toISOString(),
+        applicationId: `APP-${Date.now()}-${Math.random().toString(36).substr(2, 5).toUpperCase()}`
+      };
+      
+      await push(applicationsRef, newApplicationData);
+      return { success: true, message: 'Application submitted successfully!' };
+    } catch (error) {
+      console.error('Error submitting application:', error);
+      return { success: false, message: 'Failed to submit application. Please try again.' };
+    }
+  }
+
   // Listen for contact form submissions (for admin page)
   onContactFormsChange(callback) {
     onValue(this.contactFormsRef, (snapshot) => {
@@ -605,6 +624,59 @@ export class FirebaseService {
     } catch (error) {
       console.error('Error deleting support ticket:', error);
       return { success: false, message: 'Failed to delete support ticket. Please try again.' };
+    }
+  }
+
+  // Career Applications Management
+  async getCareerApplications() {
+    try {
+      const applicationsRef = ref(database, 'applications');
+      const snapshot = await get(applicationsRef);
+      
+      if (snapshot.exists()) {
+        const data = snapshot.val();
+        const applications = Object.keys(data).map(key => ({
+          id: key,
+          ...data[key]
+        }))
+        // Filter only career applications
+        .filter(app => app.type === 'career_application');
+        
+        // Sort by timestamp, newest first
+        applications.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        
+        return { success: true, applications };
+      } else {
+        return { success: true, applications: [] };
+      }
+    } catch (error) {
+      console.error('Error fetching career applications:', error);
+      return { success: false, error: error.message, applications: [] };
+    }
+  }
+
+  async updateApplicationStatus(applicationId, status) {
+    try {
+      const applicationRef = ref(database, `applications/${applicationId}`);
+      await update(applicationRef, { 
+        status: status,
+        lastUpdated: new Date().toISOString()
+      });
+      return { success: true, message: 'Application status updated successfully!' };
+    } catch (error) {
+      console.error('Error updating application status:', error);
+      return { success: false, message: 'Failed to update application status. Please try again.' };
+    }
+  }
+
+  async deleteApplication(applicationId) {
+    try {
+      const applicationRef = ref(database, `applications/${applicationId}`);
+      await remove(applicationRef);
+      return { success: true, message: 'Application deleted successfully!' };
+    } catch (error) {
+      console.error('Error deleting application:', error);
+      return { success: false, message: 'Failed to delete application. Please try again.' };
     }
   }
 

@@ -92,6 +92,7 @@ function renderNavigation() {
           <li><a href="#" data-page="about">About</a></li>
           <li><a href="#" data-page="services">Services</a></li>
           <li><a href="#" data-page="contact">Contact</a></li>
+          <li><a href="#" data-page="career">Career</a></li>
           <li><a href="#" data-page="account">Account</a></li>
           <li><a href="#" data-page="admin">Admin</a></li>
         </ul>
@@ -192,6 +193,10 @@ function renderCurrentPage() {
       app.innerHTML = renderContactPage();
       attachContactFormListener();
       break;
+    case 'career':
+      app.innerHTML = renderCareerPage();
+      attachCareerFormListener();
+      break;
     case 'account':
       app.innerHTML = renderAccountPage();
       attachAccountListeners();
@@ -218,6 +223,9 @@ function renderCurrentPage() {
     default:
       app.innerHTML = renderHomePage();
   }
+  
+  // Attach footer event listeners after page is rendered
+  attachFooterListeners();
 }
 
 // Home page template
@@ -254,6 +262,7 @@ function renderHomePage() {
         </section>
       </div>
     </div>
+    ${renderFooter()}
   `;
 }
 
@@ -521,7 +530,7 @@ function renderAboutPage() {
 
               <div class="career-cta">
                 <p><em>Ready to start your journey with RNDM? We're excited to hear from you!</em></p>
-                <a href="#" class="btn" data-page="contact">Apply Now</a>
+                <a href="#" class="btn" data-page="career">Apply Now</a>
               </div>
             </div>
           </section>
@@ -537,6 +546,7 @@ function renderAboutPage() {
         </div>
       </div>
     </div>
+    ${renderFooter()}
   `;
 }
 
@@ -865,6 +875,7 @@ function renderServicesPage() {
         </section>
       </div>
     </div>
+    ${renderFooter()}
   `;
 }
 
@@ -897,6 +908,7 @@ function renderContactPage() {
           </div>
         </div>
       </div>
+    ${renderFooter()}
     `;
   }
 
@@ -967,6 +979,304 @@ function renderContactPage() {
         </div>
       </div>
     </div>
+    ${renderFooter()}
+  `;
+}
+
+// Career page template
+function renderCareerPage() {
+  return `
+    <div class="page-section active">
+      <div class="container">
+        <div class="career-header">
+          <h1 class="section-title glitch">🚀 Join the RNDM Team</h1>
+          <p class="career-tagline">"Where random ideas become remarkable solutions"</p>
+          <div class="career-intro">
+            <h2>🌟 Transform Your Career with RNDM</h2>
+            <p>Ready to be part of something extraordinary? Join a growing tech company that values creativity, innovation, and your unique perspective. No matter your experience level, if you have passion and dedication, we want to hear from you.</p>
+          </div>
+        </div>
+
+        <section class="why-rndm">
+          <h2>🌍 Why Work With RNDM?</h2>
+          <div class="benefits-grid">
+            <div class="benefit-card">
+              <div class="card-icon">🌍</div>
+              <h3>Make Your Mark</h3>
+              <p>Help us expand RNDM's reach and bring innovative solutions to clients worldwide. Be part of a growing tech company that values creativity and innovation.</p>
+            </div>
+            
+            <div class="benefit-card">
+              <div class="card-icon">📈</div>
+              <h3>Career Growth</h3>
+              <ul>
+                <li>Gain real-world experience in a fast-paced tech environment</li>
+                <li>Build an impressive portfolio with diverse projects</li>
+                <li>Develop skills across multiple technologies and platforms</li>
+                <li>Perfect for resume building and professional references</li>
+              </ul>
+            </div>
+            
+            <div class="benefit-card">
+              <div class="card-icon">⏰</div>
+              <h3>Flexible Schedule</h3>
+              <ul>
+                <li>Work on your own schedule</li>
+                <li>Perfect for students, freelancers, or side projects</li>
+                <li>No rigid office hours - results matter, not time clocks</li>
+                <li>Remote-first environment</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <section class="who-we-seek">
+          <h2>👥 Who We're Looking For</h2>
+          
+          <div class="ideal-candidates">
+            <h3>🎯 Our Ideal Candidates</h3>
+            <div class="candidate-grid">
+              <div class="candidate-item">
+                <div class="candidate-icon">💪</div>
+                <h4>Passion over Perfection</h4>
+                <p>We value enthusiasm and willingness to learn</p>
+              </div>
+              <div class="candidate-item">
+                <div class="candidate-icon">🎓</div>
+                <h4>No Degree Required</h4>
+                <p>Skills and dedication matter more than credentials</p>
+              </div>
+              <div class="candidate-item">
+                <div class="candidate-icon">🌟</div>
+                <h4>All Experience Levels Welcome</h4>
+                <p>From beginners to seasoned pros</p>
+              </div>
+              <div class="candidate-item">
+                <div class="candidate-icon">🌈</div>
+                <h4>Diverse Perspectives</h4>
+                <p>We believe different backgrounds strengthen our team</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="what-matters">
+            <h3>💡 What Matters Most</h3>
+            <div class="matters-list">
+              <span class="matter-item">Problem-solving mindset</span>
+              <span class="matter-item">Communication skills</span>
+              <span class="matter-item">Reliability and commitment</span>
+              <span class="matter-item">Eagerness to grow and learn</span>
+            </div>
+          </div>
+        </section>
+
+        <section class="compensation">
+          <h2>💰 Compensation Structure</h2>
+          <div class="compensation-card">
+            <h3>📊 Commission-Based Opportunity</h3>
+            <div class="compensation-details">
+              <div class="comp-item">
+                <span class="comp-icon">📈</span>
+                <strong>Performance-Driven Pay</strong> - Your success determines your earnings
+              </div>
+              <div class="comp-item">
+                <span class="comp-icon">🎯</span>
+                <strong>Project-Based Compensation</strong> - Get paid for completed work
+              </div>
+              <div class="comp-item">
+                <span class="comp-icon">🚀</span>
+                <strong>Growth Potential</strong> - Successful team members see increasing opportunities
+              </div>
+              <div class="comp-item">
+                <span class="comp-icon">💼</span>
+                <strong>Side-Income Friendly</strong> - Perfect as supplemental income
+              </div>
+            </div>
+            <p class="compensation-note">
+              <em>Compensation details and structure will be discussed during the interview process to ensure mutual fit.</em>
+            </p>
+          </div>
+        </section>
+
+        <section class="application-section">
+          <h2>📝 Ready to Apply?</h2>
+          <div class="application-intro">
+            <p>We've made applying simple and straightforward. Just fill out the form below with your information and we'll get back to you quickly!</p>
+          </div>
+          
+          <form class="career-form" id="careerForm">
+            <div class="form-section">
+              <h3>👤 Personal Information</h3>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="applicantFirstName">First Name *</label>
+                  <input type="text" id="applicantFirstName" name="firstName" required placeholder="Your first name">
+                </div>
+                <div class="form-group">
+                  <label for="applicantLastName">Last Name *</label>
+                  <input type="text" id="applicantLastName" name="lastName" required placeholder="Your last name">
+                </div>
+              </div>
+              
+              <div class="form-group">
+                <label for="applicantEmail">Email Address *</label>
+                <input type="email" id="applicantEmail" name="email" required placeholder="your@email.com">
+              </div>
+              
+              <div class="form-group">
+                <label for="applicantPhone">Phone Number *</label>
+                <input type="tel" id="applicantPhone" name="phone" required placeholder="(555) 123-4567">
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h3>💼 Professional Information</h3>
+              
+              <div class="form-group">
+                <label for="positionOfInterest">Position of Interest *</label>
+                <select id="positionOfInterest" name="position" required>
+                  <option value="">Select the position you're interested in</option>
+                  <option value="frontend-developer">Frontend Developer</option>
+                  <option value="backend-developer">Backend Developer</option>
+                  <option value="fullstack-developer">Full Stack Developer</option>
+                  <option value="project-manager">Project Manager</option>
+                  <option value="ui-ux-designer">UI/UX Designer</option>
+                  <option value="devops-engineer">DevOps Engineer</option>
+                  <option value="quality-assurance">Quality Assurance</option>
+                  <option value="marketing-specialist">Marketing Specialist</option>
+                  <option value="business-analyst">Business Analyst</option>
+                  <option value="general-application">General Application (Any Role)</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label for="currentRole">Current Role/Position</label>
+                <input type="text" id="currentRole" name="currentRole" placeholder="e.g., Student, Web Developer, Freelancer">
+              </div>
+              
+              <div class="form-group">
+                <label for="experience">Experience Level</label>
+                <select id="experience" name="experience">
+                  <option value="">Select your experience level</option>
+                  <option value="beginner">Beginner (0-1 years)</option>
+                  <option value="intermediate">Intermediate (1-3 years)</option>
+                  <option value="experienced">Experienced (3-5 years)</option>
+                  <option value="senior">Senior (5+ years)</option>
+                  <option value="student">Student/Learning</option>
+                </select>
+              </div>
+              
+              <div class="form-group">
+                <label for="skills">Technical Skills</label>
+                <textarea id="skills" name="skills" placeholder="List your programming languages, frameworks, tools, or any relevant technical skills (e.g., HTML, CSS, JavaScript, React, Node.js, etc.)"></textarea>
+              </div>
+              
+              <div class="form-group">
+                <label for="portfolio">Portfolio/GitHub Link</label>
+                <input type="url" id="portfolio" name="portfolio" placeholder="https://yourportfolio.com or https://github.com/yourusername">
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h3>📄 Resume Upload</h3>
+              
+              <div class="form-group">
+                <label for="resume">Resume Upload *</label>
+                <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
+                <small class="field-hint">Please upload your resume in PDF, DOC, or DOCX format (max 5MB)</small>
+              </div>
+            </div>
+
+            <div class="form-section">
+              <h3>🚀 Tell Us About Yourself</h3>
+              
+              <div class="form-group">
+                <label for="motivation">Why do you want to join RNDM? *</label>
+                <textarea id="motivation" name="motivation" required placeholder="Tell us what excites you about working with RNDM and what you hope to achieve..."></textarea>
+              </div>
+              
+              <div class="form-group">
+                <label for="additionalInfo">Additional Information</label>
+                <textarea id="additionalInfo" name="additionalInfo" placeholder="Anything else you'd like us to know? Questions about the role? Special circumstances?"></textarea>
+              </div>
+            </div>
+
+            <div class="form-agreements">
+              <label class="checkbox-label">
+                <input type="checkbox" id="agreeTerms" required>
+                <span class="checkmark"></span>
+                I agree to the <a href="./terms-of-service.html" target="_blank" rel="noopener noreferrer" class="link">Terms of Service</a> and <a href="./privacy-policy.html" target="_blank" rel="noopener noreferrer" class="link">Privacy Policy</a> *
+              </label>
+              
+              <label class="checkbox-label">
+                <input type="checkbox" id="allowContact">
+                <span class="checkmark"></span>
+                I consent to being contacted regarding this application and future opportunities
+              </label>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 2rem; padding: 1rem;">
+              Submit Application 🚀
+            </button>
+          </form>
+        </section>
+
+        <section class="next-steps">
+          <h2>🤝 What Happens Next?</h2>
+          <div class="steps-timeline">
+            <div class="step-item">
+              <div class="step-number">1</div>
+              <div class="step-content">
+                <h4>Application Review</h4>
+                <p>We'll review your application and resume within 2-3 business days</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-number">2</div>
+              <div class="step-content">
+                <h4>Initial Contact</h4>
+                <p>If we're a good fit, we'll reach out for a casual conversation</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-number">3</div>
+              <div class="step-content">
+                <h4>Skills Assessment</h4>
+                <p>Small project or technical discussion to understand your abilities</p>
+              </div>
+            </div>
+            <div class="step-item">
+              <div class="step-number">4</div>
+              <div class="step-content">
+                <h4>Welcome Aboard!</h4>
+                <p>Onboarding, team introduction, and your first project assignment</p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="career-cta">
+          <h2>Ready to Start Your RNDM Journey?</h2>
+          <p><em>"Your success is our success. Let's build something amazing together."</em></p>
+          <div class="cta-stats">
+            <div class="stat-item">
+              <span class="stat-number">100%</span>
+              <span class="stat-label">Remote Work</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">24/7</span>
+              <span class="stat-label">Flexible Hours</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-number">∞</span>
+              <span class="stat-label">Growth Potential</span>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    ${renderFooter()}
   `;
 }
 
@@ -1097,6 +1407,7 @@ function renderAccountPage() {
           </div>
         </div>
       </div>
+    ${renderFooter()}
     `;
   }
   
@@ -1371,6 +1682,7 @@ function renderAccountPage() {
         </div>
       </div>
     </div>
+    ${renderFooter()}
   `;
 }
 
@@ -1406,6 +1718,7 @@ function renderAdminPage() {
           </div>
         </div>
       </div>
+    ${renderFooter()}
     `;
   }
   
@@ -1441,6 +1754,7 @@ function renderAdminPage() {
           </div>
         </div>
       </div>
+    ${renderFooter()}
     `;
   }
   
@@ -1477,6 +1791,10 @@ function renderAdminPage() {
           <button class="admin-tab" onclick="switchAdminTab('metrics')" data-tab="metrics">
             <span class="tab-icon">📊</span>
             <span class="tab-label">Metrics</span>
+          </button>
+          <button class="admin-tab" onclick="switchAdminTab('careers')" data-tab="careers">
+            <span class="tab-icon">💼</span>
+            <span class="tab-label">Careers</span>
           </button>
         </div>
 
@@ -1522,6 +1840,9 @@ function renderAdminPage() {
                     </button>
                     <button class="btn btn-primary" onclick="switchAdminTab('users')">
                       👥 Manage Users
+                    </button>
+                    <button class="btn btn-primary" onclick="switchAdminTab('careers')">
+                      💼 Career Applications
                     </button>
                     <button class="btn btn-primary" onclick="switchAdminTab('metrics')">
                       📊 View Analytics
@@ -1700,6 +2021,99 @@ function renderAdminPage() {
             </div>
           </div>
 
+          <!-- Careers Tab -->
+          <div id="careersTab" class="tab-panel">
+            <div class="careers-section">
+              <h2>Career Applications</h2>
+              
+              <!-- Controls Section -->
+              <div class="admin-controls">
+                <div class="controls-header">
+                  <div class="controls-left">
+                    <h3 style="color: var(--primary-color); margin: 0;">Manage Applications</h3>
+                  </div>
+                  <div class="controls-right">
+                    <button class="btn btn-secondary" onclick="refreshCareerApplications()">
+                      🔄 Refresh
+                    </button>
+                    <button class="btn btn-primary" onclick="exportCareerApplications()">
+                      📄 Export
+                    </button>
+                  </div>
+                </div>
+                
+                <div class="filter-controls">
+                  <div class="filter-group">
+                    <label for="positionFilter">Position:</label>
+                    <select id="positionFilter" onchange="filterCareerApplications()">
+                      <option value="">All Positions</option>
+                      <option value="frontend-developer">Frontend Developer</option>
+                      <option value="backend-developer">Backend Developer</option>
+                      <option value="fullstack-developer">Full Stack Developer</option>
+                      <option value="project-manager">Project Manager</option>
+                      <option value="ui-ux-designer">UI/UX Designer</option>
+                      <option value="devops-engineer">DevOps Engineer</option>
+                      <option value="quality-assurance">Quality Assurance</option>
+                      <option value="marketing-specialist">Marketing Specialist</option>
+                      <option value="business-analyst">Business Analyst</option>
+                      <option value="general-application">General Application</option>
+                    </select>
+                  </div>
+                  
+                  <div class="filter-group">
+                    <label for="dateFilter">Date Range:</label>
+                    <select id="dateFilter" onchange="filterCareerApplications()">
+                      <option value="">All Time</option>
+                      <option value="today">Today</option>
+                      <option value="week">This Week</option>
+                      <option value="month">This Month</option>
+                      <option value="quarter">This Quarter</option>
+                    </select>
+                  </div>
+                  
+                  <div class="filter-group">
+                    <label for="statusFilter">Status:</label>
+                    <select id="statusFilter" onchange="filterCareerApplications()">
+                      <option value="">All Statuses</option>
+                      <option value="new">New</option>
+                      <option value="reviewing">Under Review</option>
+                      <option value="interview">Interview</option>
+                      <option value="approved">Approved</option>
+                      <option value="rejected">Rejected</option>
+                    </select>
+                  </div>
+                  
+                  <div class="search-group">
+                    <label for="applicationSearch">Search:</label>
+                    <input type="text" id="applicationSearch" placeholder="Search by name, email, or position..." onkeyup="searchCareerApplications()">
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Applications Table -->
+              <div class="table-container">
+                <table class="admin-table" id="applicationsTable">
+                  <thead>
+                    <tr>
+                      <th onclick="sortCareerApplications('timestamp')">Date <span class="sort-icon">↕️</span></th>
+                      <th onclick="sortCareerApplications('name')">Name <span class="sort-icon">↕️</span></th>
+                      <th onclick="sortCareerApplications('email')">Email <span class="sort-icon">↕️</span></th>
+                      <th onclick="sortCareerApplications('position')">Position <span class="sort-icon">↕️</span></th>
+                      <th onclick="sortCareerApplications('experience')">Experience <span class="sort-icon">↕️</span></th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody id="applicationsTableBody">
+                    <tr>
+                      <td colspan="7" class="loading">Loading career applications...</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
@@ -1729,6 +2143,7 @@ function renderAdminPage() {
         </div>
       </div>
     </div>
+    ${renderFooter()}
   `;
 }
 
@@ -1754,6 +2169,12 @@ function attachEventListeners() {
 
   // Make admin tab switching globally available
   window.switchAdminTab = switchAdminTab;
+}
+
+// Footer event listeners
+function attachFooterListeners() {
+  // Footer links already use data-page attributes which are handled by the global click handler
+  // This function is available for any additional footer-specific functionality
 }
 
 // Admin Tab Management
@@ -1796,6 +2217,9 @@ function switchAdminTab(tabName) {
       break;
     case 'metrics':
       loadMetricsContent();
+      break;
+    case 'careers':
+      loadCareersContent();
       break;
   }
 }
@@ -2152,6 +2576,432 @@ window.refreshUsersData = function() {
   showNotification('User data refreshed!', 'success');
 };
 
+// Career Applications Management
+function loadCareersContent() {
+  loadCareerApplications();
+}
+
+let careerApplications = [];
+let filteredApplications = [];
+let currentSort = { field: 'timestamp', direction: 'desc' };
+
+function loadCareerApplications() {
+  firebaseService.getCareerApplications().then(result => {
+    if (result.success) {
+      careerApplications = result.applications || [];
+      filteredApplications = [...careerApplications];
+      displayCareerApplications();
+    } else {
+      document.getElementById('applicationsTableBody').innerHTML = `
+        <tr><td colspan="8" class="error">Failed to load applications: ${result.error}</td></tr>
+      `;
+    }
+  });
+}
+
+function displayCareerApplications() {
+  const tbody = document.getElementById('applicationsTableBody');
+  
+  if (!filteredApplications || filteredApplications.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="7" class="no-data">No career applications found</td></tr>';
+    return;
+  }
+
+  tbody.innerHTML = filteredApplications.map(app => {
+    const date = new Date(app.timestamp).toLocaleDateString();
+    const statusColor = getStatusColor(app.status || 'new');
+    const experienceLevel = app.experience || 'Not specified';
+    
+    return `
+      <tr data-id="${app.id}">
+        <td>${date}</td>
+        <td>${app.name}</td>
+        <td>${app.email}</td>
+        <td>${getPositionDisplayName(app.position)}</td>
+        <td>${experienceLevel}</td>
+        <td>
+          <select class="status-select" onchange="updateApplicationStatus('${app.id}', this.value)" style="background-color: ${statusColor};">
+            <option value="new" ${(app.status || 'new') === 'new' ? 'selected' : ''}>New</option>
+            <option value="reviewing" ${app.status === 'reviewing' ? 'selected' : ''}>Under Review</option>
+            <option value="interview" ${app.status === 'interview' ? 'selected' : ''}>Interview</option>
+            <option value="approved" ${app.status === 'approved' ? 'selected' : ''}>Approved</option>
+            <option value="rejected" ${app.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+          </select>
+        </td>
+        <td>
+          <div class="action-buttons">
+            <button class="btn btn-small btn-primary" onclick="viewApplicationDetails('${app.id}')">
+              👁️ View
+            </button>
+            <button class="btn btn-small btn-secondary" onclick="viewResume('${app.id}')">
+              📄 Resume
+            </button>
+            <button class="btn btn-small btn-danger" onclick="deleteApplication('${app.id}')">
+              🗑️ Delete
+            </button>
+          </div>
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function getPositionDisplayName(position) {
+  const positions = {
+    'frontend-developer': 'Frontend Developer',
+    'backend-developer': 'Backend Developer', 
+    'fullstack-developer': 'Full Stack Developer',
+    'project-manager': 'Project Manager',
+    'ui-ux-designer': 'UI/UX Designer',
+    'devops-engineer': 'DevOps Engineer',
+    'quality-assurance': 'Quality Assurance',
+    'marketing-specialist': 'Marketing Specialist',
+    'business-analyst': 'Business Analyst',
+    'general-application': 'General Application'
+  };
+  return positions[position] || position;
+}
+
+function getCompensationDisplayName(compensation) {
+  const compensations = {
+    'project-based': 'Project-Based Commission',
+    'hourly-10-20': '$10-20/hour',
+    'hourly-20-35': '$20-35/hour', 
+    'hourly-35-50': '$35-50/hour',
+    'hourly-50-plus': '$50+/hour',
+    'salary-negotiable': 'Salary (Negotiable)',
+    'to-discuss': 'Prefer to discuss'
+  };
+  return compensations[compensation] || compensation;
+}
+
+function getStatusColor(status) {
+  const colors = {
+    'new': '#e3f2fd',
+    'reviewing': '#fff3e0', 
+    'interview': '#f3e5f5',
+    'approved': '#e8f5e8',
+    'rejected': '#ffebee'
+  };
+  return colors[status] || colors['new'];
+}
+
+function filterCareerApplications() {
+  const positionFilter = document.getElementById('positionFilter').value;
+  const dateFilter = document.getElementById('dateFilter').value;
+  const statusFilter = document.getElementById('statusFilter').value;
+  
+  filteredApplications = careerApplications.filter(app => {
+    // Position filter
+    if (positionFilter && app.position !== positionFilter) return false;
+    
+    // Status filter
+    if (statusFilter && (app.status || 'new') !== statusFilter) return false;
+    
+    // Date filter
+    if (dateFilter) {
+      const appDate = new Date(app.timestamp);
+      const now = new Date();
+      
+      switch(dateFilter) {
+        case 'today':
+          if (appDate.toDateString() !== now.toDateString()) return false;
+          break;
+        case 'week':
+          const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+          if (appDate < weekAgo) return false;
+          break;
+        case 'month':
+          if (appDate.getMonth() !== now.getMonth() || appDate.getFullYear() !== now.getFullYear()) return false;
+          break;
+        case 'quarter':
+          const quarterStart = new Date(now.getFullYear(), Math.floor(now.getMonth() / 3) * 3, 1);
+          if (appDate < quarterStart) return false;
+          break;
+      }
+    }
+    
+    return true;
+  });
+  
+  applySortToApplications();
+  displayCareerApplications();
+}
+
+function searchCareerApplications() {
+  const searchTerm = document.getElementById('applicationSearch').value.toLowerCase();
+  
+  if (!searchTerm) {
+    filterCareerApplications();
+    return;
+  }
+  
+  filteredApplications = filteredApplications.filter(app => 
+    app.name.toLowerCase().includes(searchTerm) ||
+    app.email.toLowerCase().includes(searchTerm) ||
+    getPositionDisplayName(app.position).toLowerCase().includes(searchTerm)
+  );
+  
+  displayCareerApplications();
+}
+
+function sortCareerApplications(field) {
+  if (currentSort.field === field) {
+    currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+  } else {
+    currentSort.field = field;
+    currentSort.direction = 'asc';
+  }
+  
+  applySortToApplications();
+  displayCareerApplications();
+  
+  // Update sort icons
+  document.querySelectorAll('.sort-icon').forEach(icon => {
+    icon.textContent = '↕️';
+  });
+  
+  const activeIcon = document.querySelector(`th[onclick="sortCareerApplications('${field}')"] .sort-icon`);
+  if (activeIcon) {
+    activeIcon.textContent = currentSort.direction === 'asc' ? '↑' : '↓';
+  }
+}
+
+function applySortToApplications() {
+  filteredApplications.sort((a, b) => {
+    let aVal = a[currentSort.field];
+    let bVal = b[currentSort.field];
+    
+    // Handle special cases
+    if (currentSort.field === 'timestamp') {
+      aVal = new Date(aVal);
+      bVal = new Date(bVal);
+    } else if (currentSort.field === 'position') {
+      aVal = getPositionDisplayName(aVal);
+      bVal = getPositionDisplayName(bVal);
+    }
+    
+    if (aVal < bVal) return currentSort.direction === 'asc' ? -1 : 1;
+    if (aVal > bVal) return currentSort.direction === 'asc' ? 1 : -1;
+    return 0;
+  });
+}
+
+function updateApplicationStatus(appId, newStatus) {
+  firebaseService.updateApplicationStatus(appId, newStatus).then(result => {
+    if (result.success) {
+      // Update local data
+      const app = careerApplications.find(a => a.id === appId);
+      if (app) {
+        app.status = newStatus;
+      }
+      showNotification(`Application status updated to ${newStatus}`, 'success');
+    } else {
+      showNotification('Failed to update status', 'error');
+      loadCareerApplications(); // Reload to reset
+    }
+  });
+}
+
+function viewApplicationDetails(appId) {
+  const app = careerApplications.find(a => a.id === appId);
+  if (!app) return;
+  
+  const modal = document.getElementById('detailModal');
+  const modalBody = document.getElementById('detailModalBody');
+  
+  modalBody.innerHTML = `
+    <div class="application-details">
+      <div class="detail-section">
+        <h4>Personal Information</h4>
+        <p><strong>Name:</strong> ${app.name}</p>
+        <p><strong>Email:</strong> ${app.email}</p>
+        <p><strong>Phone:</strong> ${app.phone || 'Not provided'}</p>
+      </div>
+      
+      <div class="detail-section">
+        <h4>Position Information</h4>
+        <p><strong>Position:</strong> ${getPositionDisplayName(app.position)}</p>
+        <p><strong>Current Role:</strong> ${app.currentRole || 'Not specified'}</p>
+        <p><strong>Experience Level:</strong> ${app.experience || 'Not specified'}</p>
+        <p><strong>Technical Skills:</strong> ${app.skills || 'Not specified'}</p>
+        <p><strong>Portfolio/GitHub:</strong> ${app.portfolio ? `<a href="${app.portfolio}" target="_blank" class="link">${app.portfolio}</a>` : 'Not provided'}</p>
+      </div>
+      
+      <div class="detail-section">
+        <h4>Application Details</h4>
+        <div class="cover-letter">
+          <strong>Why they want to join RNDM:</strong><br>
+          ${app.motivation ? app.motivation.replace(/\n/g, '<br>') : 'No motivation provided'}
+        </div>
+        ${app.additionalInfo ? `
+          <div style="margin-top: 1rem;">
+            <strong>Additional Information:</strong><br>
+            <div style="margin-top: 0.5rem; padding: 1rem; background: rgba(255, 255, 255, 0.05); border-radius: 5px;">
+              ${app.additionalInfo.replace(/\n/g, '<br>')}
+            </div>
+          </div>
+        ` : ''}
+      </div>
+      
+      <div class="detail-section">
+        <h4>Application Status</h4>
+        <select onchange="updateApplicationStatus('${app.id}', this.value)" style="background-color: ${getStatusColor(app.status || 'new')};">
+          <option value="new" ${(app.status || 'new') === 'new' ? 'selected' : ''}>New</option>
+          <option value="reviewing" ${app.status === 'reviewing' ? 'selected' : ''}>Under Review</option>
+          <option value="interview" ${app.status === 'interview' ? 'selected' : ''}>Interview</option>
+          <option value="approved" ${app.status === 'approved' ? 'selected' : ''}>Approved</option>
+          <option value="rejected" ${app.status === 'rejected' ? 'selected' : ''}>Rejected</option>
+        </select>
+      </div>
+      
+      <div class="detail-section">
+        <h4>Submission Details</h4>
+        <p><strong>Submitted:</strong> ${new Date(app.timestamp).toLocaleString()}</p>
+        <p><strong>Application ID:</strong> ${app.id}</p>
+      </div>
+    </div>
+  `;
+  
+  modal.style.display = 'block';
+}
+
+function viewResume(appId) {
+  const app = careerApplications.find(a => a.id === appId);
+  if (!app) {
+    showNotification('Application not found', 'error');
+    return;
+  }
+  
+  if (!app.resumeFileName) {
+    showNotification('No resume uploaded for this application', 'warning');
+    return;
+  }
+  
+  // Create and show resume modal
+  const modal = document.getElementById('detailModal');
+  const modalBody = document.getElementById('detailModalBody');
+  
+  modalBody.innerHTML = `
+    <div class="resume-viewer">
+      <div class="resume-info">
+        <h4>📄 Resume Details</h4>
+        <p><strong>Applicant:</strong> ${app.name}</p>
+        <p><strong>File Name:</strong> ${app.resumeFileName}</p>
+        <p><strong>File Size:</strong> ${formatFileSize(app.resumeSize)}</p>
+        <p><strong>Uploaded:</strong> ${new Date(app.timestamp).toLocaleString()}</p>
+      </div>
+      
+      <div class="resume-actions">
+        <div class="action-note">
+          <p><em>Note: Resume files are stored securely. For security reasons, direct viewing in browser is not currently available. Please download the file to view its contents.</em></p>
+        </div>
+        
+        <div class="resume-buttons">
+          <button class="btn btn-primary" onclick="downloadResumeFile('${app.id}')">
+            📥 Download Resume
+          </button>
+          <button class="btn btn-secondary" onclick="closeDetailModal()">
+            ✕ Close
+          </button>
+        </div>
+      </div>
+      
+      <div class="applicant-summary">
+        <h4>👤 Quick Summary</h4>
+        <p><strong>Position:</strong> ${getPositionDisplayName(app.position)}</p>
+        <p><strong>Experience:</strong> ${app.experience || 'Not specified'}</p>
+        <p><strong>Skills:</strong> ${app.skills || 'Not specified'}</p>
+        ${app.portfolio ? `<p><strong>Portfolio:</strong> <a href="${app.portfolio}" target="_blank" class="link">${app.portfolio}</a></p>` : ''}
+      </div>
+    </div>
+  `;
+  
+  modal.style.display = 'block';
+}
+
+function formatFileSize(bytes) {
+  if (!bytes) return 'Unknown';
+  const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+  if (bytes === 0) return '0 Bytes';
+  const i = Math.floor(Math.log(bytes) / Math.log(1024));
+  return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i];
+}
+
+function downloadResumeFile(appId) {
+  showNotification('Resume download functionality will be implemented with file storage integration', 'info');
+  // TODO: Implement actual file download when file storage is set up
+  // This would typically involve:
+  // 1. Getting the file URL from Firebase Storage
+  // 2. Creating a download link
+  // 3. Triggering the download
+}
+
+function downloadResume(appId) {
+  // Redirect to viewResume for now
+  viewResume(appId);
+}
+
+function deleteApplication(appId) {
+  if (!confirm('Are you sure you want to delete this application? This action cannot be undone.')) return;
+  
+  firebaseService.deleteApplication(appId).then(result => {
+    if (result.success) {
+      careerApplications = careerApplications.filter(a => a.id !== appId);
+      filteredApplications = filteredApplications.filter(a => a.id !== appId);
+      displayCareerApplications();
+      showNotification('Application deleted successfully', 'success');
+    } else {
+      showNotification('Failed to delete application', 'error');
+    }
+  });
+}
+
+function refreshCareerApplications() {
+  loadCareerApplications();
+  showNotification('Career applications refreshed!', 'success');
+}
+
+function exportCareerApplications() {
+  if (filteredApplications.length === 0) {
+    showNotification('No applications to export', 'warning');
+    return;
+  }
+  
+  const csvContent = "data:text/csv;charset=utf-8," + 
+    "Date,Name,Email,Phone,Position,Current Role,Experience,Skills,Status,Motivation,Additional Info\n" +
+    filteredApplications.map(app => {
+      const date = new Date(app.timestamp).toLocaleDateString();
+      const motivation = (app.motivation || '').replace(/"/g, '""').replace(/\n/g, ' ');
+      const additionalInfo = (app.additionalInfo || '').replace(/"/g, '""').replace(/\n/g, ' ');
+      const skills = (app.skills || '').replace(/"/g, '""').replace(/\n/g, ' ');
+      return `"${date}","${app.name}","${app.email}","${app.phone || ''}","${getPositionDisplayName(app.position)}","${app.currentRole || ''}","${app.experience || ''}","${skills}","${app.status || 'new'}","${motivation}","${additionalInfo}"`;
+    }).join("\n");
+  
+  const encodedUri = encodeURI(csvContent);
+  const link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", `career_applications_${new Date().toISOString().split('T')[0]}.csv`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  
+  showNotification('Applications exported successfully!', 'success');
+}
+
+// Make functions globally available
+window.filterCareerApplications = filterCareerApplications;
+window.searchCareerApplications = searchCareerApplications;
+window.sortCareerApplications = sortCareerApplications;
+window.updateApplicationStatus = updateApplicationStatus;
+window.viewApplicationDetails = viewApplicationDetails;
+window.viewResume = viewResume;
+window.downloadResumeFile = downloadResumeFile;
+window.downloadResume = downloadResume;
+window.deleteApplication = deleteApplication;
+window.refreshCareerApplications = refreshCareerApplications;
+window.exportCareerApplications = exportCareerApplications;
+
 // Contact form event listener
 function attachContactFormListener() {
   const form = document.getElementById('contactForm');
@@ -2259,6 +3109,122 @@ function attachContactFormListener() {
           stack: error.stack
         });
         showNotification('An error occurred while submitting your request. Please try again.', 'error');
+      } finally {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+      }
+    });
+  }
+}
+
+// Career form event listener
+function attachCareerFormListener() {
+  const form = document.getElementById('careerForm');
+  if (form) {
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData);
+      
+      console.log('Career form data collected:', data);
+      
+      // Validate required fields
+      if (!data.firstName || !data.lastName || !data.email || !data.phone || !data.position || !data.motivation) {
+        showNotification('Please fill in all required fields', 'error');
+        return;
+      }
+      
+      // Validate file upload
+      const resumeFile = formData.get('resume');
+      if (!resumeFile || resumeFile.size === 0) {
+        showNotification('Please upload your resume', 'error');
+        return;
+      }
+      
+      // Check file size (5MB limit)
+      if (resumeFile.size > 5 * 1024 * 1024) {
+        showNotification('Resume file size must be less than 5MB', 'error');
+        return;
+      }
+      
+      // Check file type
+      const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
+      if (!allowedTypes.includes(resumeFile.type)) {
+        showNotification('Please upload a PDF, DOC, or DOCX file', 'error');
+        return;
+      }
+      
+      // Show loading state
+      const submitBtn = form.querySelector('button[type="submit"]');
+      const originalText = submitBtn.textContent;
+      submitBtn.textContent = 'Submitting Application...';
+      submitBtn.disabled = true;
+      
+      try {
+        // For now, we'll submit to the same collection as applications
+        // You can modify firebaseService to handle career applications specifically
+        const submissionData = {
+          type: 'career_application',
+          name: `${data.firstName} ${data.lastName}`, // Combine first and last name
+          firstName: data.firstName,
+          lastName: data.lastName,
+          email: data.email,
+          phone: data.phone,
+          position: data.position || 'general-application', // Use actual position from form
+          currentRole: data.currentRole || '',
+          experience: data.experience || 'Not specified',
+          skills: data.skills || '',
+          portfolio: data.portfolio || '',
+          motivation: data.motivation,
+          additionalInfo: data.additionalInfo || '',
+          allowContact: data.allowContact === 'on',
+          resumeFileName: resumeFile.name,
+          resumeSize: resumeFile.size,
+          timestamp: Date.now(),
+          status: 'new' // Changed from 'pending' to match admin panel statuses
+        };
+        
+        console.log('Career submission data:', submissionData);
+        
+        // Submit to Firebase (using applications collection for now)
+        const result = await firebaseService.submitApplication(submissionData);
+        console.log('Career application submission result:', result);
+        
+        if (result.success) {
+          showNotification('Application submitted successfully! 🎉', 'success');
+          form.reset();
+          
+          // Send email notification for the new application
+          try {
+            console.log('Sending career application email notification...');
+            await sendEmailNotification({
+              ...submissionData,
+              subject: 'New Career Application Received'
+            });
+            console.log('Email notification sent successfully');
+          } catch (emailError) {
+            console.error('Failed to send email notification:', emailError);
+            // Don't show error to user since form was submitted successfully
+          }
+          
+          // Show success message with next steps
+          setTimeout(() => {
+            showNotification('We\'ll review your application and get back to you within 2-3 business days!', 'info');
+          }, 2000);
+          
+        } else {
+          console.error('Career application submission failed:', result.message);
+          showNotification('Error: ' + result.message, 'error');
+        }
+      } catch (error) {
+        console.error('Career form submission error:', error);
+        console.error('Error details:', {
+          name: error.name,
+          message: error.message,
+          stack: error.stack
+        });
+        showNotification('An error occurred while submitting your application. Please try again.', 'error');
       } finally {
         submitBtn.textContent = originalText;
         submitBtn.disabled = false;
@@ -4451,3 +5417,103 @@ window.billingSettings = billingSettings;
 window.signInWithGoogle = signInWithGoogle;
 window.signUpWithGoogle = signUpWithGoogle;
 window.showForgotPassword = showForgotPassword;
+
+// Footer component
+function renderFooter() {
+  return `
+    <footer class="rndm-footer">
+      <div class="footer-container">
+        
+        <!-- Main Footer Content -->
+        <div class="footer-main">
+          
+          <!-- Company Info Section -->
+          <div class="footer-section company-info">
+            <div class="footer-logo">
+              <h3>🌟 RNDM Development</h3>
+              <p class="tagline">"Random ideas become remarkable solutions"</p>
+            </div>
+            <p class="company-description">
+              Your digital dreams, our expertise. We turn visions into reality with 
+              tailored websites, powerful mobile apps, and complete digital solutions.
+            </p>
+            <div class="footer-stats">
+              <span>✅ 100% Client Satisfaction</span>
+              <span>⚡ Fast & Reliable Delivery</span>
+              <span>🤝 Lifetime Support</span>
+            </div>
+          </div>
+
+          <!-- Services Section -->
+          <div class="footer-section services">
+            <h4>Our Services</h4>
+            <ul>
+              <li><a href="#" data-page="services">Website Development</a></li>
+              <li><a href="#" data-page="services">Mobile Apps (Android)</a></li>
+              <li><a href="#" data-page="services">Enterprise Solutions</a></li>
+              <li><a href="#" data-page="services">Complete Business Solutions</a></li>
+              <li><a href="#" data-page="services">Ongoing Support & Maintenance</a></li>
+            </ul>
+          </div>
+
+          <!-- Quick Links Section -->
+          <div class="footer-section quick-links">
+            <h4>Quick Links</h4>
+            <ul>
+              <li><a href="#" data-page="home">Home</a></li>
+              <li><a href="#" data-page="services">Services & Pricing</a></li>
+              <li><a href="#" data-page="about">About Us</a></li>
+              <li><a href="#" data-page="contact">Get Started</a></li>
+              <li><a href="#" data-page="career">Join Our Team</a></li>
+              <li><a href="#" data-page="account">Account</a></li>
+              <li><a href="#" data-page="admin">Admin</a></li>
+            </ul>
+          </div>
+
+          <!-- Contact Info Section -->
+          <div class="footer-section contact-info">
+            <h4>Get In Touch</h4>
+            <div class="contact-details">
+              <p>💬 <a href="#" data-page="contact">Free Consultation</a></p>
+              <p>📱 <a href="#" data-page="contact">Request Quote</a></p>
+              <p>🎯 <a href="#" data-page="contact">Start Your Project</a></p>
+            </div>
+            
+            <!-- Special Offers -->
+            <div class="special-offers">
+              <h5>🎁 Special Offers</h5>
+              <ul>
+                <li>Free consultation for first-time clients</li>
+                <li>Student & nonprofit discounts available</li>
+                <li>Referral program - earn credits</li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+          <div class="footer-bottom-content">
+            <div class="copyright">
+              <p>&copy; 2025 RNDM Development - Where Random Ideas Become Remarkable Solutions</p>
+            </div>
+            
+            <div class="footer-taglines">
+              <span>"Your success is our success"</span>
+              <span>•</span>
+              <span>"Transparency builds trust"</span>
+              <span>•</span>
+              <span>"Quality first, always"</span>
+            </div>
+
+            <div class="footer-cta">
+              <a href="#" class="footer-cta-button" data-page="contact">Start Your Project Today →</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </footer>
+  `;
+}
