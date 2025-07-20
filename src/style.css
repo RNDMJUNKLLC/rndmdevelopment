@@ -2014,6 +2014,116 @@ body.dark-mode .modal-content {
   line-height: 1.5;
 }
 
+.resume-info p strong {
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.storage-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+}
+
+.storage-status.success {
+  color: var(--success-color);
+}
+
+.storage-status.warning {
+  color: var(--accent-color);
+}
+
+/* reCAPTCHA Integration Styles */
+.recaptcha-badge {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background: rgba(0, 255, 255, 0.05);
+  border: 1px solid var(--primary-color);
+  border-radius: 5px;
+  text-align: center;
+}
+
+.recaptcha-badge small {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  color: var(--text-gray);
+  font-size: 0.75rem;
+  margin: 0;
+}
+
+.security-verification {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--primary-color);
+  font-size: 0.8rem;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
+/* Form security status indicators */
+.form-security-status {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  background: rgba(0, 255, 255, 0.1);
+  border-radius: 3px;
+  font-size: 0.75rem;
+  color: var(--text-gray);
+}
+
+.security-icon {
+  color: var(--success-color);
+}
+
+/* reCAPTCHA Badge Styling */
+.recaptcha-badge {
+  margin-top: 1rem;
+  padding: 0.5rem;
+  background: rgba(0, 255, 255, 0.05);
+  border: 1px solid var(--border-color);
+  border-radius: 3px;
+  text-align: center;
+}
+
+.recaptcha-badge small {
+  color: var(--text-gray) !important;
+  font-size: 0.75rem !important;
+  margin: 0 !important;
+  display: block !important;
+  opacity: 0.8;
+}
+
+/* Security verification styling */
+.security-verification {
+  background: rgba(255, 255, 0, 0.1);
+  border: 1px solid var(--accent-color);
+  border-radius: 5px;
+  padding: 0.75rem;
+  margin: 1rem 0;
+  text-align: center;
+  animation: securityPulse 2s ease-in-out infinite;
+}
+
+.security-verification .icon {
+  font-size: 1.2rem;
+  margin-right: 0.5rem;
+}
+
+@keyframes securityPulse {
+  0%, 100% { opacity: 0.7; }
+  50% { opacity: 1; }
+}
+
 .resume-actions {
   margin-bottom: 1.5rem;
 }

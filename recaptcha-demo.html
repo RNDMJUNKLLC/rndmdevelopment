@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reCAPTCHA Demo - RNDM Development</title>
+    <style>
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+        
+        .demo-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+        }
+        
+        .demo-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .demo-header h1 {
+            color: #00ffff;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .demo-header p {
+            color: #b0b0b0;
+            font-size: 1.1rem;
+        }
+        
+        .status-box {
+            background: rgba(0, 255, 255, 0.1);
+            border: 1px solid #00ffff;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+        }
+        
+        .status-label {
+            font-weight: bold;
+        }
+        
+        .status-value {
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+        
+        .status-good { color: #44ff44; }
+        .status-warning { color: #ffff00; }
+        .status-error { color: #ff4444; }
+        
+        .demo-form {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #00ffff;
+            font-weight: bold;
+        }
+        
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #333;
+            border-radius: 5px;
+            background: rgba(0, 0, 0, 0.5);
+            color: #ffffff;
+            font-size: 14px;
+        }
+        
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #00ffff;
+            box-shadow: 0 0 5px rgba(0, 255, 255, 0.3);
+        }
+        
+        .btn {
+            background: #00ffff;
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 100%;
+            margin-top: 10px;
+        }
+        
+        .btn:hover {
+            background: #00cccc;
+            transform: translateY(-2px);
+        }
+        
+        .btn:disabled {
+            background: #666;
+            color: #999;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .security-indicator {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+            padding: 10px;
+            background: rgba(0, 255, 255, 0.05);
+            border: 1px solid #00ffff;
+            border-radius: 5px;
+            font-size: 0.85rem;
+        }
+        
+        .log-container {
+            background: #000;
+            border: 1px solid #333;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 20px 0;
+            font-family: monospace;
+            font-size: 0.85rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        
+        .log-entry {
+            margin: 5px 0;
+            padding: 2px 0;
+        }
+        
+        .log-info { color: #00ffff; }
+        .log-success { color: #44ff44; }
+        .log-warning { color: #ffff00; }
+        .log-error { color: #ff4444; }
+        
+        .setup-guide {
+            background: rgba(255, 255, 0, 0.1);
+            border: 1px solid #ffff00;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        
+        .setup-guide h3 {
+            color: #ffff00;
+            margin-top: 0;
+        }
+        
+        code {
+            background: rgba(0, 0, 0, 0.5);
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: monospace;
+            color: #00ffff;
+        }
+        
+        .step {
+            margin: 15px 0;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+            border-left: 4px solid #00ffff;
+        }
+        
+        .pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="demo-container">
+        <div class="demo-header">
+            <h1>🔒 reCAPTCHA v3 Demo</h1>
+            <p>Understanding Invisible Spam Protection</p>
+        </div>
+        
+        <div class="status-box">
+            <h3>🔍 reCAPTCHA Status</h3>
+            <div class="status-item">
+                <span class="status-label">Configuration:</span>
+                <span class="status-value" id="configStatus">Checking...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Script Loaded:</span>
+                <span class="status-value" id="scriptStatus">Loading...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">User Score:</span>
+                <span class="status-value" id="userScore">Not tested</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Last Action:</span>
+                <span class="status-value" id="lastAction">None</span>
+            </div>
+        </div>
+        
+        <div class="setup-guide">
+            <h3>⚙️ Setup Required</h3>
+            <p>To see reCAPTCHA in action, you need to configure it:</p>
+            
+            <div class="step">
+                <strong>Step 1:</strong> Go to <a href="https://www.google.com/recaptcha/admin/create" target="_blank" style="color: #00ffff;">Google reCAPTCHA Admin</a>
+            </div>
+            
+            <div class="step">
+                <strong>Step 2:</strong> Create a new site with:
+                <ul>
+                    <li>Type: <code>reCAPTCHA v3</code></li>
+                    <li>Domain: <code>localhost</code> (for development)</li>
+                </ul>
+            </div>
+            
+            <div class="step">
+                <strong>Step 3:</strong> Copy your site key and update <code>src/firebase-config.js</code>:
+                <br><code>siteKey: "YOUR_ACTUAL_SITE_KEY_HERE"</code>
+            </div>
+            
+            <div class="step">
+                <strong>Step 4:</strong> Refresh this page to see reCAPTCHA in action!
+            </div>
+        </div>
+        
+        <div class="demo-form">
+            <h3>📝 Test Form with reCAPTCHA</h3>
+            <form id="testForm">
+                <div class="form-group">
+                    <label for="testName">Name:</label>
+                    <input type="text" id="testName" name="name" placeholder="Enter your name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="testEmail">Email:</label>
+                    <input type="email" id="testEmail" name="email" placeholder="your@email.com" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="testMessage">Message:</label>
+                    <textarea id="testMessage" name="message" rows="4" placeholder="Type your message here..." required></textarea>
+                </div>
+                
+                <div class="security-indicator">
+                    <span>🔒</span>
+                    <span>This form is protected by reCAPTCHA v3</span>
+                    <span id="securityStatus" class="pulse">Analyzing...</span>
+                </div>
+                
+                <button type="submit" class="btn" id="submitBtn">
+                    Test reCAPTCHA & Submit
+                </button>
+            </form>
+        </div>
+        
+        <div class="log-container">
+            <h4>📊 Activity Log</h4>
+            <div id="logEntries">
+                <div class="log-entry log-info">Initializing reCAPTCHA demo...</div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        import { recaptchaService, recaptchaConfig } from './src/recaptcha-service.js';
+        
+        let logCount = 1;
+        
+        function addLog(message, type = 'info') {
+            const logEntries = document.getElementById('logEntries');
+            const timestamp = new Date().toLocaleTimeString();
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry log-${type}`;
+            logEntry.textContent = `[${timestamp}] ${message}`;
+            logEntries.appendChild(logEntry);
+            logEntries.scrollTop = logEntries.scrollHeight;
+            logCount++;
+        }
+        
+        function updateStatus(elementId, text, statusClass = '') {
+            const element = document.getElementById(elementId);
+            element.textContent = text;
+            element.className = `status-value ${statusClass}`;
+        }
+        
+        async function initDemo() {
+            addLog('Starting reCAPTCHA demo initialization...');
+            
+            // Check configuration
+            if (recaptchaConfig.enabled) {
+                if (recaptchaConfig.siteKey === 'YOUR_RECAPTCHA_SITE_KEY') {
+                    updateStatus('configStatus', 'Not configured', 'status-warning');
+                    addLog('reCAPTCHA site key not configured', 'warning');
+                } else {
+                    updateStatus('configStatus', 'Configured', 'status-good');
+                    addLog('reCAPTCHA configuration found', 'success');
+                }
+            } else {
+                updateStatus('configStatus', 'Disabled', 'status-error');
+                addLog('reCAPTCHA is disabled in configuration', 'error');
+            }
+            
+            // Try to load reCAPTCHA
+            try {
+                await recaptchaService.loadRecaptcha();
+                updateStatus('scriptStatus', 'Loaded', 'status-good');
+                addLog('reCAPTCHA script loaded successfully', 'success');
+                
+                // Test initial score
+                await testRecaptcha('page_load');
+            } catch (error) {
+                updateStatus('scriptStatus', 'Failed', 'status-error');
+                addLog(`Failed to load reCAPTCHA: ${error.message}`, 'error');
+            }
+        }
+        
+        async function testRecaptcha(action) {
+            try {
+                addLog(`Executing reCAPTCHA for action: ${action}`, 'info');
+                const result = await recaptchaService.executeRecaptcha(action);
+                
+                if (result.success) {
+                    updateStatus('lastAction', action, 'status-good');
+                    addLog(`reCAPTCHA token generated successfully`, 'success');
+                    
+                    // Simulate score (in real implementation, this comes from server)
+                    const simulatedScore = Math.random() * 0.4 + 0.6; // 0.6 to 1.0
+                    updateStatus('userScore', simulatedScore.toFixed(2), 'status-good');
+                    addLog(`Simulated user score: ${simulatedScore.toFixed(2)} (${simulatedScore > recaptchaConfig.minimumScore ? 'PASS' : 'FAIL'})`, simulatedScore > recaptchaConfig.minimumScore ? 'success' : 'warning');
+                } else {
+                    updateStatus('userScore', 'Failed', 'status-error');
+                    addLog(`reCAPTCHA execution failed: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                addLog(`reCAPTCHA error: ${error.message}`, 'error');
+            }
+        }
+        
+        // Form submission handler
+        document.getElementById('testForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submitBtn');
+            const originalText = submitBtn.textContent;
+            
+            submitBtn.textContent = 'Verifying security...';
+            submitBtn.disabled = true;
+            
+            try {
+                await testRecaptcha('form_submit');
+                
+                submitBtn.textContent = 'Processing...';
+                
+                // Simulate form processing
+                setTimeout(() => {
+                    addLog('Form submitted successfully (demo only)', 'success');
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                    
+                    // Reset form
+                    e.target.reset();
+                }, 1500);
+                
+            } catch (error) {
+                addLog(`Form submission failed: ${error.message}`, 'error');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }
+        });
+        
+        // Initialize demo
+        initDemo();
+        
+        // Simulate user interaction monitoring
+        let interactionCount = 0;
+        document.addEventListener('click', () => {
+            interactionCount++;
+            if (interactionCount % 5 === 0) {
+                addLog(`User interaction detected (${interactionCount} clicks)`, 'info');
+            }
+        });
+        
+        document.addEventListener('keypress', () => {
+            if (Math.random() > 0.9) { // Random logging to avoid spam
+                addLog('Typing behavior analyzed', 'info');
+            }
+        });
+    </script>
+</body>
+</html>

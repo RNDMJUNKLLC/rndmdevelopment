@@ -2,6 +2,7 @@ import './style.css';
 import { firebaseService } from './firebase-service.js';
 import { emailService } from './email-service.js';
 import { adminConfig } from './firebase-config.js';
+import { recaptchaService } from './recaptcha-service.js';
 
 // Application state
 const appState = {
@@ -26,6 +27,9 @@ function initializeApp() {
   
   // Initialize EmailJS early so it's ready for form submissions
   initializeEmailJS();
+  
+  // Initialize reCAPTCHA early for spam protection
+  initializeRecaptcha();
   
   // Set up Firebase Auth state listener
   firebaseService.onAuthStateChange(async (user) => {
@@ -2890,11 +2894,12 @@ function viewResume(appId) {
         <p><strong>File Name:</strong> ${app.resumeFileName}</p>
         <p><strong>File Size:</strong> ${formatFileSize(app.resumeSize)}</p>
         <p><strong>Uploaded:</strong> ${new Date(app.timestamp).toLocaleString()}</p>
+        ${app.resumeUrl ? '<p><strong>Storage:</strong> <span class="storage-status success">✓ Stored in Firebase Storage</span></p>' : '<p><strong>Storage:</strong> <span class="storage-status warning">⚠ Legacy format - may require migration</span></p>'}
       </div>
       
       <div class="resume-actions">
         <div class="action-note">
-          <p><em>Note: Resume files are stored securely. For security reasons, direct viewing in browser is not currently available. Please download the file to view its contents.</em></p>
+          <p><em>Resume files are securely stored in Firebase Storage. Click download to save the file to your device.</em></p>
         </div>
         
         <div class="resume-buttons">
@@ -2929,12 +2934,58 @@ function formatFileSize(bytes) {
 }
 
 function downloadResumeFile(appId) {
-  showNotification('Resume download functionality will be implemented with file storage integration', 'info');
-  // TODO: Implement actual file download when file storage is set up
-  // This would typically involve:
-  // 1. Getting the file URL from Firebase Storage
-  // 2. Creating a download link
-  // 3. Triggering the download
+  const app = careerApplications.find(a => a.id === appId);
+  if (!app) {
+    showNotification('Application not found', 'error');
+    return;
+  }
+  
+  if (!app.resumeStoragePath && !app.resumeUrl) {
+    showNotification('No resume file found for this application', 'warning');
+    return;
+  }
+  
+  // Show loading state
+  showNotification('Preparing resume download...', 'info');
+  
+  // If we have a direct URL (new format), use it
+  if (app.resumeUrl) {
+    try {
+      const link = document.createElement('a');
+      link.href = app.resumeUrl;
+      link.download = app.resumeFileName || `resume_${app.name}_${app.id}.pdf`;
+      link.target = '_blank';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      showNotification('Resume download started!', 'success');
+    } catch (error) {
+      console.error('Error downloading resume:', error);
+      showNotification('Failed to download resume', 'error');
+    }
+    return;
+  }
+  
+  // For legacy format, get download URL from Firebase Storage
+  if (app.resumeStoragePath) {
+    firebaseService.getResumeDownloadUrl(app.resumeStoragePath).then(result => {
+      if (result.success) {
+        const link = document.createElement('a');
+        link.href = result.downloadURL;
+        link.download = app.resumeFileName || `resume_${app.name}_${app.id}.pdf`;
+        link.target = '_blank';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        showNotification('Resume download started!', 'success');
+      } else {
+        showNotification('Failed to get resume download link', 'error');
+      }
+    }).catch(error => {
+      console.error('Error getting download URL:', error);
+      showNotification('Failed to download resume', 'error');
+    });
+  }
 }
 
 function downloadResume(appId) {
@@ -3065,10 +3116,15 @@ function attachContactFormListener() {
       // Show loading state
       const submitBtn = form.querySelector('button[type="submit"]');
       const originalText = submitBtn.textContent;
-      submitBtn.textContent = 'Sending...';
+      submitBtn.textContent = 'Verifying security...';
       submitBtn.disabled = true;
       
       try {
+        showNotification('Verifying security to prevent spam...', 'info');
+        
+        // Update progress
+        submitBtn.textContent = 'Sending...';
+        
         console.log('Calling Firebase submitContactForm...');
         const result = await firebaseService.submitContactForm(cleanedSubmissionData);
         console.log('Firebase submission result:', result);
@@ -3158,10 +3214,12 @@ function attachCareerFormListener() {
       // Show loading state
       const submitBtn = form.querySelector('button[type="submit"]');
       const originalText = submitBtn.textContent;
-      submitBtn.textContent = 'Submitting Application...';
+      submitBtn.textContent = 'Verifying security...';
       submitBtn.disabled = true;
-      
+
       try {
+        // Show additional security verification feedback
+        showNotification('Verifying security to prevent spam...', 'info');
         // For now, we'll submit to the same collection as applications
         // You can modify firebaseService to handle career applications specifically
         const submissionData = {
@@ -3179,16 +3237,17 @@ function attachCareerFormListener() {
           motivation: data.motivation,
           additionalInfo: data.additionalInfo || '',
           allowContact: data.allowContact === 'on',
-          resumeFileName: resumeFile.name,
-          resumeSize: resumeFile.size,
           timestamp: Date.now(),
           status: 'new' // Changed from 'pending' to match admin panel statuses
         };
         
         console.log('Career submission data:', submissionData);
         
-        // Submit to Firebase (using applications collection for now)
-        const result = await firebaseService.submitApplication(submissionData);
+        // Update progress
+        submitBtn.textContent = 'Submitting Application...';
+        
+        // Submit to Firebase with resume file
+        const result = await firebaseService.submitApplication(submissionData, resumeFile);
         console.log('Career application submission result:', result);
         
         if (result.success) {
@@ -3557,10 +3616,12 @@ async function handleSupportSubmission(e) {
   
   const submitBtn = e.target.querySelector('button[type="submit"]');
   const originalText = submitBtn.textContent;
-  submitBtn.textContent = 'Submitting...';
+  submitBtn.textContent = 'Verifying security...';
   submitBtn.disabled = true;
   
   try {
+    showNotification('Verifying security to prevent spam...', 'info');
+    
     const formData = new FormData(e.target);
     const data = Object.fromEntries(formData);
     
@@ -3575,6 +3636,9 @@ async function handleSupportSubmission(e) {
       timestamp: Date.now(),
       status: 'open'
     };
+    
+    // Update progress
+    submitBtn.textContent = 'Submitting support request...';
     
     // Submit to Firebase (using a different path for support tickets)
     const result = await firebaseService.submitSupportTicket(supportData);
@@ -5198,6 +5262,41 @@ async function sendEmailNotification(submission) {
   } catch (error) {
     console.error('Error sending email notification:', error);
   }
+}
+
+// Initialize reCAPTCHA service
+function initializeRecaptcha() {
+  if (recaptchaService.isAvailable()) {
+    recaptchaService.loadRecaptcha()
+      .then(() => {
+        console.log('reCAPTCHA initialized successfully!');
+        
+        // Add visual indicator that forms are protected
+        addRecaptchaBadges();
+      })
+      .catch(error => {
+        console.warn('Failed to initialize reCAPTCHA:', error);
+      });
+  } else {
+    console.log('reCAPTCHA not configured. Set your site key in firebase-config.js to enable spam protection.');
+  }
+}
+
+// Add reCAPTCHA badges to forms
+function addRecaptchaBadges() {
+  const forms = document.querySelectorAll('form');
+  forms.forEach(form => {
+    if (!form.querySelector('.recaptcha-badge')) {
+      const badge = document.createElement('div');
+      badge.className = 'recaptcha-badge';
+      badge.innerHTML = `
+        <small style="color: var(--text-gray); font-size: 0.75rem; margin-top: 0.5rem; display: block;">
+          🔒 This form is protected by reCAPTCHA to prevent spam
+        </small>
+      `;
+      form.appendChild(badge);
+    }
+  });
 }
 
 // Initialize EmailJS service

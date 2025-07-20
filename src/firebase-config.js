@@ -17,3 +17,13 @@ export const adminConfig = {
     "admin@rndmdevs.com",
   ]
 };
+
+// reCAPTCHA configuration
+export const recaptchaConfig = {
+  // Get your site key from https://www.google.com/recaptcha/admin/create
+  siteKey: "6LeNB4krAAAAAIOFTqggAVkez-r-QvyNCvoZh9mU", // Replace with your actual reCAPTCHA site key
+  // Minimum score threshold (0.0 to 1.0, where 1.0 = very likely human)
+  minimumScore: 0.5,
+  // Enable/disable reCAPTCHA
+  enabled: true
+};

@@ -9,12 +9,21 @@ import {
   updateProfile,
   sendPasswordResetEmail 
 } from 'firebase/auth';
+import { 
+  getStorage, 
+  ref as storageRef, 
+  uploadBytes, 
+  getDownloadURL, 
+  deleteObject 
+} from 'firebase/storage';
 import { firebaseConfig, adminConfig } from './firebase-config.js';
+import { recaptchaService } from './recaptcha-service.js';
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 const auth = getAuth(app);
+const storage = getStorage(app);
 
 // Firebase service for handling contact form submissions and authentication
 export class FirebaseService {
@@ -436,13 +445,22 @@ export class FirebaseService {
     return this.currentUser;
   }
 
-  // Submit contact form data
+  // Submit contact form data with reCAPTCHA verification
   async submitContactForm(formData) {
     try {
+      // Execute reCAPTCHA verification
+      const recaptchaResult = await recaptchaService.executeRecaptcha('contact_form');
+      if (!recaptchaResult.success) {
+        console.warn('reCAPTCHA verification failed:', recaptchaResult.error);
+        return { success: false, message: 'Security verification failed. Please try again.' };
+      }
+
       const newFormData = {
         ...formData,
         timestamp: Date.now(),
-        dateSubmitted: new Date().toISOString()
+        dateSubmitted: new Date().toISOString(),
+        recaptchaToken: recaptchaResult.token,
+        recaptchaAction: recaptchaResult.action
       };
       
       await push(this.contactFormsRef, newFormData);
@@ -453,15 +471,24 @@ export class FirebaseService {
     }
   }
 
-  // Submit support ticket
+  // Submit support ticket with reCAPTCHA verification
   async submitSupportTicket(supportData) {
     try {
+      // Execute reCAPTCHA verification
+      const recaptchaResult = await recaptchaService.executeRecaptcha('support_ticket');
+      if (!recaptchaResult.success) {
+        console.warn('reCAPTCHA verification failed:', recaptchaResult.error);
+        return { success: false, message: 'Security verification failed. Please try again.' };
+      }
+
       const supportTicketsRef = ref(database, 'support-tickets');
       const newTicketData = {
         ...supportData,
         timestamp: Date.now(),
         dateSubmitted: new Date().toISOString(),
-        ticketId: `TICKET-${Date.now()}-${Math.random().toString(36).substr(2, 5).toUpperCase()}`
+        ticketId: `TICKET-${Date.now()}-${Math.random().toString(36).substr(2, 5).toUpperCase()}`,
+        recaptchaToken: recaptchaResult.token,
+        recaptchaAction: recaptchaResult.action
       };
       
       await push(supportTicketsRef, newTicketData);
@@ -472,15 +499,43 @@ export class FirebaseService {
     }
   }
 
-  // Submit career application
-  async submitApplication(applicationData) {
+  // Submit career application with resume upload and reCAPTCHA verification
+  async submitApplication(applicationData, resumeFile = null) {
     try {
+      // Execute reCAPTCHA verification
+      const recaptchaResult = await recaptchaService.executeRecaptcha('career_application');
+      if (!recaptchaResult.success) {
+        console.warn('reCAPTCHA verification failed:', recaptchaResult.error);
+        return { success: false, message: 'Security verification failed. Please try again.' };
+      }
+
+      let resumeInfo = {};
+      
+      // Handle resume file upload if provided
+      if (resumeFile) {
+        try {
+          const resumeUploadResult = await this.uploadResume(resumeFile, applicationData.email);
+          resumeInfo = {
+            resumeFileName: resumeFile.name,
+            resumeSize: resumeFile.size,
+            resumeUrl: resumeUploadResult.downloadURL,
+            resumeStoragePath: resumeUploadResult.storagePath
+          };
+        } catch (uploadError) {
+          console.error('Error uploading resume:', uploadError);
+          return { success: false, message: 'Failed to upload resume. Please try again.' };
+        }
+      }
+      
       const applicationsRef = ref(database, 'applications');
       const newApplicationData = {
         ...applicationData,
+        ...resumeInfo,
         timestamp: Date.now(),
         dateSubmitted: new Date().toISOString(),
-        applicationId: `APP-${Date.now()}-${Math.random().toString(36).substr(2, 5).toUpperCase()}`
+        applicationId: `APP-${Date.now()}-${Math.random().toString(36).substr(2, 5).toUpperCase()}`,
+        recaptchaToken: recaptchaResult.token,
+        recaptchaAction: recaptchaResult.action
       };
       
       await push(applicationsRef, newApplicationData);
@@ -488,6 +543,58 @@ export class FirebaseService {
     } catch (error) {
       console.error('Error submitting application:', error);
       return { success: false, message: 'Failed to submit application. Please try again.' };
+    }
+  }
+
+  // Firebase Storage methods for resume handling
+  async uploadResume(file, userEmail) {
+    try {
+      // Create a unique filename to avoid conflicts
+      const timestamp = Date.now();
+      const fileExtension = file.name.split('.').pop();
+      const sanitizedEmail = userEmail.replace(/[^a-zA-Z0-9]/g, '_');
+      const fileName = `resume_${sanitizedEmail}_${timestamp}.${fileExtension}`;
+      
+      // Create storage reference
+      const resumeStorageRef = storageRef(storage, `resumes/${fileName}`);
+      
+      // Upload file
+      const snapshot = await uploadBytes(resumeStorageRef, file);
+      
+      // Get download URL
+      const downloadURL = await getDownloadURL(snapshot.ref);
+      
+      return {
+        success: true,
+        downloadURL: downloadURL,
+        storagePath: `resumes/${fileName}`,
+        fileName: fileName
+      };
+    } catch (error) {
+      console.error('Error uploading resume:', error);
+      throw new Error('Failed to upload resume file');
+    }
+  }
+
+  async getResumeDownloadUrl(storagePath) {
+    try {
+      const resumeRef = storageRef(storage, storagePath);
+      const downloadURL = await getDownloadURL(resumeRef);
+      return { success: true, downloadURL };
+    } catch (error) {
+      console.error('Error getting resume download URL:', error);
+      return { success: false, message: 'Failed to get resume download link' };
+    }
+  }
+
+  async deleteResume(storagePath) {
+    try {
+      const resumeRef = storageRef(storage, storagePath);
+      await deleteObject(resumeRef);
+      return { success: true };
+    } catch (error) {
+      console.error('Error deleting resume:', error);
+      return { success: false, message: 'Failed to delete resume file' };
     }
   }
 
@@ -671,7 +778,25 @@ export class FirebaseService {
 
   async deleteApplication(applicationId) {
     try {
+      // First, get the application data to check if there's a resume to delete
       const applicationRef = ref(database, `applications/${applicationId}`);
+      const snapshot = await get(applicationRef);
+      
+      if (snapshot.exists()) {
+        const applicationData = snapshot.val();
+        
+        // If there's a resume stored, delete it from Storage first
+        if (applicationData.resumeStoragePath) {
+          try {
+            await this.deleteResume(applicationData.resumeStoragePath);
+          } catch (storageError) {
+            console.warn('Could not delete resume file from storage:', storageError);
+            // Continue with application deletion even if resume deletion fails
+          }
+        }
+      }
+      
+      // Delete the application from database
       await remove(applicationRef);
       return { success: true, message: 'Application deleted successfully!' };
     } catch (error) {
