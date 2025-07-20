@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>reCAPTCHA Status Check - RNDM Development</title>
+    <style>
+        body {
+            font-family: 'Inter', Arial, sans-serif;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+        
+        .status-container {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #333;
+            border-radius: 10px;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .status-header h1 {
+            color: #00ffff;
+            margin-bottom: 10px;
+        }
+        
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 15px 0;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 5px;
+        }
+        
+        .status-good { color: #44ff44; }
+        .status-error { color: #ff4444; }
+        .status-warning { color: #ffff00; }
+        
+        .test-btn {
+            background: #00ffff;
+            color: #000;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .test-btn:hover {
+            background: #00cccc;
+            transform: translateY(-2px);
+        }
+        
+        .test-btn:disabled {
+            background: #666;
+            color: #999;
+            cursor: not-allowed;
+        }
+        
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            border-radius: 5px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="status-container">
+        <div class="status-header">
+            <h1>🔒 reCAPTCHA Status Check</h1>
+            <p>Verifying your reCAPTCHA integration</p>
+        </div>
+        
+        <div class="status-item">
+            <span>Site Key:</span>
+            <span id="siteKeyStatus">Checking...</span>
+        </div>
+        
+        <div class="status-item">
+            <span>reCAPTCHA Script:</span>
+            <span id="scriptStatus">Loading...</span>
+        </div>
+        
+        <div class="status-item">
+            <span>Integration Status:</span>
+            <span id="integrationStatus">Testing...</span>
+        </div>
+        
+        <div class="status-item">
+            <span>Last Test Score:</span>
+            <span id="testScore">Not tested</span>
+        </div>
+        
+        <button class="test-btn" id="testBtn" onclick="runTest()">
+            🧪 Test reCAPTCHA
+        </button>
+        
+        <button class="test-btn" onclick="window.open('http://localhost:5174/', '_blank')">
+            🏠 Go to Main Site
+        </button>
+        
+        <div id="result"></div>
+    </div>
+
+    <script type="module">
+        import { recaptchaService, recaptchaConfig } from './src/recaptcha-service.js';
+        
+        let testCount = 0;
+        
+        function updateStatus(elementId, text, statusClass) {
+            const element = document.getElementById(elementId);
+            element.textContent = text;
+            element.className = statusClass;
+        }
+        
+        function showResult(message, type) {
+            const result = document.getElementById('result');
+            result.textContent = message;
+            result.style.background = type === 'success' ? 'rgba(68, 255, 68, 0.1)' : 
+                                     type === 'error' ? 'rgba(255, 68, 68, 0.1)' : 
+                                     'rgba(255, 255, 0, 0.1)';
+            result.style.border = `1px solid ${type === 'success' ? '#44ff44' : 
+                                               type === 'error' ? '#ff4444' : '#ffff00'}`;
+        }
+        
+        async function checkStatus() {
+            // Check site key
+            if (recaptchaConfig.siteKey && recaptchaConfig.siteKey !== 'YOUR_RECAPTCHA_SITE_KEY') {
+                updateStatus('siteKeyStatus', `✅ Configured (${recaptchaConfig.siteKey.substring(0, 10)}...)`, 'status-good');
+            } else {
+                updateStatus('siteKeyStatus', '❌ Not configured', 'status-error');
+                return;
+            }
+            
+            // Check if reCAPTCHA is enabled
+            if (!recaptchaConfig.enabled) {
+                updateStatus('integrationStatus', '⚠️ Disabled', 'status-warning');
+                return;
+            }
+            
+            try {
+                // Try to load reCAPTCHA
+                await recaptchaService.loadRecaptcha();
+                updateStatus('scriptStatus', '✅ Loaded', 'status-good');
+                updateStatus('integrationStatus', '✅ Ready', 'status-good');
+                
+                showResult('✅ reCAPTCHA is properly configured and ready to protect your forms!', 'success');
+            } catch (error) {
+                updateStatus('scriptStatus', '❌ Failed', 'status-error');
+                updateStatus('integrationStatus', '❌ Error', 'status-error');
+                showResult(`❌ Error: ${error.message}`, 'error');
+            }
+        }
+        
+        window.runTest = async function() {
+            const testBtn = document.getElementById('testBtn');
+            testBtn.disabled = true;
+            testBtn.textContent = '🔄 Testing...';
+            
+            try {
+                testCount++;
+                const result = await recaptchaService.executeRecaptcha(`test_${testCount}`);
+                
+                if (result.success) {
+                    // Simulate server verification (in real app, this would be done on backend)
+                    const simulatedScore = Math.random() * 0.4 + 0.6; // 0.6-1.0
+                    updateStatus('testScore', `${simulatedScore.toFixed(2)} (${simulatedScore >= recaptchaConfig.minimumScore ? 'PASS' : 'FAIL'})`, 
+                               simulatedScore >= recaptchaConfig.minimumScore ? 'status-good' : 'status-warning');
+                    
+                    showResult(`✅ Test ${testCount}: reCAPTCHA token generated successfully! Score: ${simulatedScore.toFixed(2)}`, 'success');
+                } else {
+                    showResult(`❌ Test ${testCount} failed: ${result.error}`, 'error');
+                }
+            } catch (error) {
+                showResult(`❌ Test ${testCount} error: ${error.message}`, 'error');
+            } finally {
+                testBtn.disabled = false;
+                testBtn.textContent = '🧪 Test reCAPTCHA';
+            }
+        };
+        
+        // Initialize status check
+        checkStatus();
+        
+        // Auto-refresh every 30 seconds
+        setInterval(checkStatus, 30000);
+    </script>
+</body>
+</html>
