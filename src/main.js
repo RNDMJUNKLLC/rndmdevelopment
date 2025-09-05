@@ -926,7 +926,7 @@ function renderContactPage() {
         <div class="contact-section">
           <form class="contact-form" id="contactForm">
             <div class="user-info-display">
-              <p><strong>Submitting as:</strong> ${appState.userProfile?.firstName} ${appState.userProfile?.lastName} (${appState.userProfile?.email})</p>
+              <p><strong>Submitting as:</strong> ${appState.userProfile?.firstName} ${appState.userProfile?.lastName} (${appState.userProfile?.email || appState.currentUser?.email || 'No email'})</p>
             </div>
             
             <div class="form-group">
@@ -1663,7 +1663,7 @@ function renderAccountPage() {
               <div class="info-section">
                 <h4>📧 Current Contact Info:</h4>
                 <p><strong>Name:</strong> ${appState.userProfile?.firstName} ${appState.userProfile?.lastName}</p>
-                <p><strong>Email:</strong> ${appState.userProfile?.email}</p>
+                <p><strong>Email:</strong> ${appState.userProfile?.email || appState.currentUser?.email || 'No email'}</p>
                 <p><strong>Company:</strong> ${appState.userProfile?.company || 'Not specified'}</p>
               </div>
               
@@ -3081,7 +3081,7 @@ function attachContactFormListener() {
         ...data,
         userId: userId,
         name: `${appState.userProfile.firstName} ${appState.userProfile.lastName}`,
-        email: appState.userProfile.email,
+        email: appState.userProfile.email || appState.currentUser.email,
         userDisplayName: userDisplayName,
         submittedBy: userId,
         userCompany: appState.userProfile.company || data.company
@@ -3630,7 +3630,7 @@ async function handleSupportSubmission(e) {
       ...data,
       userId: appState.currentUser.uid,
       userName: `${appState.userProfile?.firstName} ${appState.userProfile?.lastName}`,
-      userEmail: appState.userProfile?.email,
+      userEmail: appState.userProfile?.email || appState.currentUser.email,
       userCompany: appState.userProfile?.company || '',
       submissionType: 'support',
       timestamp: Date.now(),

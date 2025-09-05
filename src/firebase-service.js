@@ -474,6 +474,12 @@ export class FirebaseService {
   // Submit support ticket with reCAPTCHA verification
   async submitSupportTicket(supportData) {
     try {
+      // Validate required fields
+      if (!supportData.userEmail) {
+        console.error('Missing userEmail in support data:', supportData);
+        return { success: false, message: 'User email is required to submit a support ticket.' };
+      }
+      
       // Execute reCAPTCHA verification
       const recaptchaResult = await recaptchaService.executeRecaptcha('support_ticket');
       if (!recaptchaResult.success) {
