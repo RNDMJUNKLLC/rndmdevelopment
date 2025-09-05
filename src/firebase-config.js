@@ -10,14 +10,6 @@ export const firebaseConfig = {
   measurementId: "G-FB38H9S3QC"
 };
 
-// Admin configuration
-export const adminConfig = {
-  // Specific admin user emails - only these emails can access admin dashboard
-  allowedAdminEmails: [
-    "admin@rndmdevs.com",
-  ]
-};
-
 // reCAPTCHA configuration
 export const recaptchaConfig = {
   // Get your site key from https://www.google.com/recaptcha/admin/create
