@@ -4969,6 +4969,15 @@ function renderFooter() {
             </div>
           </div>
 
+          <!-- Legal & Policies Section -->
+          <div class="footer-section legal-links">
+            <h4>Legal & Policies</h4>
+            <ul>
+              <li><a href="./privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
+              <li><a href="./terms-of-service.html" target="_blank" rel="noopener noreferrer">Terms of Service</a></li>
+            </ul>
+          </div>
+
         </div>
 
         <!-- Footer Bottom -->
