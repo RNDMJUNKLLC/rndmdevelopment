@@ -84,8 +84,8 @@ function renderNavigation() {
           <li><a href="#" data-page="home">Home</a></li>
           <li><a href="#" data-page="about">About</a></li>
           <li><a href="#" data-page="services">Services</a></li>
+          <li><a href="#" data-page="projects">Projects</a></li>
           <li><a href="#" data-page="contact">Contact</a></li>
-          <li><a href="#" data-page="career">Career</a></li>
           <li><a href="#" data-page="account">Account</a></li>
         </ul>
       </div>
@@ -181,13 +181,12 @@ function renderCurrentPage() {
     case 'services':
       app.innerHTML = renderServicesPage();
       break;
+    case 'projects':
+      app.innerHTML = renderProjectsPage();
+      break;
     case 'contact':
       app.innerHTML = renderContactPage();
       attachContactFormListener();
-      break;
-    case 'career':
-      app.innerHTML = renderCareerPage();
-      attachCareerFormListener();
       break;
     case 'account':
       app.innerHTML = renderAccountPage();
@@ -337,177 +336,6 @@ function renderAboutPage() {
                   <h4>Fun in Function</h4>
                   <p>Great websites should be a joy to use and a pleasure to build.</p>
                 </div>
-              </div>
-            </div>
-          </section>
-
-          <section class="career-section">
-            <h2>🚀 Join the RNDM Team</h2>
-            
-            <div class="career-intro">
-              <h3>Why Work With RNDM?</h3>
-            </div>
-
-            <div class="career-benefits">
-              <div class="benefit-card">
-                <div class="card-icon">🌍</div>
-                <h4>Make Your Mark</h4>
-                <p>Help us expand RNDM's reach and bring innovative solutions to clients worldwide. Be part of a growing tech company that values creativity and innovation.</p>
-              </div>
-
-              <div class="benefit-card">
-                <div class="card-icon">📈</div>
-                <h4>Career Growth</h4>
-                <ul>
-                  <li>Gain real-world experience in a fast-paced tech environment</li>
-                  <li>Build an impressive portfolio with diverse projects</li>
-                  <li>Develop skills across multiple technologies and platforms</li>
-                  <li>Perfect for resume building and professional references</li>
-                </ul>
-              </div>
-
-              <div class="benefit-card">
-                <div class="card-icon">⏰</div>
-                <h4>Flexible Schedule</h4>
-                <ul>
-                  <li>Work on your own schedule</li>
-                  <li>Perfect for students, freelancers, or side projects</li>
-                  <li>No rigid office hours - results matter, not time clocks</li>
-                  <li>Remote-first environment</li>
-                </ul>
-              </div>
-            </div>
-
-            <div class="who-we-seek">
-              <h3>👥 Who We're Looking For</h3>
-              
-              <div class="ideal-candidates">
-                <h4>🎯 Our Ideal Candidates</h4>
-                <div class="candidate-qualities">
-                  <div class="quality-item">
-                    <span class="quality-icon">💪</span>
-                    <div>
-                      <strong>Passion over Perfection</strong> - We value enthusiasm and willingness to learn
-                    </div>
-                  </div>
-                  <div class="quality-item">
-                    <span class="quality-icon">🎓</span>
-                    <div>
-                      <strong>No Degree Required</strong> - Skills and dedication matter more than credentials
-                    </div>
-                  </div>
-                  <div class="quality-item">
-                    <span class="quality-icon">🌟</span>
-                    <div>
-                      <strong>All Experience Levels Welcome</strong> - From beginners to seasoned pros
-                    </div>
-                  </div>
-                  <div class="quality-item">
-                    <span class="quality-icon">🌈</span>
-                    <div>
-                      <strong>Diverse Perspectives</strong> - We believe different backgrounds strengthen our team
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="what-matters">
-                <h4>💡 What Matters Most</h4>
-                <div class="matters-list">
-                  <span class="matter-item">Problem-solving mindset</span>
-                  <span class="matter-item">Communication skills</span>
-                  <span class="matter-item">Reliability and commitment</span>
-                  <span class="matter-item">Eagerness to grow and learn</span>
-                </div>
-              </div>
-            </div>
-
-            <div class="compensation-info">
-              <h3>💰 Compensation Structure</h3>
-              
-              <div class="compensation-card">
-                <h4>📊 Commission-Based Opportunity</h4>
-                <ul>
-                  <li><strong>Performance-Driven Pay</strong> - Your success determines your earnings</li>
-                  <li><strong>Project-Based Compensation</strong> - Get paid for completed work</li>
-                  <li><strong>Growth Potential</strong> - Successful team members see increasing opportunities</li>
-                  <li><strong>Side-Income Friendly</strong> - Perfect as supplemental income</li>
-                </ul>
-                <p class="compensation-note"><em>Compensation details and structure will be discussed during the interview process to ensure mutual fit.</em></p>
-              </div>
-            </div>
-
-            <div class="application-process">
-              <h3>📝 Ready to Apply?</h3>
-              
-              <div class="application-requirements">
-                <h4>🎯 Application Requirements</h4>
-                <p>We've made applying simple and straightforward:</p>
-                
-                <div class="requirements-list">
-                  <div class="requirement-item">
-                    <span class="req-icon">📝</span>
-                    <strong>Required Information:</strong>
-                    <ul>
-                      <li>Full Name</li>
-                      <li>Email Address</li>
-                      <li>Phone Number</li>
-                      <li>Resume Upload (PDF preferred)</li>
-                    </ul>
-                  </div>
-                  
-                  <div class="requirement-item">
-                    <span class="req-icon">⚡</span>
-                    <strong>Application Features:</strong>
-                    <ul>
-                      <li>Dedicated career application form</li>
-                      <li>Secure resume upload system</li>
-                      <li>Direct contact with our hiring team</li>
-                      <li>Quick response time on applications</li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-
-              <div class="next-steps">
-                <h4>🤝 What Happens Next?</h4>
-                <div class="steps-list">
-                  <div class="step-item">
-                    <span class="step-number">1</span>
-                    <div>
-                      <strong>Submit Your Application</strong> - Use our streamlined application form
-                    </div>
-                  </div>
-                  <div class="step-item">
-                    <span class="step-number">2</span>
-                    <div>
-                      <strong>Initial Review</strong> - We'll review your background and experience
-                    </div>
-                  </div>
-                  <div class="step-item">
-                    <span class="step-number">3</span>
-                    <div>
-                      <strong>Interview Process</strong> - Casual conversation about fit and opportunities
-                    </div>
-                  </div>
-                  <div class="step-item">
-                    <span class="step-number">4</span>
-                    <div>
-                      <strong>Project Assignment</strong> - Small test project to demonstrate skills
-                    </div>
-                  </div>
-                  <div class="step-item">
-                    <span class="step-number">5</span>
-                    <div>
-                      <strong>Welcome to the Team</strong> - Onboarding and first project assignment
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="career-cta">
-                <p><em>Ready to start your journey with RNDM? We're excited to hear from you!</em></p>
-                <a href="#" class="btn" data-page="career">Apply Now</a>
               </div>
             </div>
           </section>
@@ -960,295 +788,232 @@ function renderContactPage() {
   `;
 }
 
-// Career page template
-function renderCareerPage() {
+// Projects page template
+function renderProjectsPage() {
   return `
     <div class="page-section active">
       <div class="container">
-        <div class="career-header">
-          <h1 class="section-title glitch">🚀 Join the RNDM Team</h1>
-          <p class="career-tagline">"Where random ideas become remarkable solutions"</p>
-          <div class="career-intro">
-            <h2>🌟 Transform Your Career with RNDM</h2>
-            <p>Ready to be part of something extraordinary? Join a growing tech company that values creativity, innovation, and your unique perspective. No matter your experience level, if you have passion and dedication, we want to hear from you.</p>
+        <div class="projects-header">
+          <h1 class="section-title glitch">🚀 Our Projects</h1>
+          <p class="projects-tagline">"Showcasing our random innovations"</p>
+          <div class="projects-intro">
+            <h2>🎯 What We're Building</h2>
+            <p>From cutting-edge web applications to innovative digital solutions, explore the projects that showcase our expertise and creativity. Each project represents our commitment to turning random ideas into remarkable solutions.</p>
           </div>
         </div>
 
-        <section class="why-rndm">
-          <h2>🌍 Why Work With RNDM?</h2>
-          <div class="benefits-grid">
-            <div class="benefit-card">
-              <div class="card-icon">🌍</div>
-              <h3>Make Your Mark</h3>
-              <p>Help us expand RNDM's reach and bring innovative solutions to clients worldwide. Be part of a growing tech company that values creativity and innovation.</p>
-            </div>
-            
-            <div class="benefit-card">
-              <div class="card-icon">📈</div>
-              <h3>Career Growth</h3>
-              <ul>
-                <li>Gain real-world experience in a fast-paced tech environment</li>
-                <li>Build an impressive portfolio with diverse projects</li>
-                <li>Develop skills across multiple technologies and platforms</li>
-                <li>Perfect for resume building and professional references</li>
-              </ul>
-            </div>
-            
-            <div class="benefit-card">
-              <div class="card-icon">⏰</div>
-              <h3>Flexible Schedule</h3>
-              <ul>
-                <li>Work on your own schedule</li>
-                <li>Perfect for students, freelancers, or side projects</li>
-                <li>No rigid office hours - results matter, not time clocks</li>
-                <li>Remote-first environment</li>
-              </ul>
-            </div>
-          </div>
-        </section>
-
-        <section class="who-we-seek">
-          <h2>👥 Who We're Looking For</h2>
+        <section class="projects-featured">
+          <h2>🌟 Featured Projects</h2>
           
-          <div class="ideal-candidates">
-            <h3>🎯 Our Ideal Candidates</h3>
-            <div class="candidate-grid">
-              <div class="candidate-item">
-                <div class="candidate-icon">💪</div>
-                <h4>Passion over Perfection</h4>
-                <p>We value enthusiasm and willingness to learn</p>
+          <div class="projects-grid">
+            <div class="project-card featured">
+              <div class="project-image">
+                <div class="project-placeholder">🌐</div>
               </div>
-              <div class="candidate-item">
-                <div class="candidate-icon">🎓</div>
-                <h4>No Degree Required</h4>
-                <p>Skills and dedication matter more than credentials</p>
-              </div>
-              <div class="candidate-item">
-                <div class="candidate-icon">🌟</div>
-                <h4>All Experience Levels Welcome</h4>
-                <p>From beginners to seasoned pros</p>
-              </div>
-              <div class="candidate-item">
-                <div class="candidate-icon">🌈</div>
-                <h4>Diverse Perspectives</h4>
-                <p>We believe different backgrounds strengthen our team</p>
-              </div>
-            </div>
-          </div>
-
-          <div class="what-matters">
-            <h3>💡 What Matters Most</h3>
-            <div class="matters-list">
-              <span class="matter-item">Problem-solving mindset</span>
-              <span class="matter-item">Communication skills</span>
-              <span class="matter-item">Reliability and commitment</span>
-              <span class="matter-item">Eagerness to grow and learn</span>
-            </div>
-          </div>
-        </section>
-
-        <section class="compensation">
-          <h2>💰 Compensation Structure</h2>
-          <div class="compensation-card">
-            <h3>📊 Commission-Based Opportunity</h3>
-            <div class="compensation-details">
-              <div class="comp-item">
-                <span class="comp-icon">📈</span>
-                <strong>Performance-Driven Pay</strong> - Your success determines your earnings
-              </div>
-              <div class="comp-item">
-                <span class="comp-icon">🎯</span>
-                <strong>Project-Based Compensation</strong> - Get paid for completed work
-              </div>
-              <div class="comp-item">
-                <span class="comp-icon">🚀</span>
-                <strong>Growth Potential</strong> - Successful team members see increasing opportunities
-              </div>
-              <div class="comp-item">
-                <span class="comp-icon">💼</span>
-                <strong>Side-Income Friendly</strong> - Perfect as supplemental income
-              </div>
-            </div>
-            <p class="compensation-note">
-              <em>Compensation details and structure will be discussed during the interview process to ensure mutual fit.</em>
-            </p>
-          </div>
-        </section>
-
-        <section class="application-section">
-          <h2>📝 Ready to Apply?</h2>
-          <div class="application-intro">
-            <p>We've made applying simple and straightforward. Just fill out the form below with your information and we'll get back to you quickly!</p>
-          </div>
-          
-          <form class="career-form" id="careerForm">
-            <div class="form-section">
-              <h3>👤 Personal Information</h3>
-              
-              <div class="form-row">
-                <div class="form-group">
-                  <label for="applicantFirstName">First Name *</label>
-                  <input type="text" id="applicantFirstName" name="firstName" required placeholder="Your first name">
+              <div class="project-content">
+                <div class="project-header">
+                  <h3>RNDM Development Website</h3>
+                  <div class="project-status">Live</div>
                 </div>
-                <div class="form-group">
-                  <label for="applicantLastName">Last Name *</label>
-                  <input type="text" id="applicantLastName" name="lastName" required placeholder="Your last name">
+                <p class="project-description">Our own company website built with modern vanilla JavaScript, featuring dynamic content, user authentication, and a sleek responsive design.</p>
+                <div class="project-tech">
+                  <span class="tech-tag">JavaScript</span>
+                  <span class="tech-tag">CSS3</span>
+                  <span class="tech-tag">Firebase</span>
+                  <span class="tech-tag">EmailJS</span>
+                </div>
+                <div class="project-links">
+                  <a href="#" class="project-link">Live Demo</a>
+                  <a href="#" class="project-link secondary" data-page="contact">Request Similar</a>
                 </div>
               </div>
-              
-              <div class="form-group">
-                <label for="applicantEmail">Email Address *</label>
-                <input type="email" id="applicantEmail" name="email" required placeholder="your@email.com">
-              </div>
-              
-              <div class="form-group">
-                <label for="applicantPhone">Phone Number *</label>
-                <input type="tel" id="applicantPhone" name="phone" required placeholder="(555) 123-4567">
-              </div>
             </div>
 
-            <div class="form-section">
-              <h3>💼 Professional Information</h3>
-              
-              <div class="form-group">
-                <label for="positionOfInterest">Position of Interest *</label>
-                <select id="positionOfInterest" name="position" required>
-                  <option value="">Select the position you're interested in</option>
-                  <option value="frontend-developer">Frontend Developer</option>
-                  <option value="backend-developer">Backend Developer</option>
-                  <option value="fullstack-developer">Full Stack Developer</option>
-                  <option value="project-manager">Project Manager</option>
-                  <option value="ui-ux-designer">UI/UX Designer</option>
-                  <option value="devops-engineer">DevOps Engineer</option>
-                  <option value="quality-assurance">Quality Assurance</option>
-                  <option value="marketing-specialist">Marketing Specialist</option>
-                  <option value="business-analyst">Business Analyst</option>
-                  <option value="general-application">General Application (Any Role)</option>
-                </select>
+            <div class="project-card">
+              <div class="project-image">
+                <div class="project-placeholder">📱</div>
               </div>
-              
-              <div class="form-group">
-                <label for="currentRole">Current Role/Position</label>
-                <input type="text" id="currentRole" name="currentRole" placeholder="e.g., Student, Web Developer, Freelancer">
-              </div>
-              
-              <div class="form-group">
-                <label for="experience">Experience Level</label>
-                <select id="experience" name="experience">
-                  <option value="">Select your experience level</option>
-                  <option value="beginner">Beginner (0-1 years)</option>
-                  <option value="intermediate">Intermediate (1-3 years)</option>
-                  <option value="experienced">Experienced (3-5 years)</option>
-                  <option value="senior">Senior (5+ years)</option>
-                  <option value="student">Student/Learning</option>
-                </select>
-              </div>
-              
-              <div class="form-group">
-                <label for="skills">Technical Skills</label>
-                <textarea id="skills" name="skills" placeholder="List your programming languages, frameworks, tools, or any relevant technical skills (e.g., HTML, CSS, JavaScript, React, Node.js, etc.)"></textarea>
-              </div>
-              
-              <div class="form-group">
-                <label for="portfolio">Portfolio/GitHub Link</label>
-                <input type="url" id="portfolio" name="portfolio" placeholder="https://yourportfolio.com or https://github.com/yourusername">
+              <div class="project-content">
+                <div class="project-header">
+                  <h3>Dia-Hub Mobile App</h3>
+                  <div class="project-status">Live</div>
+                </div>
+                <p class="project-description">A comprehensive diabetes supply management mobile application that helps users track and organize their medical supplies, monitor inventory levels, and ensure they never run out of essential diabetes care items.</p>
+                <div class="project-tech">
+                  <span class="tech-tag">React Native</span>
+                  <span class="tech-tag">Node.js</span>
+                  <span class="tech-tag">MongoDB</span>
+                  <span class="tech-tag">Healthcare APIs</span>
+                </div>
+                <div class="project-links">
+                  <a href="https://dia-hub.org" target="_blank" rel="noopener noreferrer" class="project-link">Visit Website</a>
+                  <a href="#" class="project-link secondary" data-page="contact">Request Similar</a>
+                </div>
               </div>
             </div>
-
-            <div class="form-section">
-              <h3>📄 Resume Upload</h3>
-              
-              <div class="form-group">
-                <label for="resume">Resume Upload *</label>
-                <input type="file" id="resume" name="resume" accept=".pdf,.doc,.docx" required>
-                <small class="field-hint">Please upload your resume in PDF, DOC, or DOCX format (max 5MB)</small>
-              </div>
-            </div>
-
-            <div class="form-section">
-              <h3>🚀 Tell Us About Yourself</h3>
-              
-              <div class="form-group">
-                <label for="motivation">Why do you want to join RNDM? *</label>
-                <textarea id="motivation" name="motivation" required placeholder="Tell us what excites you about working with RNDM and what you hope to achieve..."></textarea>
-              </div>
-              
-              <div class="form-group">
-                <label for="additionalInfo">Additional Information</label>
-                <textarea id="additionalInfo" name="additionalInfo" placeholder="Anything else you'd like us to know? Questions about the role? Special circumstances?"></textarea>
-              </div>
-            </div>
-
-            <div class="form-agreements">
-              <label class="checkbox-label">
-                <input type="checkbox" id="agreeTerms" required>
-                <span class="checkmark"></span>
-                I agree to the <a href="/terms-of-service.html" target="_blank" rel="noopener noreferrer" class="link">Terms of Service</a> and <a href="/privacy-policy.html" target="_blank" rel="noopener noreferrer" class="link">Privacy Policy</a> *
-              </label>
-              
-              <label class="checkbox-label">
-                <input type="checkbox" id="allowContact">
-                <span class="checkmark"></span>
-                I consent to being contacted regarding this application and future opportunities
-              </label>
-            </div>
-            
-            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 2rem; padding: 1rem;">
-              Submit Application 🚀
-            </button>
-          </form>
+          </div>
         </section>
 
-        <section class="next-steps">
-          <h2>🤝 What Happens Next?</h2>
-          <div class="steps-timeline">
-            <div class="step-item">
+        <section class="projects-categories">
+          <h2>🎯 Project Categories</h2>
+          
+          <div class="categories-grid">
+            <div class="category-card">
+              <div class="category-icon">🌐</div>
+              <h3>Web Development</h3>
+              <p>Custom websites, web applications, and progressive web apps built with modern technologies.</p>
+              <div class="category-examples">
+                <span>Corporate Websites</span>
+                <span>E-commerce Stores</span>
+                <span>Portfolio Sites</span>
+                <span>Web Apps</span>
+              </div>
+            </div>
+
+            <div class="category-card">
+              <div class="category-icon">📱</div>
+              <h3>Mobile Solutions</h3>
+              <p>Responsive mobile-first designs and progressive web applications optimized for all devices.</p>
+              <div class="category-examples">
+                <span>Mobile Apps</span>
+                <span>PWAs</span>
+                <span>Responsive Design</span>
+                <span>Cross-Platform</span>
+              </div>
+            </div>
+
+            <div class="category-card">
+              <div class="category-icon">⚡</div>
+              <h3>Performance Optimization</h3>
+              <p>Speed optimization, SEO enhancement, and technical improvements for existing websites.</p>
+              <div class="category-examples">
+                <span>Site Speed</span>
+                <span>SEO Optimization</span>
+                <span>Code Refactoring</span>
+                <span>Database Tuning</span>
+              </div>
+            </div>
+
+            <div class="category-card">
+              <div class="category-icon">🎨</div>
+              <h3>UI/UX Design</h3>
+              <p>User interface design, user experience optimization, and interactive design solutions.</p>
+              <div class="category-examples">
+                <span>UI Design</span>
+                <span>UX Research</span>
+                <span>Prototyping</span>
+                <span>Branding</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="projects-process">
+          <h2>🔄 Our Development Process</h2>
+          
+          <div class="process-timeline">
+            <div class="process-step">
               <div class="step-number">1</div>
               <div class="step-content">
-                <h4>Application Review</h4>
-                <p>We'll review your application and resume within 2-3 business days</p>
+                <h3>Discovery & Planning</h3>
+                <p>We start by understanding your goals, requirements, and vision for the project.</p>
               </div>
             </div>
-            <div class="step-item">
+
+            <div class="process-step">
               <div class="step-number">2</div>
               <div class="step-content">
-                <h4>Initial Contact</h4>
-                <p>If we're a good fit, we'll reach out for a casual conversation</p>
+                <h3>Design & Prototyping</h3>
+                <p>Creating wireframes, mockups, and interactive prototypes to visualize the final product.</p>
               </div>
             </div>
-            <div class="step-item">
+
+            <div class="process-step">
               <div class="step-number">3</div>
               <div class="step-content">
-                <h4>Skills Assessment</h4>
-                <p>Small project or technical discussion to understand your abilities</p>
+                <h3>Development</h3>
+                <p>Building your project with clean, efficient code using the latest technologies and best practices.</p>
               </div>
             </div>
-            <div class="step-item">
+
+            <div class="process-step">
               <div class="step-number">4</div>
               <div class="step-content">
-                <h4>Welcome Aboard!</h4>
-                <p>Onboarding, team introduction, and your first project assignment</p>
+                <h3>Testing & Launch</h3>
+                <p>Comprehensive testing, optimization, and deployment to ensure everything works perfectly.</p>
+              </div>
+            </div>
+
+            <div class="process-step">
+              <div class="step-number">5</div>
+              <div class="step-content">
+                <h3>Support & Growth</h3>
+                <p>Ongoing maintenance, updates, and enhancements to keep your project running smoothly.</p>
               </div>
             </div>
           </div>
         </section>
 
-        <section class="career-cta">
-          <h2>Ready to Start Your RNDM Journey?</h2>
-          <p><em>"Your success is our success. Let's build something amazing together."</em></p>
-          <div class="cta-stats">
-            <div class="stat-item">
-              <span class="stat-number">100%</span>
-              <span class="stat-label">Remote Work</span>
+        <section class="projects-technologies">
+          <h2>🛠️ Technologies We Use</h2>
+          
+          <div class="tech-categories">
+            <div class="tech-category">
+              <h3>Frontend</h3>
+              <div class="tech-list">
+                <span class="tech-item">JavaScript</span>
+                <span class="tech-item">React</span>
+                <span class="tech-item">Vue.js</span>
+                <span class="tech-item">HTML5</span>
+                <span class="tech-item">CSS3</span>
+                <span class="tech-item">SCSS</span>
+                <span class="tech-item">TypeScript</span>
+              </div>
             </div>
-            <div class="stat-item">
-              <span class="stat-number">24/7</span>
-              <span class="stat-label">Flexible Hours</span>
+
+            <div class="tech-category">
+              <h3>Backend</h3>
+              <div class="tech-list">
+                <span class="tech-item">Node.js</span>
+                <span class="tech-item">Express</span>
+                <span class="tech-item">Python</span>
+                <span class="tech-item">PHP</span>
+                <span class="tech-item">REST APIs</span>
+                <span class="tech-item">GraphQL</span>
+              </div>
             </div>
-            <div class="stat-item">
-              <span class="stat-number">∞</span>
-              <span class="stat-label">Growth Potential</span>
+
+            <div class="tech-category">
+              <h3>Database</h3>
+              <div class="tech-list">
+                <span class="tech-item">Firebase</span>
+                <span class="tech-item">MongoDB</span>
+                <span class="tech-item">MySQL</span>
+                <span class="tech-item">PostgreSQL</span>
+                <span class="tech-item">Redis</span>
+              </div>
             </div>
+
+            <div class="tech-category">
+              <h3>Tools & Services</h3>
+              <div class="tech-list">
+                <span class="tech-item">Git</span>
+                <span class="tech-item">Docker</span>
+                <span class="tech-item">AWS</span>
+                <span class="tech-item">Netlify</span>
+                <span class="tech-item">Vercel</span>
+                <span class="tech-item">CloudFlare</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="projects-cta">
+          <h2>Ready to Start Your Project?</h2>
+          <p>Let's discuss your ideas and turn them into reality. From concept to deployment, we're here to help.</p>
+          <div class="cta-buttons">
+            <a href="#" class="btn" data-page="contact">Get Started</a>
+            <a href="#" class="btn btn-secondary" data-page="about">Learn More</a>
           </div>
         </section>
       </div>
@@ -2589,125 +2354,6 @@ function attachContactFormListener() {
           stack: error.stack
         });
         showNotification('An error occurred while submitting your request. Please try again.', 'error');
-      } finally {
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-      }
-    });
-  }
-}
-
-// Career form event listener
-function attachCareerFormListener() {
-  const form = document.getElementById('careerForm');
-  if (form) {
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-      
-      const formData = new FormData(form);
-      const data = Object.fromEntries(formData);
-      
-      console.log('Career form data collected:', data);
-      
-      // Validate required fields
-      if (!data.firstName || !data.lastName || !data.email || !data.phone || !data.position || !data.motivation) {
-        showNotification('Please fill in all required fields', 'error');
-        return;
-      }
-      
-      // Validate file upload
-      const resumeFile = formData.get('resume');
-      if (!resumeFile || resumeFile.size === 0) {
-        showNotification('Please upload your resume', 'error');
-        return;
-      }
-      
-      // Check file size (5MB limit)
-      if (resumeFile.size > 5 * 1024 * 1024) {
-        showNotification('Resume file size must be less than 5MB', 'error');
-        return;
-      }
-      
-      // Check file type
-      const allowedTypes = ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'];
-      if (!allowedTypes.includes(resumeFile.type)) {
-        showNotification('Please upload a PDF, DOC, or DOCX file', 'error');
-        return;
-      }
-      
-      // Show loading state
-      const submitBtn = form.querySelector('button[type="submit"]');
-      const originalText = submitBtn.textContent;
-      submitBtn.textContent = 'Verifying security...';
-      submitBtn.disabled = true;
-
-      try {
-        // Show additional security verification feedback
-        showNotification('Verifying security to prevent spam...', 'info');
-        // For now, we'll submit to the same collection as applications
-        // You can modify firebaseService to handle career applications specifically
-        const submissionData = {
-          type: 'career_application',
-          name: `${data.firstName} ${data.lastName}`, // Combine first and last name
-          firstName: data.firstName,
-          lastName: data.lastName,
-          email: data.email,
-          phone: data.phone,
-          position: data.position || 'general-application', // Use actual position from form
-          currentRole: data.currentRole || '',
-          experience: data.experience || 'Not specified',
-          skills: data.skills || '',
-          portfolio: data.portfolio || '',
-          motivation: data.motivation,
-          additionalInfo: data.additionalInfo || '',
-          allowContact: data.allowContact === 'on',
-          timestamp: Date.now(),
-          status: 'new' // Changed from 'pending' to match admin panel statuses
-        };
-        
-        console.log('Career submission data:', submissionData);
-        
-        // Update progress
-        submitBtn.textContent = 'Submitting Application...';
-        
-        // Submit to Firebase with resume file
-        const result = await firebaseService.submitApplication(submissionData, resumeFile);
-        console.log('Career application submission result:', result);
-        
-        if (result.success) {
-          showNotification('Application submitted successfully! 🎉', 'success');
-          form.reset();
-          
-          // Send email notification for the new application
-          try {
-            console.log('Sending career application email notification...');
-            await sendEmailNotification({
-              ...submissionData,
-              subject: 'New Career Application Received'
-            });
-            console.log('Email notification sent successfully');
-          } catch (emailError) {
-            console.error('Failed to send email notification:', emailError);
-            // Don't show error to user since form was submitted successfully
-          }
-          
-          // Show success message with next steps
-          setTimeout(() => {
-            showNotification('We\'ll review your application and get back to you within 2-3 business days!', 'info');
-          }, 2000);
-          
-        } else {
-          console.error('Career application submission failed:', result.message);
-          showNotification('Error: ' + result.message, 'error');
-        }
-      } catch (error) {
-        console.error('Career form submission error:', error);
-        console.error('Error details:', {
-          name: error.name,
-          message: error.message,
-          stack: error.stack
-        });
-        showNotification('An error occurred while submitting your application. Please try again.', 'error');
       } finally {
         submitBtn.textContent = originalText;
         submitBtn.disabled = false;
