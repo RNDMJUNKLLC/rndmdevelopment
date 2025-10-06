@@ -98,13 +98,16 @@ export async function sendInquiryToDiscord(data) {
 /**
  * Send an SOS request for an existing project to Discord
  * @param {Object} data - SOS form data
- * @param {string} data.userName - User's name
- * @param {string} data.userEmail - User's email
+ * @param {string} data.name - User's name
+ * @param {string} data.email - User's email
+ * @param {string} data.businessName - Business name
+ * @param {string} data.phone - Phone number
  * @param {string} data.projectId - Firebase project ID
  * @param {string} data.projectName - Project name/title
- * @param {string} data.issueType - Type of issue (bug, change request, etc.)
- * @param {string} data.description - Issue description
- * @param {string} data.priority - Priority level (low, medium, high, urgent)
+ * @param {string} data.requestType - Type of request
+ * @param {string} data.timeline - Timeline preference
+ * @param {string} data.priority - Priority level
+ * @param {string} data.message - Request details
  */
 export async function sendSOSToDiscord(data) {
   const webhookUrl = WEBHOOKS.sos;
@@ -114,27 +117,61 @@ export async function sendSOSToDiscord(data) {
     return { success: false, error: 'Webhook not configured' };
   }
 
-  // Color based on priority
-  const priorityColors = {
-    low: 0x00ff00,      // Green
-    medium: 0xffa500,   // Orange
-    high: 0xff6600,     // Dark Orange
-    urgent: 0xff0000    // Red
+  // Map request types to display-friendly text
+  const requestTypeMap = {
+    'bug-fix': '🐛 Bug Fix / Issue',
+    'feature-request': '✨ Feature Request',
+    'redesign': '🎨 Redesign / Upgrade',
+    'maintenance': '🔧 Maintenance / Update',
+    'content-change': '📝 Content Change',
+    'performance': '⚡ Performance Issue',
+    'security': '🔒 Security Concern',
+    'other': '💡 Other'
   };
 
-  const color = priorityColors[data.priority?.toLowerCase()] || 0xffa500;
+  const priorityMap = {
+    'urgent': '🔴 Urgent',
+    'high': '🟠 High',
+    'normal': '🟢 Normal',
+    'low': '🔵 Low Priority'
+  };
+
+  const timelineMap = {
+    'asap': '⚡ ASAP (Rush)',
+    '1-2-weeks': '📅 1-2 Weeks',
+    '2-4-weeks': '📆 2-4 Weeks',
+    '1-2-months': '🗓️ 1-2 Months',
+    'flexible': '🕐 Flexible'
+  };
+
+  // Color based on request type
+  const requestTypeColors = {
+    'bug-fix': 0xff0000,        // Red
+    'security': 0xff0000,       // Red
+    'performance': 0xff6600,    // Orange
+    'feature-request': 0x00ff88,// Green
+    'redesign': 0x9b59b6,       // Purple
+    'maintenance': 0xffa500,    // Orange
+    'content-change': 0x3498db, // Blue
+    'other': 0x95a5a6           // Gray
+  };
+
+  const color = requestTypeColors[data.requestType] || 0xffa500;
 
   const embed = {
     title: '🆘 SOS - Project Support Request',
     color: color,
     fields: [
-      { name: '👤 User', value: data.userName, inline: true },
-      { name: '📧 Email', value: data.userEmail, inline: true },
+      { name: '👤 Name', value: data.name, inline: true },
+      { name: '🏢 Business', value: data.businessName || 'Not provided', inline: true },
+      { name: '📧 Email', value: data.email, inline: true },
+      { name: '📱 Phone', value: data.phone || 'Not provided', inline: true },
       { name: '📂 Project', value: data.projectName, inline: true },
       { name: '🔖 Project ID', value: data.projectId, inline: true },
-      { name: '⚠️ Issue Type', value: data.issueType || 'General Issue', inline: true },
-      { name: '🔥 Priority', value: data.priority || 'Medium', inline: true },
-      { name: '📝 Description', value: data.description || 'No description provided', inline: false }
+      { name: '📋 Request Type', value: requestTypeMap[data.requestType] || data.requestType, inline: true },
+      { name: '⏱️ Timeline', value: timelineMap[data.timeline] || data.timeline, inline: true },
+      { name: '🎯 Priority', value: priorityMap[data.priority] || data.priority, inline: true },
+      { name: '📝 Details', value: data.message || 'No description provided', inline: false }
     ],
     timestamp: new Date().toISOString(),
     footer: { text: 'RNDM Development - SOS Request' }

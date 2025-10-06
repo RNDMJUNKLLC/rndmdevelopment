@@ -263,8 +263,6 @@ async function showNewProjectForm() {
               <option value="web-app">💻 Web Application</option>
               <option value="ecommerce">🛒 E-commerce Site</option>
               <option value="software">⚙️ Custom Software</option>
-              <option value="redesign">🎨 Redesign/Upgrade</option>
-              <option value="maintenance">🔧 Maintenance/Support</option>
               <option value="other">💡 Other</option>
             </select>
           </div>
@@ -455,17 +453,60 @@ async function showSOSForm(projectId) {
   projectView.innerHTML = `
     <div class="sos-form">
       <h3>🚨 SOS Request</h3>
-      <p>Report an issue or request changes for your project</p>
+      <p class="form-subtitle">Report an issue or request changes for your existing project</p>
       <form id="sosForm">
         <input type="hidden" id="sosProjectId" value="${projectId}" />
         
         <div class="form-group">
-          <label>Issue/Request *</label>
-          <textarea id="sosMessage" rows="6" required placeholder="Describe the issue or changes needed..."></textarea>
+          <label for="sosRequestType">Request Type *</label>
+          <select id="sosRequestType" required>
+            <option value="">Select request type...</option>
+            <option value="bug-fix">🐛 Bug Fix / Issue</option>
+            <option value="feature-request">✨ Feature Request</option>
+            <option value="redesign">🎨 Redesign / Upgrade</option>
+            <option value="maintenance">🔧 Maintenance / Update</option>
+            <option value="content-change">📝 Content Change</option>
+            <option value="performance">⚡ Performance Issue</option>
+            <option value="security">🔒 Security Concern</option>
+            <option value="other">💡 Other</option>
+          </select>
         </div>
         
-        <button type="submit" class="btn">Send SOS</button>
-        <button type="button" class="btn btn-secondary" onclick="location.reload()">Cancel</button>
+        <div class="form-row">
+          <div class="form-group">
+            <label for="sosTimeline">Timeline Preference *</label>
+            <select id="sosTimeline" required>
+              <option value="">Select timeline...</option>
+              <option value="asap">⚡ ASAP (Rush)</option>
+              <option value="1-2-weeks">📅 1-2 Weeks</option>
+              <option value="2-4-weeks">📆 2-4 Weeks</option>
+              <option value="1-2-months">🗓️ 1-2 Months</option>
+              <option value="flexible">🕐 Flexible</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="sosPriority">Priority Level *</label>
+            <select id="sosPriority" required>
+              <option value="">Select priority...</option>
+              <option value="urgent">🔴 Urgent</option>
+              <option value="high">🟠 High</option>
+              <option value="normal">🟢 Normal</option>
+              <option value="low">🔵 Low Priority</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="form-group">
+          <label for="sosMessage">Details *</label>
+          <textarea id="sosMessage" rows="8" required placeholder="Describe the issue or changes needed...&#10;&#10;What's not working or what would you like changed?&#10;When did you notice this issue?&#10;What steps can we take to reproduce it?"></textarea>
+          <small class="field-hint">Be as specific as possible to help us address your request quickly</small>
+        </div>
+        
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Send SOS</button>
+          <button type="button" class="btn btn-secondary" onclick="location.reload()">Cancel</button>
+        </div>
       </form>
     </div>
   `;
@@ -481,6 +522,9 @@ async function showSOSForm(projectId) {
       businessName: profile.businessName || '',
       email: currentUser.email,
       phone: profile.phone || '',
+      requestType: document.getElementById('sosRequestType').value,
+      timeline: document.getElementById('sosTimeline').value,
+      priority: document.getElementById('sosPriority').value,
       message: document.getElementById('sosMessage').value,
       timestamp: new Date().toISOString()
     };
