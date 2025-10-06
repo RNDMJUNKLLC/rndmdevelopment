@@ -114,6 +114,7 @@ export async function sendSOSToDiscord(data) {
   
   if (!webhookUrl) {
     console.error('SOS webhook URL not configured');
+    console.error('Available webhooks:', Object.keys(WEBHOOKS).map(k => `${k}: ${WEBHOOKS[k] ? 'configured' : 'missing'}`));
     return { success: false, error: 'Webhook not configured' };
   }
 
@@ -191,10 +192,13 @@ export async function sendSOSToDiscord(data) {
     if (response.ok || response.status === 204) {
       return { success: true };
     } else {
+      const errorText = await response.text();
+      console.error(`Discord API error (${response.status}):`, errorText);
       throw new Error(`Discord API returned status ${response.status}`);
     }
   } catch (error) {
     console.error('Error sending SOS to Discord:', error);
+    console.error('SOS Data being sent:', JSON.stringify(data, null, 2));
     return { success: false, error: error.message };
   }
 }
@@ -202,8 +206,8 @@ export async function sendSOSToDiscord(data) {
 /**
  * Send an invoice request to Discord
  * @param {Object} data - Invoice request data
- * @param {string} data.userName - User's name
- * @param {string} data.userEmail - User's email
+ * @param {string} data.name - User's name
+ * @param {string} data.email - User's email
  * @param {string} data.businessName - Business name
  * @param {string} data.phone - Phone number (optional)
  * @param {Array} data.projects - Array of project objects {id, name}
@@ -213,6 +217,7 @@ export async function sendInvoiceRequestToDiscord(data) {
   
   if (!webhookUrl) {
     console.error('Invoice webhook URL not configured');
+    console.error('Available webhooks:', Object.keys(WEBHOOKS).map(k => `${k}: ${WEBHOOKS[k] ? 'configured' : 'missing'}`));
     return { success: false, error: 'Webhook not configured' };
   }
 
@@ -225,9 +230,9 @@ export async function sendInvoiceRequestToDiscord(data) {
     title: '💰 Invoice Request',
     color: 0x0099ff, // Blue color
     fields: [
-      { name: '👤 Name', value: data.userName, inline: true },
+      { name: '👤 Name', value: data.name || 'Not provided', inline: true },
       { name: '🏢 Business', value: data.businessName || 'Not provided', inline: true },
-      { name: '📧 Email', value: data.userEmail, inline: true },
+      { name: '📧 Email', value: data.email, inline: true },
       { name: '📱 Phone', value: data.phone || 'Not provided', inline: true },
       { name: '📋 Requested Invoices For', value: projectList, inline: false }
     ],
@@ -249,10 +254,13 @@ export async function sendInvoiceRequestToDiscord(data) {
     if (response.ok || response.status === 204) {
       return { success: true };
     } else {
+      const errorText = await response.text();
+      console.error(`Discord API error (${response.status}):`, errorText);
       throw new Error(`Discord API returned status ${response.status}`);
     }
   } catch (error) {
     console.error('Error sending invoice request to Discord:', error);
+    console.error('Invoice Data being sent:', JSON.stringify(data, null, 2));
     return { success: false, error: error.message };
   }
 }
