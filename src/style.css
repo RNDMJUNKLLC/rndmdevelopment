@@ -2757,6 +2757,101 @@ body.dark-mode .modal-content {
   }
 }
 
+/* Pricing Hero Banner Styles */
+.pricing-hero-banner {
+  margin: 2rem 0 3rem 0;
+  padding: 0;
+  background: linear-gradient(135deg, rgba(0, 255, 255, 0.1), rgba(255, 0, 255, 0.1));
+  border-radius: 20px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+  position: relative;
+  overflow: hidden;
+}
+
+.pricing-hero-banner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+  border-radius: 18px;
+  padding: 2px;
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: exclude;
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  z-index: -1;
+}
+
+.hero-banner-content {
+  padding: 2.5rem;
+  text-align: center;
+  background: rgba(20, 20, 20, 0.9);
+  border-radius: 18px;
+  position: relative;
+}
+
+.hero-banner-content h3 {
+  color: var(--primary-color);
+  font-family: var(--font-tech);
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  font-weight: 700;
+  text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+}
+
+.hero-banner-content p {
+  color: var(--text-color);
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  line-height: 1.6;
+}
+
+.hero-banner-content p strong {
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+.hero-banner-highlight {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  background: rgba(0, 255, 255, 0.1);
+  padding: 1.5rem;
+  border-radius: 12px;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+  margin-top: 1.5rem;
+}
+
+.highlight-icon {
+  font-size: 1.5rem;
+  animation: pulse 2s infinite;
+}
+
+.highlight-text {
+  color: var(--text-color);
+  font-size: 1.1rem;
+  line-height: 1.5;
+}
+
+.highlight-text strong {
+  color: var(--secondary-color);
+  font-weight: 600;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+}
+
 .website-services, .mobile-services, .business-solutions {
   margin: 4rem 0;
 }
@@ -3207,6 +3302,34 @@ body.dark-mode .modal-content {
   }
   
   .tab-header p {
+    font-size: 1rem;
+  }
+  
+  /* Mobile Hero Banner Styles */
+  .pricing-hero-banner {
+    margin: 1.5rem 0 2rem 0;
+  }
+  
+  .hero-banner-content {
+    padding: 1.5rem;
+  }
+  
+  .hero-banner-content h3 {
+    font-size: 1.4rem;
+  }
+  
+  .hero-banner-content p {
+    font-size: 1rem;
+  }
+  
+  .hero-banner-highlight {
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 1rem;
+    text-align: center;
+  }
+  
+  .highlight-text {
     font-size: 1rem;
   }
   
