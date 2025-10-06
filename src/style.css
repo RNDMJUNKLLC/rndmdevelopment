@@ -2662,6 +2662,101 @@ body.dark-mode .modal-content {
   font-family: var(--font-tech);
 }
 
+/* Service Tabs Styles */
+.service-tabs-container {
+  margin: 4rem 0;
+}
+
+.service-tabs-nav {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 3rem;
+  border-bottom: 2px solid var(--border-color);
+  padding-bottom: 0;
+}
+
+.service-tab-btn {
+  background: transparent;
+  border: none;
+  padding: 1rem 2rem;
+  margin: 0 0.5rem;
+  color: var(--text-color);
+  font-size: 1.1rem;
+  font-family: var(--font-tech);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.3s ease;
+  position: relative;
+  border-radius: 10px 10px 0 0;
+}
+
+.service-tab-btn:hover {
+  background: rgba(0, 255, 255, 0.1);
+  color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+.service-tab-btn.active {
+  color: var(--primary-color);
+  border-bottom-color: var(--primary-color);
+  background: rgba(0, 255, 255, 0.1);
+  box-shadow: 0 -2px 10px rgba(0, 255, 255, 0.3);
+}
+
+.service-tab-btn.active::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+  border-radius: 2px;
+}
+
+.service-tab-content {
+  display: none;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.service-tab-content.active {
+  display: block;
+}
+
+.tab-header {
+  text-align: center;
+  margin-bottom: 3rem;
+  padding: 2rem;
+  background: rgba(20, 20, 20, 0.6);
+  border-radius: 15px;
+  border: 1px solid var(--border-color);
+}
+
+.tab-header h2 {
+  color: var(--accent-color);
+  margin-bottom: 1rem;
+  font-family: var(--font-tech);
+  font-size: 2.2rem;
+}
+
+.tab-header p {
+  color: var(--text-color);
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 .website-services, .mobile-services, .business-solutions {
   margin: 4rem 0;
 }
@@ -3074,6 +3169,45 @@ body.dark-mode .modal-content {
   
   .includes-grid {
     grid-template-columns: 1fr;
+  }
+  
+  /* Mobile Tab Styles */
+  .service-tabs-nav {
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+  
+  .service-tab-btn {
+    width: 100%;
+    max-width: 300px;
+    margin: 0.25rem 0;
+    padding: 1rem;
+    font-size: 1rem;
+    border-radius: 10px;
+    border-bottom: none;
+  }
+  
+  .service-tab-btn.active::before {
+    display: none;
+  }
+  
+  .service-tab-btn.active {
+    background: rgba(0, 255, 255, 0.2);
+    border: 1px solid var(--primary-color);
+    box-shadow: 0 4px 15px rgba(0, 255, 255, 0.3);
+  }
+  
+  .tab-header {
+    padding: 1.5rem;
+  }
+  
+  .tab-header h2 {
+    font-size: 1.8rem;
+  }
+  
+  .tab-header p {
+    font-size: 1rem;
   }
   
   .service-tiers, .app-tiers {
