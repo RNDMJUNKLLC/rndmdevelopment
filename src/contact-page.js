@@ -12,24 +12,7 @@ let userProjects = [];
 export function initializeContactPage() {
   // Listen for auth state changes
   firebaseService.onAuthStateChange((user) => {
-   const projectsHtml = projects.map((project, index) => `
-    <div class="project-card" data-project-id="${project.id}">
-      <div class="project-header">
-        <div class="project-title-section">
-          <div class="project-checkbox-container" style="display: none;">
-            <input type="checkbox" id="project-${project.id}" class="project-checkbox" data-project-id="${project.id}" data-project-name="Project #${index + 1}">
-            <label for="project-${project.id}" class="project-checkbox-label">Select for invoice</label>
-          </div>
-          <h4>Project #${index + 1}</h4>
-        </div>
-        <span class="project-date">${new Date(project.timestamp).toLocaleDateString()}</span>
-      </div>
-      <p class="project-description">${project.message || 'No description'}</p>
-      <div class="project-actions">
-        <button class="btn-sos" data-project-id="${project.id}">🚨 SOS</button>
-      </div>
-    </div>
-  `).join('');er = user;
+    currentUser = user;
     renderContactPageContent();
   });
 }
