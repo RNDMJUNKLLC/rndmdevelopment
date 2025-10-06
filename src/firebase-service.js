@@ -729,6 +729,173 @@ export class FirebaseService {
   offContactFormsChange() {
     off(this.contactFormsRef);
   }
+
+  // Simplified sign up method for new user flow
+  async signUp(email, password, profile) {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      
+      // Update auth profile with display name
+      await updateProfile(user, {
+        displayName: profile.name
+      });
+      
+      // Save simplified user profile to database
+      const userProfileData = {
+        name: profile.name,
+        businessName: profile.businessName,
+        email: email,
+        phone: profile.phone || '',
+        createdAt: Date.now(),
+        createdDate: new Date().toISOString()
+      };
+      
+      const userRef = ref(database, `users/${user.uid}`);
+      await update(userRef, userProfileData);
+      
+      return {
+        success: true,
+        message: 'Account created successfully!',
+        user: user
+      };
+    } catch (error) {
+      console.error('Sign up error:', error);
+      
+      let errorMessage = 'Failed to create account.';
+      
+      switch (error.code) {
+        case 'auth/email-already-in-use':
+          errorMessage = 'An account with this email already exists.';
+          break;
+        case 'auth/invalid-email':
+          errorMessage = 'Invalid email address.';
+          break;
+        case 'auth/weak-password':
+          errorMessage = 'Password should be at least 6 characters.';
+          break;
+      }
+      
+      return { success: false, message: errorMessage };
+    }
+  }
+
+  // Simplified sign in method
+  async signIn(email, password) {
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      return {
+        success: true,
+        message: 'Signed in successfully!',
+        user: userCredential.user
+      };
+    } catch (error) {
+      console.error('Sign in error:', error);
+      
+      let errorMessage = 'Failed to sign in. Please check your credentials.';
+      
+      switch (error.code) {
+        case 'auth/user-not-found':
+          errorMessage = 'No account found with this email address.';
+          break;
+        case 'auth/wrong-password':
+          errorMessage = 'Incorrect password.';
+          break;
+        case 'auth/invalid-email':
+          errorMessage = 'Invalid email address.';
+          break;
+      }
+      
+      return { success: false, message: errorMessage };
+    }
+  }
+
+  // Get user profile
+  async getUserProfile(userId) {
+    try {
+      const userRef = ref(database, `users/${userId}`);
+      const snapshot = await get(userRef);
+      
+      if (snapshot.exists()) {
+        return {
+          success: true,
+          profile: snapshot.val()
+        };
+      } else {
+        return {
+          success: false,
+          message: 'Profile not found'
+        };
+      }
+    } catch (error) {
+      console.error('Error getting user profile:', error);
+      return {
+        success: false,
+        message: 'Failed to load profile'
+      };
+    }
+  }
+
+  // Get user's submissions
+  async getUserSubmissions(userId) {
+    try {
+      const submissionsRef = ref(database, 'contact-forms');
+      const snapshot = await get(submissionsRef);
+      
+      if (snapshot.exists()) {
+        const allSubmissions = [];
+        snapshot.forEach((childSnapshot) => {
+          const submission = childSnapshot.val();
+          if (submission.userId === userId) {
+            allSubmissions.push({
+              id: childSnapshot.key,
+              ...submission
+            });
+          }
+        });
+        
+        // Sort by timestamp, newest first
+        allSubmissions.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+        
+        return {
+          success: true,
+          submissions: allSubmissions
+        };
+      } else {
+        return {
+          success: true,
+          submissions: []
+        };
+      }
+    } catch (error) {
+      console.error('Error getting user submissions:', error);
+      return {
+        success: false,
+        message: 'Failed to load projects',
+        submissions: []
+      };
+    }
+  }
+
+  // Save submission (inquiry)
+  async saveSubmission(data) {
+    try {
+      const newSubmissionRef = push(this.contactFormsRef);
+      await update(newSubmissionRef, data);
+      
+      return {
+        success: true,
+        message: 'Submission saved successfully',
+        id: newSubmissionRef.key
+      };
+    } catch (error) {
+      console.error('Error saving submission:', error);
+      return {
+        success: false,
+        message: 'Failed to save submission'
+      };
+    }
+  }
 }
 
 // Create and export a singleton instance

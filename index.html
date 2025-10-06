@@ -5,14 +5,62 @@
     <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>RNDM Development - RNDM DEVS</title>
+    <title>RNDM Development - Professional Web Development</title>
     <meta name="description" content="Professional yet fun random website development by RNDM Development (RNDM DEVS). Contact us for your next web project!" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   </head>
   <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
+    <!-- Navigation will be injected here -->
+    
+    <div id="app">
+      <div class="page-section active">
+        <div class="container">
+          <section class="hero">
+            <h1 class="glitch">RNDM Development</h1>
+            <p>Professional yet fun random website development</p>
+            <p>Where creativity meets code and chaos creates brilliance</p>
+            <div style="margin-top: 2rem;">
+              <a href="contact.html" class="btn">Get In Touch</a>
+              <a href="services.html" class="btn btn-secondary" style="margin-left: 1rem;">View Services</a>
+            </div>
+          </section>
+          
+          <section style="padding: 4rem 0; text-align: center;">
+            <h2 style="color: var(--secondary-color); margin-bottom: 2rem; font-family: var(--font-tech);">What We Do</h2>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-top: 3rem;">
+              <div style="background: rgba(20, 20, 20, 0.8); padding: 2rem; border-radius: 10px; border: 1px solid var(--border-color);">
+                <h3 style="color: var(--primary-color); margin-bottom: 1rem;">🚀 Web Development</h3>
+                <p>Modern, responsive websites with cutting-edge technology and professional design.</p>
+              </div>
+              <div style="background: rgba(20, 20, 20, 0.8); padding: 2rem; border-radius: 10px; border: 1px solid var(--border-color);">
+                <h3 style="color: var(--secondary-color); margin-bottom: 1rem;">⚡ Performance Optimization</h3>
+                <p>Lightning-fast websites optimized for speed, SEO, and user experience.</p>
+              </div>
+              <div style="background: rgba(20, 20, 20, 0.8); padding: 2rem; border-radius: 10px; border: 1px solid var(--border-color);">
+                <h3 style="color: var(--accent-color); margin-bottom: 1rem;">🎨 Creative Design</h3>
+                <p>Unique, engaging designs that blend professionalism with creative flair.</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+      
+      <!-- Footer will be injected here -->
+    </div>
+    
+    <script type="module">
+      import { initializePage, renderFooter } from '/src/shared.js';
+      import '/src/style.css';
+      
+      // Initialize the home page
+      initializePage('home');
+      
+      // Add footer
+      const footer = document.createElement('div');
+      footer.innerHTML = renderFooter();
+      document.getElementById('app').appendChild(footer.firstElementChild);
+    </script>
   </body>
 </html>

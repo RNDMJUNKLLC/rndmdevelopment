@@ -1,0 +1,202 @@
+// Discord Webhook Service
+// Handles sending form data to Discord via webhooks
+
+const WEBHOOKS = {
+  inquiry: import.meta.env.VITE_DISCORD_WEBHOOK_INQUIRY,
+  sos: import.meta.env.VITE_DISCORD_WEBHOOK_SOS,
+  invoice: import.meta.env.VITE_DISCORD_WEBHOOK_INVOICE
+};
+
+/**
+ * Send a new project inquiry to Discord
+ * @param {Object} data - Form data
+ * @param {string} data.name - User's name
+ * @param {string} data.businessName - Business name
+ * @param {string} data.email - Email address
+ * @param {string} data.phone - Phone number (optional)
+ * @param {string} data.projectDescription - Project details
+ * @param {string} data.budget - Budget range (optional)
+ * @param {string} data.timeline - Expected timeline (optional)
+ */
+export async function sendInquiryToDiscord(data) {
+  const webhookUrl = WEBHOOKS.inquiry;
+  
+  if (!webhookUrl) {
+    console.error('Inquiry webhook URL not configured');
+    return { success: false, error: 'Webhook not configured' };
+  }
+
+  const embed = {
+    title: '🆕 New Project Inquiry',
+    color: 0x00ff88, // Green color
+    fields: [
+      { name: '👤 Name', value: data.name, inline: true },
+      { name: '🏢 Business', value: data.businessName || 'Not provided', inline: true },
+      { name: '📧 Email', value: data.email, inline: true },
+      { name: '📱 Phone', value: data.phone || 'Not provided', inline: true },
+      { name: '📝 Project Description', value: data.projectDescription || 'No description provided', inline: false }
+    ],
+    timestamp: new Date().toISOString(),
+    footer: { text: 'RNDM Development - New Inquiry' }
+  };
+
+  if (data.budget) {
+    embed.fields.push({ name: '💰 Budget', value: data.budget, inline: true });
+  }
+
+  if (data.timeline) {
+    embed.fields.push({ name: '⏱️ Timeline', value: data.timeline, inline: true });
+  }
+
+  try {
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: 'RNDM Development',
+        avatar_url: 'https://cdn.discordapp.com/embed/avatars/0.png',
+        embeds: [embed]
+      })
+    });
+
+    if (response.ok || response.status === 204) {
+      return { success: true };
+    } else {
+      throw new Error(`Discord API returned status ${response.status}`);
+    }
+  } catch (error) {
+    console.error('Error sending inquiry to Discord:', error);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Send an SOS request for an existing project to Discord
+ * @param {Object} data - SOS form data
+ * @param {string} data.userName - User's name
+ * @param {string} data.userEmail - User's email
+ * @param {string} data.projectId - Firebase project ID
+ * @param {string} data.projectName - Project name/title
+ * @param {string} data.issueType - Type of issue (bug, change request, etc.)
+ * @param {string} data.description - Issue description
+ * @param {string} data.priority - Priority level (low, medium, high, urgent)
+ */
+export async function sendSOSToDiscord(data) {
+  const webhookUrl = WEBHOOKS.sos;
+  
+  if (!webhookUrl) {
+    console.error('SOS webhook URL not configured');
+    return { success: false, error: 'Webhook not configured' };
+  }
+
+  // Color based on priority
+  const priorityColors = {
+    low: 0x00ff00,      // Green
+    medium: 0xffa500,   // Orange
+    high: 0xff6600,     // Dark Orange
+    urgent: 0xff0000    // Red
+  };
+
+  const color = priorityColors[data.priority?.toLowerCase()] || 0xffa500;
+
+  const embed = {
+    title: '🆘 SOS - Project Support Request',
+    color: color,
+    fields: [
+      { name: '👤 User', value: data.userName, inline: true },
+      { name: '📧 Email', value: data.userEmail, inline: true },
+      { name: '📂 Project', value: data.projectName, inline: true },
+      { name: '🔖 Project ID', value: data.projectId, inline: true },
+      { name: '⚠️ Issue Type', value: data.issueType || 'General Issue', inline: true },
+      { name: '🔥 Priority', value: data.priority || 'Medium', inline: true },
+      { name: '📝 Description', value: data.description || 'No description provided', inline: false }
+    ],
+    timestamp: new Date().toISOString(),
+    footer: { text: 'RNDM Development - SOS Request' }
+  };
+
+  try {
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: 'RNDM Development - SOS',
+        avatar_url: 'https://cdn.discordapp.com/embed/avatars/1.png',
+        embeds: [embed]
+      })
+    });
+
+    if (response.ok || response.status === 204) {
+      return { success: true };
+    } else {
+      throw new Error(`Discord API returned status ${response.status}`);
+    }
+  } catch (error) {
+    console.error('Error sending SOS to Discord:', error);
+    return { success: false, error: error.message };
+  }
+}
+
+/**
+ * Send an invoice request to Discord
+ * @param {Object} data - Invoice request data
+ * @param {string} data.userName - User's name
+ * @param {string} data.userEmail - User's email
+ * @param {string} data.businessName - Business name
+ * @param {string} data.phone - Phone number (optional)
+ * @param {Array} data.projects - Array of project objects {id, name}
+ */
+export async function sendInvoiceRequestToDiscord(data) {
+  const webhookUrl = WEBHOOKS.invoice;
+  
+  if (!webhookUrl) {
+    console.error('Invoice webhook URL not configured');
+    return { success: false, error: 'Webhook not configured' };
+  }
+
+  // Format project list
+  const projectList = data.projects && data.projects.length > 0
+    ? data.projects.map(p => `• ${p.name} (ID: ${p.id})`).join('\n')
+    : 'No projects selected';
+
+  const embed = {
+    title: '💰 Invoice Request',
+    color: 0x0099ff, // Blue color
+    fields: [
+      { name: '👤 Name', value: data.userName, inline: true },
+      { name: '🏢 Business', value: data.businessName || 'Not provided', inline: true },
+      { name: '📧 Email', value: data.userEmail, inline: true },
+      { name: '📱 Phone', value: data.phone || 'Not provided', inline: true },
+      { name: '📋 Requested Invoices For', value: projectList, inline: false }
+    ],
+    timestamp: new Date().toISOString(),
+    footer: { text: 'RNDM Development - Invoice Request' }
+  };
+
+  try {
+    const response = await fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        username: 'RNDM Development - Invoices',
+        avatar_url: 'https://cdn.discordapp.com/embed/avatars/2.png',
+        embeds: [embed]
+      })
+    });
+
+    if (response.ok || response.status === 204) {
+      return { success: true };
+    } else {
+      throw new Error(`Discord API returned status ${response.status}`);
+    }
+  } catch (error) {
+    console.error('Error sending invoice request to Discord:', error);
+    return { success: false, error: error.message };
+  }
+}
+
+export const discordWebhookService = {
+  sendInquiry: sendInquiryToDiscord,
+  sendSOS: sendSOSToDiscord,
+  sendInvoiceRequest: sendInvoiceRequestToDiscord
+};
