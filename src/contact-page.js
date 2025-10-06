@@ -73,6 +73,21 @@ function renderAuthForms() {
       <h2>Sign In or Create Account</h2>
       <p>Sign in to submit project inquiries and track your projects.</p>
       
+      <!-- Google Sign In Button (Always visible) -->
+      <div class="google-auth-section">
+        <button id="btnGoogleSignIn" class="btn-google">
+          <svg width="18" height="18" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48">
+            <path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/>
+            <path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/>
+            <path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/>
+            <path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/>
+            <path fill="none" d="M0 0h48v48H0z"/>
+          </svg>
+          <span>Continue with Google</span>
+        </button>
+        <div class="divider"><span>or</span></div>
+      </div>
+      
       <div class="auth-tabs">
         <button id="tabSignIn" class="auth-tab active">Sign In</button>
         <button id="tabSignUp" class="auth-tab">Sign Up</button>
@@ -90,7 +105,7 @@ function renderAuthForms() {
           <input type="password" id="signInPassword" required />
         </div>
         
-        <button type="submit" class="btn">Sign In</button>
+        <button type="submit" class="btn">Sign In with Email</button>
       </form>
       
       <!-- Sign Up Form -->
@@ -120,7 +135,7 @@ function renderAuthForms() {
           <input type="password" id="signUpPassword" minlength="6" required />
         </div>
         
-        <button type="submit" class="btn">Create Account</button>
+        <button type="submit" class="btn">Create Account with Email</button>
       </form>
     </div>
   `;
@@ -130,6 +145,18 @@ function renderAuthForms() {
  * Attach auth form listeners
  */
 function attachAuthFormListeners() {
+  // Google Sign In Button
+  const btnGoogleSignIn = document.getElementById('btnGoogleSignIn');
+  btnGoogleSignIn?.addEventListener('click', async () => {
+    const result = await firebaseService.signInWithGoogle();
+    if (result.success) {
+      showNotification('Signed in with Google!', 'success');
+      // The auth state change will trigger re-render
+    } else {
+      showNotification(result.message, 'error');
+    }
+  });
+  
   // Tab switching
   const tabSignIn = document.getElementById('tabSignIn');
   const tabSignUp = document.getElementById('tabSignUp');
@@ -167,23 +194,34 @@ function attachAuthFormListeners() {
   // Sign Up
   signUpForm?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    const name = document.getElementById('signUpName').value;
-    const businessName = document.getElementById('signUpBusinessName').value;
-    const email = document.getElementById('signUpEmail').value;
-    const phone = document.getElementById('signUpPhone').value;
-    const password = document.getElementById('signUpPassword').value;
     
-    const result = await firebaseService.signUp(email, password, {
-      name,
-      businessName,
-      phone
-    });
-    
-    if (result.success) {
-      showNotification('Account created successfully!', 'success');
-      // User profile will be created in firebase-service
-    } else {
-      showNotification(result.message, 'error');
+    try {
+      const name = document.getElementById('signUpName').value;
+      const businessName = document.getElementById('signUpBusinessName').value;
+      const email = document.getElementById('signUpEmail').value;
+      const phone = document.getElementById('signUpPhone').value;
+      const password = document.getElementById('signUpPassword').value;
+      
+      console.log('Signing up with:', { name, businessName, email, phone });
+      
+      const result = await firebaseService.signUp(email, password, {
+        name,
+        businessName,
+        phone
+      });
+      
+      console.log('Sign up result:', result);
+      
+      if (result.success) {
+        showNotification('Account created successfully! Welcome!', 'success');
+        // User profile will be created in firebase-service
+        // Auth state change will trigger re-render
+      } else {
+        showNotification(result.message, 'error');
+      }
+    } catch (error) {
+      console.error('Sign up error:', error);
+      showNotification('An unexpected error occurred. Please try again.', 'error');
     }
   });
 }

@@ -7,7 +7,9 @@ import {
   onAuthStateChanged,
   createUserWithEmailAndPassword,
   updateProfile,
-  sendPasswordResetEmail 
+  sendPasswordResetEmail,
+  GoogleAuthProvider,
+  signInWithPopup
 } from 'firebase/auth';
 import { 
   getStorage, 
@@ -803,6 +805,58 @@ export class FirebaseService {
           break;
         case 'auth/invalid-email':
           errorMessage = 'Invalid email address.';
+          break;
+      }
+      
+      return { success: false, message: errorMessage };
+    }
+  }
+
+  // Sign in with Google
+  async signInWithGoogle() {
+    try {
+      const provider = new GoogleAuthProvider();
+      const result = await signInWithPopup(auth, provider);
+      const user = result.user;
+      
+      // Check if user profile exists, if not create one
+      const profileResult = await this.getUserProfile(user.uid);
+      
+      if (!profileResult.success) {
+        // Create basic profile from Google account info
+        const names = user.displayName?.split(' ') || ['', ''];
+        const userProfileData = {
+          name: user.displayName || '',
+          businessName: '', // User can fill this in later
+          email: user.email,
+          phone: '',
+          createdAt: Date.now(),
+          createdDate: new Date().toISOString()
+        };
+        
+        const userRef = ref(database, `users/${user.uid}`);
+        await update(userRef, userProfileData);
+      }
+      
+      return {
+        success: true,
+        message: 'Signed in with Google successfully!',
+        user: user
+      };
+    } catch (error) {
+      console.error('Google sign in error:', error);
+      
+      let errorMessage = 'Failed to sign in with Google.';
+      
+      switch (error.code) {
+        case 'auth/popup-closed-by-user':
+          errorMessage = 'Sign in cancelled.';
+          break;
+        case 'auth/popup-blocked':
+          errorMessage = 'Popup was blocked. Please enable popups for this site.';
+          break;
+        case 'auth/cancelled-popup-request':
+          errorMessage = 'Sign in cancelled.';
           break;
       }
       
