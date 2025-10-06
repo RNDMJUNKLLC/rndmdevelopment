@@ -14,9 +14,11 @@ const WEBHOOKS = {
  * @param {string} data.businessName - Business name
  * @param {string} data.email - Email address
  * @param {string} data.phone - Phone number (optional)
- * @param {string} data.projectDescription - Project details
- * @param {string} data.budget - Budget range (optional)
- * @param {string} data.timeline - Expected timeline (optional)
+ * @param {string} data.projectType - Type of project
+ * @param {string} data.budget - Budget range
+ * @param {string} data.timeline - Timeline preference
+ * @param {string} data.priority - Priority level
+ * @param {string} data.message - Project details
  */
 export async function sendInquiryToDiscord(data) {
   const webhookUrl = WEBHOOKS.inquiry;
@@ -26,6 +28,33 @@ export async function sendInquiryToDiscord(data) {
     return { success: false, error: 'Webhook not configured' };
   }
 
+  // Map values to display-friendly text
+  const projectTypeMap = {
+    'website': '🌐 Website',
+    'mobile-app': '📱 Mobile App (Android)',
+    'web-app': '💻 Web Application',
+    'ecommerce': '🛒 E-commerce Site',
+    'software': '⚙️ Custom Software',
+    'redesign': '🎨 Redesign/Upgrade',
+    'maintenance': '🔧 Maintenance/Support',
+    'other': '💡 Other'
+  };
+
+  const priorityMap = {
+    'urgent': '🔴 Urgent',
+    'high': '🟠 High',
+    'normal': '🟢 Normal',
+    'low': '🔵 Low Priority'
+  };
+
+  const timelineMap = {
+    'asap': '⚡ ASAP (Rush)',
+    '1-2-weeks': '📅 1-2 Weeks',
+    '2-4-weeks': '📆 2-4 Weeks',
+    '1-2-months': '🗓️ 1-2 Months',
+    'flexible': '🕐 Flexible'
+  };
+
   const embed = {
     title: '🆕 New Project Inquiry',
     color: 0x00ff88, // Green color
@@ -34,19 +63,15 @@ export async function sendInquiryToDiscord(data) {
       { name: '🏢 Business', value: data.businessName || 'Not provided', inline: true },
       { name: '📧 Email', value: data.email, inline: true },
       { name: '📱 Phone', value: data.phone || 'Not provided', inline: true },
-      { name: '📝 Project Description', value: data.projectDescription || 'No description provided', inline: false }
+      { name: '� Project Type', value: projectTypeMap[data.projectType] || data.projectType, inline: true },
+      { name: '💰 Budget', value: `$${data.budget}`, inline: true },
+      { name: '⏱️ Timeline', value: timelineMap[data.timeline] || data.timeline, inline: true },
+      { name: '🎯 Priority', value: priorityMap[data.priority] || data.priority, inline: true },
+      { name: '� Project Details', value: data.message || 'No description provided', inline: false }
     ],
     timestamp: new Date().toISOString(),
     footer: { text: 'RNDM Development - New Inquiry' }
   };
-
-  if (data.budget) {
-    embed.fields.push({ name: '💰 Budget', value: data.budget, inline: true });
-  }
-
-  if (data.timeline) {
-    embed.fields.push({ name: '⏱️ Timeline', value: data.timeline, inline: true });
-  }
 
   try {
     const response = await fetch(webhookUrl, {

@@ -251,34 +251,73 @@ async function showNewProjectForm() {
   projectView.innerHTML = `
     <div class="new-project-form">
       <h3>🆕 New Project Inquiry</h3>
+      <p class="form-subtitle">Tell us about your project and we'll get back to you within 24 hours!</p>
       <form id="inquiryForm">
-        <div class="form-group">
-          <label>Name</label>
-          <input type="text" id="inquiryName" value="${profile.name || ''}" readonly />
+        <div class="form-row">
+          <div class="form-group">
+            <label for="inquiryProjectType">Project Type *</label>
+            <select id="inquiryProjectType" required>
+              <option value="">Select project type...</option>
+              <option value="website">🌐 Website</option>
+              <option value="mobile-app">📱 Mobile App (Android)</option>
+              <option value="web-app">💻 Web Application</option>
+              <option value="ecommerce">🛒 E-commerce Site</option>
+              <option value="software">⚙️ Custom Software</option>
+              <option value="redesign">🎨 Redesign/Upgrade</option>
+              <option value="maintenance">🔧 Maintenance/Support</option>
+              <option value="other">💡 Other</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="inquiryBudget">Budget Range *</label>
+            <select id="inquiryBudget" required>
+              <option value="">Select budget...</option>
+              <option value="10-50">$10 - $50</option>
+              <option value="50-100">$50 - $100</option>
+              <option value="100-200">$100 - $200</option>
+              <option value="200-300">$200 - $300</option>
+              <option value="300+">$300+</option>
+              <option value="flexible">Flexible / Discuss</option>
+            </select>
+          </div>
+        </div>
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label for="inquiryTimeline">Timeline Preference *</label>
+            <select id="inquiryTimeline" required>
+              <option value="">Select timeline...</option>
+              <option value="asap">⚡ ASAP (Rush)</option>
+              <option value="1-2-weeks">📅 1-2 Weeks</option>
+              <option value="2-4-weeks">📆 2-4 Weeks</option>
+              <option value="1-2-months">🗓️ 1-2 Months</option>
+              <option value="flexible">🕐 Flexible</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label for="inquiryPriority">Priority Level *</label>
+            <select id="inquiryPriority" required>
+              <option value="">Select priority...</option>
+              <option value="urgent">🔴 Urgent</option>
+              <option value="high">🟠 High</option>
+              <option value="normal">🟢 Normal</option>
+              <option value="low">🔵 Low Priority</option>
+            </select>
+          </div>
         </div>
         
         <div class="form-group">
-          <label>Business Name</label>
-          <input type="text" id="inquiryBusinessName" value="${profile.businessName || ''}" readonly />
+          <label for="inquiryDescription">Project Details *</label>
+          <textarea id="inquiryDescription" rows="8" required placeholder="Tell us about your project...&#10;&#10;What are you looking to build?&#10;What features do you need?&#10;Do you have any design preferences?&#10;Any specific requirements or constraints?"></textarea>
+          <small class="field-hint">Be as detailed as possible to help us understand your vision</small>
         </div>
         
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" id="inquiryEmail" value="${currentUser.email}" readonly />
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Submit Inquiry</button>
+          <button type="button" class="btn btn-secondary" onclick="document.getElementById('projectView').innerHTML = ''">Cancel</button>
         </div>
-        
-        <div class="form-group">
-          <label>Phone</label>
-          <input type="tel" id="inquiryPhone" value="${profile.phone || ''}" readonly />
-        </div>
-        
-        <div class="form-group">
-          <label>Project Description *</label>
-          <textarea id="inquiryDescription" rows="6" required placeholder="Tell us about your project..."></textarea>
-        </div>
-        
-        <button type="submit" class="btn">Submit Inquiry</button>
-        <button type="button" class="btn btn-secondary" onclick="document.getElementById('projectView').innerHTML = ''">Cancel</button>
       </form>
     </div>
   `;
@@ -292,12 +331,20 @@ async function showNewProjectForm() {
 async function handleInquirySubmit(e) {
   e.preventDefault();
   
+  // Get user profile data
+  const profileResult = await firebaseService.getUserProfile(currentUser.uid);
+  const profile = profileResult.success ? profileResult.profile : {};
+  
   const formData = {
     userId: currentUser.uid,
-    name: document.getElementById('inquiryName').value,
-    businessName: document.getElementById('inquiryBusinessName').value,
-    email: document.getElementById('inquiryEmail').value,
-    phone: document.getElementById('inquiryPhone').value,
+    name: profile.name || currentUser.displayName || 'N/A',
+    businessName: profile.businessName || 'N/A',
+    email: currentUser.email,
+    phone: profile.phone || 'N/A',
+    projectType: document.getElementById('inquiryProjectType').value,
+    budget: document.getElementById('inquiryBudget').value,
+    timeline: document.getElementById('inquiryTimeline').value,
+    priority: document.getElementById('inquiryPriority').value,
     message: document.getElementById('inquiryDescription').value,
     timestamp: new Date().toISOString()
   };
@@ -310,7 +357,7 @@ async function handleInquirySubmit(e) {
     const discordResult = await sendInquiryToDiscord(formData);
     
     if (discordResult.success) {
-      showNotification('Inquiry submitted successfully!', 'success');
+      showNotification('Inquiry submitted successfully! We\'ll get back to you within 24 hours.', 'success');
       document.getElementById('projectView').innerHTML = '';
     } else {
       showNotification('Inquiry saved but notification failed. We\'ll get back to you soon!', 'info');
@@ -329,14 +376,23 @@ async function showExistingProjects() {
   
   projectView.innerHTML = '<p>Loading your projects...</p>';
   
-  // Load user's projects from Firebase
-  const result = await firebaseService.getUserSubmissions(currentUser.uid);
-  
-  if (result.success && result.submissions.length > 0) {
-    userProjects = result.submissions;
-    projectView.innerHTML = renderProjectsList(result.submissions);
-    attachProjectListeners();
-  } else {
+  try {
+    // Load user's projects from Firebase
+    const result = await firebaseService.getUserSubmissions(currentUser.uid);
+    
+    if (result.success && result.submissions.length > 0) {
+      userProjects = result.submissions;
+      projectView.innerHTML = renderProjectsList(result.submissions);
+      attachProjectListeners();
+    } else if (result.success && result.submissions.length === 0) {
+      projectView.innerHTML = '<p>You don\'t have any projects yet. Start a new inquiry!</p>';
+    } else {
+      // Permission error or other issue - don't show scary error
+      console.log('Note: Unable to load projects. This is expected for new accounts.');
+      projectView.innerHTML = '<p>You don\'t have any projects yet. Start a new inquiry!</p>';
+    }
+  } catch (error) {
+    console.log('Note: Unable to load projects:', error.message);
     projectView.innerHTML = '<p>You don\'t have any projects yet. Start a new inquiry!</p>';
   }
 }
