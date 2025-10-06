@@ -84,15 +84,35 @@ function attachAuthButtonListener() {
  * Handle sign out
  */
 async function handleSignOut() {
-  const result = await firebaseService.signOut();
-  if (result.success) {
-    showNotification('Signed out successfully', 'success');
-    // Redirect to home if on contact page
-    if (currentPage === 'contact') {
-      window.location.href = 'index.html';
+  try {
+    const result = await firebaseService.signOut();
+    
+    if (result.success) {
+      // Clear current user
+      currentUser = null;
+      
+      // Clear any cached data
+      sessionStorage.clear();
+      
+      // Show success message
+      showNotification('Signed out successfully', 'success');
+      
+      // Wait a moment for the notification to show
+      setTimeout(() => {
+        // Redirect to home and force reload to clear all state
+        if (currentPage === 'contact') {
+          window.location.replace('index.html');
+        } else {
+          // Reload current page to show signed-out state
+          window.location.reload();
+        }
+      }, 500);
+    } else {
+      showNotification(result.message, 'error');
     }
-  } else {
-    showNotification(result.message, 'error');
+  } catch (error) {
+    console.error('Sign out error:', error);
+    showNotification('Error signing out. Please try again.', 'error');
   }
 }
 

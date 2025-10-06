@@ -812,6 +812,11 @@ export class FirebaseService {
     }
   }
 
+  // Simplified sign out method (alias for signOutUser)
+  async signOut() {
+    return this.signOutUser();
+  }
+
   // Sign in with Google
   async signInWithGoogle() {
     try {
