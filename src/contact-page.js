@@ -485,7 +485,11 @@ async function showExistingProjects() {
  */
 function renderProjectsList(projects) {
   const projectsHtml = projects.map((project, index) => `
-    <div class="project-item" data-project-id="${project.id}">
+    <div class="project-card" data-project-id="${project.id}">
+      <div class="project-checkbox-container">
+        <input type="checkbox" id="project-${project.id}" class="project-checkbox" data-project-id="${project.id}" data-project-name="Project #${index + 1}">
+        <label for="project-${project.id}" class="project-checkbox-label">Select for invoice</label>
+      </div>
       <div class="project-header">
         <h4>Project #${index + 1}</h4>
         <span class="project-date">${new Date(project.timestamp).toLocaleDateString()}</span>
@@ -506,14 +510,18 @@ function renderProjectsList(projects) {
       <div class="invoice-controls">
         <button id="btnRequestInvoice" class="btn btn-secondary">💰 Request Invoice</button>
         <div id="invoiceSelectionControls" class="invoice-selection-controls" style="display: none;">
-          <div class="selection-info">
-            <span id="selectedCount">0</span> project(s) selected
+          <div class="selection-stats">
+            <div class="selected-count">
+              <span id="selectedCount">0</span> project(s) selected
+            </div>
+            <div class="control-buttons">
+              <button id="btnSelectAll" class="btn-control">Select All</button>
+              <button id="btnDeselectAll" class="btn-control">Deselect All</button>
+            </div>
           </div>
           <div class="selection-actions">
-            <button id="btnSelectAll" class="btn btn-outline">Select All</button>
-            <button id="btnDeselectAll" class="btn btn-outline">Deselect All</button>
-            <button id="btnSendInvoiceRequest" class="btn btn-primary" disabled>Send Invoice Request</button>
-            <button id="btnCancelSelection" class="btn btn-secondary">Cancel</button>
+            <button id="btnSendInvoiceRequest" class="btn-send-invoice" disabled>Send Invoice Request</button>
+            <button id="btnCancelSelection" class="btn-cancel-selection">Cancel</button>
           </div>
         </div>
       </div>
@@ -652,13 +660,20 @@ async function showSOSForm(projectId) {
  * Handle invoice request - show project selection
  */
 function handleInvoiceRequest() {
-  // Show checkboxes and selection controls
-  document.querySelectorAll('.project-checkbox-container').forEach(container => {
-    container.style.display = 'flex';
-  });
+  // Add selecting-projects class to show checkboxes
+  const projectsList = document.querySelector('.projects-list');
+  if (projectsList) {
+    projectsList.classList.add('selecting-projects');
+  }
   
+  // Show selection controls
   document.getElementById('btnRequestInvoice').style.display = 'none';
   document.getElementById('invoiceSelectionControls').style.display = 'block';
+  
+  // Add change listeners to checkboxes
+  document.querySelectorAll('.project-checkbox').forEach(checkbox => {
+    checkbox.addEventListener('change', updateSelectedCount);
+  });
   
   updateSelectedCount();
 }
@@ -698,10 +713,11 @@ function deselectAllProjects() {
  * Cancel project selection
  */
 function cancelInvoiceSelection() {
-  // Hide checkboxes and selection controls
-  document.querySelectorAll('.project-checkbox-container').forEach(container => {
-    container.style.display = 'none';
-  });
+  // Remove selecting-projects class to hide checkboxes
+  const projectsList = document.querySelector('.projects-list');
+  if (projectsList) {
+    projectsList.classList.remove('selecting-projects');
+  }
   
   // Deselect all checkboxes
   document.querySelectorAll('.project-checkbox').forEach(checkbox => {
