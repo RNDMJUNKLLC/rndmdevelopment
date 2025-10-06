@@ -124,8 +124,6 @@ export async function sendSOSToDiscord(data) {
     return { success: false, error: 'Invalid webhook URL format' };
   }
 
-  console.log('Sending SOS to webhook:', webhookUrl.substring(0, 50) + '...');
-
   // Map request types to display-friendly text
   const requestTypeMap = {
     'bug-fix': '🐛 Bug Fix / Issue',
