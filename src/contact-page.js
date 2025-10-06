@@ -20,13 +20,28 @@ export function initializeContactPage() {
 /**
  * Render contact page content based on auth state
  */
-function renderContactPageContent() {
+async function renderContactPageContent() {
   const contentContainer = document.getElementById('contact-content');
   
   if (!contentContainer) return;
   
   if (currentUser) {
-    // User is logged in - show project options
+    // Check if user profile is complete
+    const profileResult = await firebaseService.getUserProfile(currentUser.uid);
+    if (profileResult.success) {
+      const profile = profileResult.profile;
+      // If missing business name or phone, show completion modal first
+      if (!profile.businessName || !profile.phone) {
+        contentContainer.innerHTML = renderProjectOptions();
+        const projectView = document.getElementById('projectView');
+        if (projectView) {
+          showProfileCompletionModal(currentUser.uid, profile);
+        }
+        return;
+      }
+    }
+    
+    // User is logged in with complete profile - show project options
     contentContainer.innerHTML = renderProjectOptions();
     attachProjectOptionListeners();
   } else {
@@ -151,6 +166,16 @@ function attachAuthFormListeners() {
     const result = await firebaseService.signInWithGoogle();
     if (result.success) {
       showNotification('Signed in with Google!', 'success');
+      
+      // Check if profile needs completion (missing business name or phone)
+      const profileResult = await firebaseService.getUserProfile(result.user.uid);
+      if (profileResult.success) {
+        const profile = profileResult.profile;
+        if (!profile.businessName || !profile.phone) {
+          // Show profile completion modal
+          showProfileCompletionModal(result.user.uid, profile);
+        }
+      }
       // The auth state change will trigger re-render
     } else {
       showNotification(result.message, 'error');
@@ -223,6 +248,66 @@ function attachAuthFormListeners() {
       console.error('Sign up error:', error);
       showNotification('An unexpected error occurred. Please try again.', 'error');
     }
+  });
+}
+
+/**
+ * Show profile completion modal for Google Sign-In users
+ */
+function showProfileCompletionModal(userId, currentProfile) {
+  const projectView = document.getElementById('projectView');
+  if (!projectView) return;
+  
+  projectView.innerHTML = `
+    <div class="profile-completion-modal">
+      <h3>✏️ Complete Your Profile</h3>
+      <p class="form-subtitle">Please provide some additional information to help us serve you better</p>
+      <form id="profileCompletionForm">
+        <div class="form-group">
+          <label for="completeBusinessName">Business Name *</label>
+          <input type="text" id="completeBusinessName" value="${currentProfile.businessName || ''}" required placeholder="Your business or personal name" />
+        </div>
+        
+        <div class="form-group">
+          <label for="completePhone">Phone Number *</label>
+          <input type="tel" id="completePhone" value="${currentProfile.phone || ''}" required placeholder="(555) 123-4567" />
+        </div>
+        
+        <div class="form-actions">
+          <button type="submit" class="btn btn-primary">Save & Continue</button>
+          <button type="button" class="btn btn-secondary" id="skipProfileCompletion">Skip for Now</button>
+        </div>
+      </form>
+    </div>
+  `;
+  
+  // Handle form submission
+  document.getElementById('profileCompletionForm')?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const businessName = document.getElementById('completeBusinessName').value;
+    const phone = document.getElementById('completePhone').value;
+    
+    // Update user profile in Firebase
+    const updateResult = await firebaseService.updateUserProfile(userId, {
+      businessName,
+      phone
+    });
+    
+    if (updateResult.success) {
+      showNotification('Profile updated successfully!', 'success');
+      projectView.innerHTML = '';
+      // Re-render the contact page content
+      renderContactPageContent();
+    } else {
+      showNotification('Failed to update profile. Please try again.', 'error');
+    }
+  });
+  
+  // Handle skip button
+  document.getElementById('skipProfileCompletion')?.addEventListener('click', () => {
+    projectView.innerHTML = '';
+    renderContactPageContent();
   });
 }
 

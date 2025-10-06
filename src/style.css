@@ -3966,7 +3966,8 @@ body.dark-mode .modal-content {
 
 /* New Project Form */
 .new-project-form,
-.sos-form {
+.sos-form,
+.profile-completion-modal {
   max-width: 700px;
   margin: 0 auto;
   padding: 2rem;
@@ -3976,7 +3977,8 @@ body.dark-mode .modal-content {
 }
 
 .new-project-form h3,
-.sos-form h3 {
+.sos-form h3,
+.profile-completion-modal h3 {
   color: var(--primary-color);
   font-family: var(--font-tech);
   margin-bottom: 1rem;
@@ -3984,7 +3986,8 @@ body.dark-mode .modal-content {
 }
 
 .new-project-form .form-subtitle,
-.sos-form .form-subtitle {
+.sos-form .form-subtitle,
+.profile-completion-modal .form-subtitle {
   color: var(--text-gray);
   font-size: 0.95rem;
   margin-bottom: 2rem;

@@ -895,6 +895,31 @@ export class FirebaseService {
     }
   }
 
+  // Update specific user profile fields
+  async updateUserProfile(userId, updates) {
+    try {
+      const userRef = ref(database, `users/${userId}`);
+      const updateData = {
+        ...updates,
+        lastModified: Date.now(),
+        lastModifiedDate: new Date().toISOString()
+      };
+      
+      await update(userRef, updateData);
+      
+      return {
+        success: true,
+        message: 'Profile updated successfully'
+      };
+    } catch (error) {
+      console.error('Error updating user profile:', error);
+      return {
+        success: false,
+        message: 'Failed to update profile'
+      };
+    }
+  }
+
   // Get user's submissions
   async getUserSubmissions(userId) {
     try {
