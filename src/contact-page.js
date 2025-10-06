@@ -620,7 +620,8 @@ async function showSOSForm(projectId) {
       showNotification('SOS request sent successfully!', 'success');
       location.reload();
     } else {
-      showNotification('Failed to send SOS. Please try again.', 'error');
+      console.error('SOS submission failed:', result.error);
+      showNotification(`Failed to send SOS: ${result.error || 'Please check your network connection and try again.'}`, 'error');
     }
   });
 }

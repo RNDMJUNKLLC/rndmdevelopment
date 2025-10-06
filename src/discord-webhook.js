@@ -118,6 +118,14 @@ export async function sendSOSToDiscord(data) {
     return { success: false, error: 'Webhook not configured' };
   }
 
+  // Validate webhook URL format
+  if (!webhookUrl.startsWith('https://discord.com/api/webhooks/') && !webhookUrl.startsWith('https://discordapp.com/api/webhooks/')) {
+    console.error('Invalid SOS webhook URL format:', webhookUrl);
+    return { success: false, error: 'Invalid webhook URL format' };
+  }
+
+  console.log('Sending SOS to webhook:', webhookUrl.substring(0, 50) + '...');
+
   // Map request types to display-friendly text
   const requestTypeMap = {
     'bug-fix': '🐛 Bug Fix / Issue',
