@@ -2852,6 +2852,22 @@ body.dark-mode .modal-content {
   }
 }
 
+/* Main Package Includes Section Styles */
+.package-includes-main {
+  margin: 3rem 0 4rem 0;
+  padding: 2rem;
+  background: rgba(0, 255, 255, 0.05);
+  border-radius: 15px;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+.package-includes-main h3 {
+  color: var(--primary-color);
+  margin-bottom: 1.5rem;
+  text-align: center;
+  font-family: var(--font-tech);
+}
+
 .website-services, .mobile-services, .business-solutions {
   margin: 4rem 0;
 }
@@ -3305,6 +3321,12 @@ body.dark-mode .modal-content {
     font-size: 1rem;
   }
   
+  /* Mobile Package Includes Main Styles */
+  .package-includes-main {
+    margin: 2rem 0;
+    padding: 1.5rem;
+  }
+
   /* Mobile Hero Banner Styles */
   .pricing-hero-banner {
     margin: 1.5rem 0 2rem 0;
