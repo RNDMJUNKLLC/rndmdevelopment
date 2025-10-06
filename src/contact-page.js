@@ -12,7 +12,24 @@ let userProjects = [];
 export function initializeContactPage() {
   // Listen for auth state changes
   firebaseService.onAuthStateChange((user) => {
-    currentUser = user;
+   const projectsHtml = projects.map((project, index) => `
+    <div class="project-card" data-project-id="${project.id}">
+      <div class="project-header">
+        <div class="project-title-section">
+          <div class="project-checkbox-container" style="display: none;">
+            <input type="checkbox" id="project-${project.id}" class="project-checkbox" data-project-id="${project.id}" data-project-name="Project #${index + 1}">
+            <label for="project-${project.id}" class="project-checkbox-label">Select for invoice</label>
+          </div>
+          <h4>Project #${index + 1}</h4>
+        </div>
+        <span class="project-date">${new Date(project.timestamp).toLocaleDateString()}</span>
+      </div>
+      <p class="project-description">${project.message || 'No description'}</p>
+      <div class="project-actions">
+        <button class="btn-sos" data-project-id="${project.id}">🚨 SOS</button>
+      </div>
+    </div>
+  `).join('');er = user;
     renderContactPageContent();
   });
 }
@@ -503,7 +520,20 @@ function renderProjectsList(projects) {
       <div class="projects-list">
         ${projectsHtml}
       </div>
-      <button id="btnRequestInvoice" class="btn btn-secondary">💰 Request Invoice</button>
+      <div class="invoice-controls">
+        <button id="btnRequestInvoice" class="btn btn-secondary">💰 Request Invoice</button>
+        <div id="invoiceSelectionControls" class="invoice-selection-controls" style="display: none;">
+          <div class="selection-info">
+            <span id="selectedCount">0</span> project(s) selected
+          </div>
+          <div class="selection-actions">
+            <button id="btnSelectAll" class="btn btn-outline">Select All</button>
+            <button id="btnDeselectAll" class="btn btn-outline">Deselect All</button>
+            <button id="btnSendInvoiceRequest" class="btn btn-primary" disabled>Send Invoice Request</button>
+            <button id="btnCancelSelection" class="btn btn-secondary">Cancel</button>
+          </div>
+        </div>
+      </div>
     </div>
   `;
 }
@@ -520,8 +550,17 @@ function attachProjectListeners() {
     });
   });
   
-  // Invoice request button
+  // Invoice request button and controls
   document.getElementById('btnRequestInvoice')?.addEventListener('click', handleInvoiceRequest);
+  document.getElementById('btnSelectAll')?.addEventListener('click', selectAllProjects);
+  document.getElementById('btnDeselectAll')?.addEventListener('click', deselectAllProjects);
+  document.getElementById('btnSendInvoiceRequest')?.addEventListener('click', sendSelectedInvoiceRequest);
+  document.getElementById('btnCancelSelection')?.addEventListener('click', cancelInvoiceSelection);
+  
+  // Project checkbox listeners
+  document.querySelectorAll('.project-checkbox').forEach(checkbox => {
+    checkbox.addEventListener('change', updateSelectedCount);
+  });
 }
 
 /**
@@ -627,11 +666,87 @@ async function showSOSForm(projectId) {
 }
 
 /**
- * Handle invoice request
+ * Handle invoice request - show project selection
  */
-async function handleInvoiceRequest() {
+function handleInvoiceRequest() {
+  // Show checkboxes and selection controls
+  document.querySelectorAll('.project-checkbox-container').forEach(container => {
+    container.style.display = 'flex';
+  });
+  
+  document.getElementById('btnRequestInvoice').style.display = 'none';
+  document.getElementById('invoiceSelectionControls').style.display = 'block';
+  
+  updateSelectedCount();
+}
+
+/**
+ * Update the count of selected projects
+ */
+function updateSelectedCount() {
+  const selectedCheckboxes = document.querySelectorAll('.project-checkbox:checked');
+  const count = selectedCheckboxes.length;
+  
+  document.getElementById('selectedCount').textContent = count;
+  document.getElementById('btnSendInvoiceRequest').disabled = count === 0;
+}
+
+/**
+ * Select all projects
+ */
+function selectAllProjects() {
+  document.querySelectorAll('.project-checkbox').forEach(checkbox => {
+    checkbox.checked = true;
+  });
+  updateSelectedCount();
+}
+
+/**
+ * Deselect all projects
+ */
+function deselectAllProjects() {
+  document.querySelectorAll('.project-checkbox').forEach(checkbox => {
+    checkbox.checked = false;
+  });
+  updateSelectedCount();
+}
+
+/**
+ * Cancel project selection
+ */
+function cancelInvoiceSelection() {
+  // Hide checkboxes and selection controls
+  document.querySelectorAll('.project-checkbox-container').forEach(container => {
+    container.style.display = 'none';
+  });
+  
+  // Deselect all checkboxes
+  document.querySelectorAll('.project-checkbox').forEach(checkbox => {
+    checkbox.checked = false;
+  });
+  
+  document.getElementById('btnRequestInvoice').style.display = 'inline-block';
+  document.getElementById('invoiceSelectionControls').style.display = 'none';
+}
+
+/**
+ * Send invoice request for selected projects
+ */
+async function sendSelectedInvoiceRequest() {
+  const selectedCheckboxes = document.querySelectorAll('.project-checkbox:checked');
+  
+  if (selectedCheckboxes.length === 0) {
+    showNotification('Please select at least one project for invoicing.', 'warning');
+    return;
+  }
+  
   const profileResult = await firebaseService.getUserProfile(currentUser.uid);
   const profile = profileResult.success ? profileResult.profile : {};
+  
+  const selectedProjects = Array.from(selectedCheckboxes).map(checkbox => ({
+    id: checkbox.dataset.projectId,
+    name: checkbox.dataset.projectName
+  }));
   
   const invoiceData = {
     userId: currentUser.uid,
@@ -639,16 +754,14 @@ async function handleInvoiceRequest() {
     businessName: profile.businessName || '',
     email: currentUser.email,
     phone: profile.phone || '',
-    projects: userProjects.map((p, i) => ({
-      id: p.id,
-      name: `Project #${i + 1}`
-    }))
+    projects: selectedProjects
   };
   
   const result = await sendInvoiceRequestToDiscord(invoiceData);
   
   if (result.success) {
-    showNotification('Invoice request sent! We\'ll contact you soon.', 'success');
+    showNotification(`Invoice request sent for ${selectedProjects.length} project(s)! We'll contact you soon.`, 'success');
+    cancelInvoiceSelection(); // Reset the interface
   } else {
     showNotification('Failed to send invoice request. Please try again.', 'error');
   }
