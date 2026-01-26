@@ -1,0 +1,356 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>$rndmdev Token - Support RNDM Development</title>
+    <meta name="description" content="Support RNDM Development by adding liquidity to $rndmdev token on Zora/Base network. Help us keep our services affordable!" />
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17540177180"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'AW-17540177180');
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+      /* Token page specific styles */
+      .token-hero {
+        text-align: center;
+        padding: 4rem 0 2rem;
+      }
+      
+      .token-hero h1 {
+        font-family: var(--font-tech);
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      
+      .token-hero .subtitle {
+        font-size: 1.25rem;
+        color: var(--text-gray);
+        max-width: 600px;
+        margin: 0 auto;
+      }
+      
+      .token-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(0, 255, 255, 0.1);
+        border: 1px solid var(--primary-color);
+        padding: 0.5rem 1rem;
+        border-radius: 50px;
+        margin: 1.5rem 0;
+        font-family: var(--font-tech);
+        color: var(--primary-color);
+      }
+      
+      .token-badge .network {
+        background: rgba(255, 0, 255, 0.2);
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        color: var(--secondary-color);
+      }
+      
+      .scorecard-section {
+        padding: 2rem 0;
+      }
+      
+      .container-wide {
+        max-width: 1600px;
+        margin: 0 auto;
+        padding: 0 2rem;
+      }
+      
+      .charts-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+      
+      @media (min-width: 1024px) {
+        .charts-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+        
+        .charts-grid .full-width {
+          grid-column: span 2;
+        }
+      }
+      
+      .scorecard-container {
+        background: rgba(20, 20, 20, 0.8);
+        border: 1px solid var(--border-color);
+        border-radius: 15px;
+        overflow: hidden;
+        min-height: 500px;
+        position: relative;
+      }
+      
+      .scorecard-container iframe {
+        width: 100%;
+        height: 500px;
+        border: none;
+      }
+      
+      .scorecard-container h3 {
+        background: rgba(30, 30, 30, 0.9);
+        margin: 0;
+        padding-bottom: 0.75rem !important;
+        border-bottom: 1px solid var(--border-color);
+      }
+      
+      .support-section {
+        padding: 3rem 0;
+      }
+      
+      .support-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+      }
+      
+      .support-card {
+        background: rgba(20, 20, 20, 0.8);
+        padding: 2rem;
+        border-radius: 15px;
+        border: 1px solid var(--border-color);
+        text-align: center;
+        transition: transform 0.3s ease, border-color 0.3s ease;
+      }
+      
+      .support-card:hover {
+        transform: translateY(-5px);
+        border-color: var(--primary-color);
+      }
+      
+      .support-card .icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+      }
+      
+      .support-card h3 {
+        color: var(--primary-color);
+        font-family: var(--font-tech);
+        margin-bottom: 0.75rem;
+      }
+      
+      .support-card p {
+        color: var(--text-gray);
+        font-size: 0.95rem;
+      }
+      
+      .cta-section {
+        text-align: center;
+        padding: 3rem 0 4rem;
+      }
+      
+      .cta-section h2 {
+        font-family: var(--font-tech);
+        color: var(--secondary-color);
+        margin-bottom: 1rem;
+      }
+      
+      .cta-section p {
+        color: var(--text-gray);
+        max-width: 500px;
+        margin: 0 auto 2rem;
+      }
+      
+      .btn-token {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.75rem;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        color: var(--bg-dark);
+        padding: 1rem 2.5rem;
+        border-radius: 50px;
+        text-decoration: none;
+        font-family: var(--font-tech);
+        font-weight: 700;
+        font-size: 1.1rem;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      
+      .btn-token:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 30px rgba(0, 255, 255, 0.5), 0 0 60px rgba(255, 0, 255, 0.3);
+      }
+      
+      .disclaimer {
+        margin-top: 3rem;
+        padding: 1.5rem;
+        background: rgba(255, 255, 0, 0.05);
+        border: 1px solid rgba(255, 255, 0, 0.2);
+        border-radius: 10px;
+        font-size: 0.85rem;
+        color: var(--text-gray);
+      }
+      
+      .disclaimer strong {
+        color: var(--accent-color);
+      }
+      
+      @media (max-width: 768px) {
+        .token-hero h1 {
+          font-size: 2rem;
+        }
+        
+        .scorecard-container iframe {
+          height: 400px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation will be injected here -->
+    
+    <div id="app">
+      <div class="page-section active">
+        <div class="container">
+          
+          <!-- Token Hero Section -->
+          <section class="token-hero">
+            <h1>$rndmdev Token</h1>
+            <p class="subtitle">Support RNDM Development and help us keep our services affordable for everyone</p>
+            <div class="token-badge">
+              <span>$rndmdev</span>
+              <span class="network">Zora / Base</span>
+            </div>
+          </section>
+          
+          <!-- GeckoTerminal Score Card -->
+          <section class="scorecard-section">
+            <h2 style="text-align: center; color: var(--primary-color); font-family: var(--font-tech); margin-bottom: 1.5rem;">Live Token Data</h2>
+          </section>
+        </div>
+        
+        <div class="container-wide">
+          <section class="scorecard-section" style="padding-top: 0;">
+            <div class="charts-grid">
+              <!-- Price Chart with Transactions - Full Width -->
+              <div class="scorecard-container full-width">
+                <h3 style="padding: 1rem 1.5rem 0; color: var(--text-light); font-family: var(--font-tech); font-size: 1.1rem;">
+                  <span style="color: var(--primary-color);">💹</span> Price Chart & Recent Transactions
+                </h3>
+                <iframe 
+                  id="geckoterminal-price-chart" 
+                  title="Price Chart with Transactions" 
+                  src="https://www.geckoterminal.com/base/pools/0x41c3662439f1c09512e1460e172c7f9e0c40bc09f79d668b11a41fc3428c3e23?embed=1&info=0&swaps=1&grayscale=0&light_chart=0&chart_type=price&resolution=5m" 
+                  frameborder="0" 
+                  allow="clipboard-write" 
+                  allowfullscreen>
+                </iframe>
+              </div>
+              
+              <!-- Score Card - Left Side -->
+              <div class="scorecard-container">
+                <h3 style="padding: 1rem 1.5rem 0; color: var(--text-light); font-family: var(--font-tech); font-size: 1.1rem;">
+                  <span style="color: var(--accent-color);">📊</span> Security Score
+                </h3>
+                <iframe 
+                  id="geckoterminal-score-card" 
+                  title="GT Score Card" 
+                  src="https://www.geckoterminal.com/base/pools/0x41c3662439f1c09512e1460e172c7f9e0c40bc09f79d668b11a41fc3428c3e23/security?size=max&color=dark" 
+                  frameborder="0" 
+                  allow="clipboard-write" 
+                  allowfullscreen>
+                </iframe>
+              </div>
+              
+              <!-- Market Cap Chart - Right Side -->
+              <div class="scorecard-container">
+                <h3 style="padding: 1rem 1.5rem 0; color: var(--text-light); font-family: var(--font-tech); font-size: 1.1rem;">
+                  <span style="color: var(--secondary-color);">📈</span> Market Cap History
+                </h3>
+                <iframe 
+                  id="geckoterminal-marketcap-chart" 
+                  title="Market Cap Chart" 
+                  src="https://www.geckoterminal.com/base/pools/0x41c3662439f1c09512e1460e172c7f9e0c40bc09f79d668b11a41fc3428c3e23?embed=1&info=0&swaps=0&grayscale=0&light_chart=0&chart_type=market_cap&resolution=5m" 
+                  frameborder="0" 
+                  allow="clipboard-write" 
+                  allowfullscreen>
+                </iframe>
+              </div>
+            </div>
+          </section>
+        </div>
+        
+        <div class="container">
+          <!-- Why Support Section -->
+          <section class="support-section">
+            <h2 style="text-align: center; color: var(--secondary-color); font-family: var(--font-tech); margin-bottom: 0.5rem;">Why Support Us?</h2>
+            <p style="text-align: center; color: var(--text-gray); max-width: 600px; margin: 0 auto;">By adding liquidity to $rndmdev, you directly help us maintain affordable services</p>
+            
+            <div class="support-grid">
+              <div class="support-card">
+                <div class="icon">💰</div>
+                <h3>Keep Prices Low</h3>
+                <p>Your support helps us keep our web development services as affordable as possible for everyone.</p>
+              </div>
+              <div class="support-card">
+                <div class="icon">🚀</div>
+                <h3>Fund Growth</h3>
+                <p>Liquidity contributions help us invest in better tools, infrastructure, and expand our capabilities.</p>
+              </div>
+              <div class="support-card">
+                <div class="icon">🤝</div>
+                <h3>Community Driven</h3>
+                <p>Be part of our journey and help shape the future of RNDM Development alongside our team.</p>
+              </div>
+            </div>
+          </section>
+          
+          <!-- CTA Section -->
+          <section class="cta-section">
+            <h2>Ready to Support?</h2>
+            <p>Visit Zora to get $rndmdev tokens and add liquidity to help support our mission.</p>
+            <a href="https://zora.co/rndmdev" target="_blank" rel="noopener noreferrer" class="btn-token">
+              <span>Get $rndmdev on Zora</span>
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                <polyline points="15 3 21 3 21 9"></polyline>
+                <line x1="10" y1="14" x2="21" y2="3"></line>
+              </svg>
+            </a>
+            
+            <div class="disclaimer">
+              <strong>⚠️ Disclaimer:</strong> Cryptocurrency investments carry risk. $rndmdev is a community support token and should not be considered a financial investment. Please do your own research and only contribute what you can afford. This is not financial advice.
+            </div>
+          </section>
+          
+        </div>
+      </div>
+      
+      <!-- Footer will be injected here -->
+    </div>
+    
+    <script type="module">
+      import { initializePage, renderFooter } from '/src/shared.js';
+      import '/src/style.css';
+      
+      // Initialize the token page
+      initializePage('token');
+      
+      // Add footer
+      const footer = document.createElement('div');
+      footer.innerHTML = renderFooter();
+      document.getElementById('app').appendChild(footer.firstElementChild);
+    </script>
+  </body>
+</html>

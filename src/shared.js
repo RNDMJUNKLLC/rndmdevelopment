@@ -44,6 +44,7 @@ function renderNavigation() {
         <li><a href="index.html" class="${currentPage === 'home' ? 'active' : ''}">Home</a></li>
         <li><a href="about.html" class="${currentPage === 'about' ? 'active' : ''}">About</a></li>
         <li><a href="services.html" class="${currentPage === 'services' ? 'active' : ''}">Services</a></li>
+        <li><a href="token.html" class="${currentPage === 'token' ? 'active' : ''}">$rndmdev</a></li>
         <li><a href="contact.html" class="${currentPage === 'contact' ? 'active' : ''}">Contact</a></li>
         <li><button id="authButton" class="btn-auth">Sign In</button></li>
       </ul>
@@ -199,6 +200,7 @@ export function renderFooter() {
               <li><a href="index.html">Home</a></li>
               <li><a href="about.html">About</a></li>
               <li><a href="services.html">Services</a></li>
+              <li><a href="token.html">$rndmdev Token</a></li>
               <li><a href="contact.html">Contact</a></li>
             </ul>
           </div>
