@@ -1,18 +1,41 @@
-import { defineConfig } from 'vite';
-import { resolve } from 'path';
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+import path from 'path'
+import compression from 'vite-plugin-compression'
 
 export default defineConfig({
-  build: {
-    rollupOptions: {
-      input: {
-        main: resolve(__dirname, 'index.html'),
-        about: resolve(__dirname, 'about.html'),
-        services: resolve(__dirname, 'services.html'),
-        contact: resolve(__dirname, 'contact.html'),
-        token: resolve(__dirname, 'token.html'),
-      },
+  plugins: [
+    react(),
+    // Gzip compression for production builds
+    compression({
+      algorithm: 'gzip',
+      ext: '.gz',
+      threshold: 1024,
+      deleteOriginalAssets: false,
+    }),
+  ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+      '@components': path.resolve(__dirname, './src/components'),
+      '@hooks': path.resolve(__dirname, './src/hooks'),
+      '@services': path.resolve(__dirname, './src/services'),
+      '@store': path.resolve(__dirname, './src/store'),
+      '@types': path.resolve(__dirname, './src/types'),
+      '@utils': path.resolve(__dirname, './src/utils'),
+      '@styles': path.resolve(__dirname, './src/styles'),
     },
   },
-  // Load environment variables from .env.local
+  server: {
+    port: 5173,
+    open: true,
+  },
+  build: {
+    outDir: 'dist',
+    sourcemap: false,
+    minify: 'esbuild',
+    reportCompressedSize: true,
+    chunkSizeWarningLimit: 500,
+  },
   envPrefix: 'VITE_',
-});
+})

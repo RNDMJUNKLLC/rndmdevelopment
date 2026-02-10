@@ -1,0 +1,38 @@
+# Robot Meta Data
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /private/
+Disallow: /*.json$
+Disallow: /*?*sort=
+Disallow: /~*
+
+# Google
+User-agent: Googlebot
+Allow: /
+
+# Bing
+User-agent: Bingbot
+Allow: /
+
+# Common robots
+User-agent: AhrefsBot
+Crawl-delay: 1
+
+User-agent: SemrushBot
+Crawl-delay: 1
+
+# Sitemap
+Sitemap: https://rndm.dev/sitemap.xml
+
+# Comment: Crawl delay and request time
+User-agent: *
+Crawl-delay: 1
+
+# Security - disallow sensitive endpoints
+Allow: /api/public/*
+Disallow: /api/private/*
+Disallow: /.env*
+Disallow: /config/
+Disallow: /node_modules/
+Disallow: /.git

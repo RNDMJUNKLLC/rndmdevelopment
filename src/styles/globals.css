@@ -1,0 +1,152 @@
+/* stylelint-disable-next-line at-rule-no-unknown */
+@tailwind base;
+/* stylelint-disable-next-line at-rule-no-unknown */
+@tailwind components;
+/* stylelint-disable-next-line at-rule-no-unknown */
+@tailwind utilities;
+
+/* Custom global styles */
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 transition-colors duration-300;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply px-4 py-2 rounded-lg bg-accent-600 text-white font-medium hover:bg-accent-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-secondary {
+    @apply px-4 py-2 rounded-lg border-2 border-accent-600 text-accent-600 font-medium hover:bg-accent-50 dark:hover:bg-slate-800 transition-colors duration-200;
+  }
+
+  .btn-ghost {
+    @apply px-4 py-2 rounded-lg text-slate-900 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors duration-200;
+  }
+
+  .input-field {
+    @apply w-full px-3 py-2 border border-slate-300 dark:border-slate-600 rounded-lg bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-500 dark:placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-accent-500 focus:border-transparent transition-all duration-200;
+  }
+
+  .card {
+    @apply bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg shadow-sm hover:shadow-md transition-shadow duration-200;
+  }
+
+  .section {
+    @apply py-16 px-4 md:px-6 lg:px-8;
+  }
+
+  .container-max {
+    @apply max-w-7xl mx-auto;
+  }
+
+  .gradient-accent {
+    @apply bg-gradient-to-r from-accent-600 to-accent-700 text-white;
+  }
+}
+
+/* Floating elements animation */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+.float-animation {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Smooth transitions */
+.transition-smooth {
+  @apply transition-all duration-300 ease-in-out;
+}
+
+/* Dark mode transition helper */
+::view-transition-image-pair(root) {
+  animation: none;
+}
+
+::view-transition-old(root) {
+  animation: fade-out 0.5s ease-out forwards;
+}
+
+::view-transition-new(root) {
+  animation: fade-in 0.5s ease-in forwards;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Hamburger menu styles */
+.hamburger {
+  @apply hidden flex-col cursor-pointer gap-1.5;
+}
+
+.hamburger-line {
+  @apply h-0.5 w-6 bg-slate-900 dark:bg-slate-100 rounded transition-all duration-300;
+}
+
+.hamburger.active .hamburger-line:nth-child(1) {
+  @apply rotate-45 translate-y-2;
+}
+
+.hamburger.active .hamburger-line:nth-child(2) {
+  @apply opacity-0;
+}
+
+.hamburger.active .hamburger-line:nth-child(3) {
+  @apply -rotate-45 -translate-y-2;
+}
+
+@media (max-width: 768px) {
+  .hamburger {
+    @apply flex;
+  }
+}
+
+/* Scrollbar customization */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-slate-100 dark:bg-slate-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-slate-400 dark:bg-slate-600 rounded-full hover:bg-slate-500 dark:hover:bg-slate-500;
+}
+
+/* Print styles */
+@media print {
+  body {
+    @apply bg-white text-black;
+  }
+
+  .no-print {
+    @apply hidden;
+  }
+}
