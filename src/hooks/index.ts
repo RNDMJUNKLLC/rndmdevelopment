@@ -7,5 +7,3 @@ export { useAuth } from './useAuth';
 export { useDatabase } from './useDatabase';
 export { useEmail, initializeEmailJS } from './useEmail';
 export { useRecaptcha } from './useRecaptcha';
-
-export default {};

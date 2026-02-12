@@ -12,13 +12,24 @@ jest.mock('@/hooks', () => ({
     user: null,
   }),
   useDatabase: () => ({
-    saveSubmission: jest.fn().mockResolvedValue({ success: true }),
+    addSubmission: jest.fn().mockResolvedValue({ success: true, data: { id: 'test-id' } }),
+    submissions: [],
+    loading: false,
+    fetchSubmissions: jest.fn(),
+    subscribeToSubmissions: jest.fn(() => jest.fn()),
+    updateSubmission: jest.fn(),
+    deleteSubmission: jest.fn(),
+    getSubmission: jest.fn(),
   }),
   useEmail: () => ({
-    sendConfirmationEmail: jest.fn().mockResolvedValue(true),
+    sendSubmissionEmail: jest.fn().mockResolvedValue({ success: true }),
+    sendConfirmationEmail: jest.fn().mockResolvedValue({ success: true }),
+    sendCustomEmail: jest.fn().mockResolvedValue({ success: true }),
+    sendAdminNotification: jest.fn().mockResolvedValue({ success: true }),
   }),
   useRecaptcha: () => ({
-    executeRecaptcha: jest.fn().mockResolvedValue('token'),
+    executeRecaptcha: jest.fn().mockResolvedValue({ success: true, data: { token: 'test-token' } }),
+    isConfigured: true,
   }),
 }));
 

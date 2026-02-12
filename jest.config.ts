@@ -13,6 +13,8 @@ const config: Config = {
     '^@utils/(.*)$': '<rootDir>/src/utils/$1',
     '^@types/(.*)$': '<rootDir>/src/types/$1',
     '^@store/(.*)$': '<rootDir>/src/store/$1',
+    '^@services/(.*)$': '<rootDir>/src/services/$1',
+    '^@styles/(.*)$': '<rootDir>/src/styles/$1',
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
     '\\.(gif|ttf|eot|svg|png|jpg|jpeg)$': '<rootDir>/src/__tests__/__mocks__/fileMock.js',
   },
@@ -24,13 +26,16 @@ const config: Config = {
     '!src/main.tsx',
   ],
   coveragePathIgnorePatterns: ['/node_modules/', '/dist/'],
-  globals: {
-    'ts-jest': {
-      tsconfig: {
-        jsx: 'react-jsx',
-        esModuleInterop: true,
+  transform: {
+    '^.+\.tsx?$': [
+      'ts-jest',
+      {
+        tsconfig: {
+          jsx: 'react-jsx',
+          esModuleInterop: true,
+        },
       },
-    },
+    ],
   },
 };
 

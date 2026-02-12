@@ -9,14 +9,16 @@ export const NotificationContainer: React.FC = () => {
 
   useEffect(() => {
     // Auto-remove notifications after their duration
-    notifications.forEach((notification) => {
+    const timers = notifications.map((notification) => {
       const duration = notification.duration || 5000;
-      const timer = setTimeout(() => {
+      return setTimeout(() => {
         dispatch(uiActions.removeNotification(notification.id));
       }, duration);
-
-      return () => clearTimeout(timer);
     });
+
+    return () => {
+      timers.forEach((timer) => clearTimeout(timer));
+    };
   }, [notifications, dispatch]);
 
   const getNotificationStyles = (type: string) => {

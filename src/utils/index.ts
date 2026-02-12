@@ -8,5 +8,3 @@ export * from './formValidation';
 
 // Form utilities (reusable across projects)
 export * from './formUtils';
-
-export default {};
