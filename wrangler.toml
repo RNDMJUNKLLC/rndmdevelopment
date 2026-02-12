@@ -1,0 +1,28 @@
+name = "rndmdevelopment"
+type = "javascript"
+account_id = ""
+workers_dev = true
+route = ""
+zone_id = ""
+
+# Cloudflare Pages configuration
+pages_build_output_dir = "dist"
+
+[env.production]
+name = "rndmdevelopment-prod"
+route = "rndm.dev/*"
+zone_id = ""
+
+[env.staging]
+name = "rndmdevelopment-staging"
+route = "staging.rndm.dev/*"
+zone_id = ""
+
+# Build configuration
+[build]
+command = "npm run build"
+cwd = "./"
+watch_paths = ["src/**/*.tsx", "src/**/*.ts", "public/**/*"]
+
+[build.upload]
+format = "service-worker"
