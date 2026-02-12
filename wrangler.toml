@@ -1,28 +1,9 @@
 name = "rndmdevelopment"
-type = "javascript"
-account_id = ""
-workers_dev = true
-route = ""
-zone_id = ""
-
-# Cloudflare Pages configuration
+compatibility_date = "2024-09-23"
 pages_build_output_dir = "dist"
 
 [env.production]
-name = "rndmdevelopment-prod"
-route = "rndm.dev/*"
-zone_id = ""
+name = "rndmdevelopment"
 
-[env.staging]
-name = "rndmdevelopment-staging"
-route = "staging.rndm.dev/*"
-zone_id = ""
-
-# Build configuration
-[build]
-command = "npm run build"
-cwd = "./"
-watch_paths = ["src/**/*.tsx", "src/**/*.ts", "public/**/*"]
-
-[build.upload]
-format = "service-worker"
+[env.preview]
+name = "rndmdevelopment-preview"
