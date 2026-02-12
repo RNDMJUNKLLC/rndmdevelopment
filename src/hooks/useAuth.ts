@@ -24,6 +24,11 @@ export const useAuth = () => {
    * Initialize auth listener on mount
    */
   useEffect(() => {
+    if (!auth) {
+      dispatch(authActions.setLoading(false));
+      return;
+    }
+
     const unsubscribe = onAuthStateChanged(auth, (firebaseUser: FirebaseUser | null) => {
       if (firebaseUser) {
         const user: User = {
@@ -47,6 +52,7 @@ export const useAuth = () => {
   const signup = useCallback(
     async (email: string, password: string, displayName?: string): Promise<ServiceResponse<User>> => {
       try {
+        if (!auth) throw new Error('Firebase is not configured');
         dispatch(authActions.setLoading(true));
         dispatch(authActions.setError(null));
 
@@ -91,6 +97,7 @@ export const useAuth = () => {
   const signin = useCallback(
     async (email: string, password: string): Promise<ServiceResponse<User>> => {
       try {
+        if (!auth) throw new Error('Firebase is not configured');
         dispatch(authActions.setLoading(true));
         dispatch(authActions.setError(null));
 
@@ -130,6 +137,7 @@ export const useAuth = () => {
    */
   const signout = useCallback(async (): Promise<ServiceResponse<null>> => {
     try {
+      if (!auth) throw new Error('Firebase is not configured');
       dispatch(authActions.setLoading(true));
       await firebaseSignOut(auth);
       dispatch(authActions.logout());
@@ -157,8 +165,8 @@ export const useAuth = () => {
   const updateUserProfile = useCallback(
     async (profile: Partial<UserProfile>): Promise<ServiceResponse<User>> => {
       try {
-        if (!auth.currentUser) {
-          throw new Error('No user logged in');
+        if (!auth || !auth.currentUser) {
+          throw new Error(!auth ? 'Firebase is not configured' : 'No user logged in');
         }
 
         dispatch(authActions.setLoading(true));

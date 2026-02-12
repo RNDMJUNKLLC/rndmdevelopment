@@ -27,6 +27,7 @@ export const useDatabase = () => {
   const addSubmission = useCallback(
     async (submission: Omit<ContactFormSubmission, 'id' | 'timestamp'>): Promise<ServiceResponse<ContactFormSubmission>> => {
       try {
+        if (!database) throw new Error('Firebase is not configured');
         dispatch(formsActions.setLoading(true));
 
         const submissionsRef = ref(database, 'formSubmissions');
@@ -71,6 +72,7 @@ export const useDatabase = () => {
   const fetchSubmissions = useCallback(
     async (): Promise<ServiceResponse<ContactFormSubmission[]>> => {
       try {
+        if (!database) throw new Error('Firebase is not configured');
         dispatch(formsActions.setLoading(true));
 
         const submissionsRef = ref(database, 'formSubmissions');
@@ -112,6 +114,10 @@ export const useDatabase = () => {
    */
   const subscribeToSubmissions = useCallback(
     (callback?: (submissions: ContactFormSubmission[]) => void): Unsubscribe => {
+      if (!database) {
+        return () => {};
+      }
+
       const submissionsRef = ref(database, 'formSubmissions');
 
       const unsubscribe = onValue(submissionsRef, (snapshot) => {
@@ -142,6 +148,7 @@ export const useDatabase = () => {
   const updateSubmission = useCallback(
     async (id: string, updates: Partial<ContactFormSubmission>): Promise<ServiceResponse<ContactFormSubmission>> => {
       try {
+        if (!database) throw new Error('Firebase is not configured');
         dispatch(formsActions.setLoading(true));
 
         const submissionRef = ref(database, `formSubmissions/${id}`);
@@ -181,6 +188,7 @@ export const useDatabase = () => {
   const deleteSubmission = useCallback(
     async (id: string): Promise<ServiceResponse<null>> => {
       try {
+        if (!database) throw new Error('Firebase is not configured');
         dispatch(formsActions.setLoading(true));
 
         const submissionRef = ref(database, `formSubmissions/${id}`);
@@ -212,6 +220,7 @@ export const useDatabase = () => {
   const getSubmission = useCallback(
     async (id: string): Promise<ServiceResponse<ContactFormSubmission>> => {
       try {
+        if (!database) throw new Error('Firebase is not configured');
         dispatch(formsActions.setLoading(true));
 
         const submissionRef = ref(database, `formSubmissions/${id}`);

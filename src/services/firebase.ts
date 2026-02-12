@@ -33,14 +33,30 @@ const getFirebaseConfig = (): FirebaseConfig => {
   return config;
 };
 
-// Initialize Firebase app
+// Initialize Firebase app (only if configured)
 const firebaseConfig = getFirebaseConfig();
-const app = initializeApp(firebaseConfig);
+const requiredFields = ['apiKey', 'authDomain', 'projectId'];
+const hasRequiredConfig = requiredFields.every(
+  (field) => !!firebaseConfig[field as keyof FirebaseConfig]
+);
 
-// Initialize Firebase services
-export const auth: Auth = getAuth(app);
-export const database: Database = getDatabase(app);
-export const storage: FirebaseStorage = getStorage(app);
+let app: ReturnType<typeof initializeApp> | null = null;
+let auth: Auth | null = null;
+let database: Database | null = null;
+let storage: FirebaseStorage | null = null;
+
+if (hasRequiredConfig) {
+  app = initializeApp(firebaseConfig);
+  auth = getAuth(app);
+  database = getDatabase(app);
+  storage = getStorage(app);
+} else {
+  console.warn(
+    'Firebase is not configured. Set VITE_FIREBASE_* environment variables to enable Firebase features.'
+  );
+}
+
+export { auth, database, storage };
 
 /**
  * Check if Firebase is properly configured
