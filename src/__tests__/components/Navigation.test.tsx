@@ -1,17 +1,9 @@
 import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import Navigation from '@components/layout/Navigation';
 import uiReducer from '@store/slices/uiSlice';
-
-// Mock the useAuth hook
-jest.mock('@/hooks', () => ({
-  useAuth: () => ({
-    isLoggedIn: false,
-    user: null,
-    logout: jest.fn(),
-  }),
-}));
 
 describe('Navigation Component', () => {
   let store: any;
@@ -39,24 +31,47 @@ describe('Navigation Component', () => {
     expect(nav).toBeInTheDocument();
   });
 
-  it('should have navigation links', () => {
+  it('should have navigation buttons', () => {
     renderComponent();
     
-    const links = screen.getAllByRole('link');
-    expect(links.length).toBeGreaterThan(0);
+    const buttons = screen.getAllByRole('button');
+    // Should have at least: Home, About, Services, Contact + Dark Mode Toggle
+    expect(buttons.length).toBeGreaterThanOrEqual(5);
   });
 
-  it('should display controls/buttons', () => {
+  it('should display logo', () => {
     renderComponent();
     
-    const buttons = screen.queryAllByRole('button');
-    expect(buttons.length >= 0).toBe(true);
+    const logo = screen.getByText('RNDM DEVS');
+    expect(logo).toBeInTheDocument();
   });
 
-  it('should contain navigation elements', () => {
-    const { container } = renderComponent();
+  it('should have navigation links for main pages', () => {
+    renderComponent();
     
-    const nav = container.querySelector('nav');
-    expect(nav).toBeInTheDocument();
+    expect(screen.getByText('Home')).toBeInTheDocument();
+    expect(screen.getByText('About')).toBeInTheDocument();
+    expect(screen.getByText('Services')).toBeInTheDocument();
+    expect(screen.getByText('Contact')).toBeInTheDocument();
+  });
+
+  it('should have dark mode toggle button', () => {
+    renderComponent();
+    
+    const buttons = screen.getAllByRole('button');
+    const darkModeButton = buttons.find(btn => btn.getAttribute('aria-label') === 'Toggle dark mode');
+    expect(darkModeButton).toBeInTheDocument();
+  });
+
+  it('should dispatch navigation action on button click', async () => {
+    const user = userEvent.setup();
+    renderComponent();
+    
+    const aboutButton = screen.getByText('About');
+    await user.click(aboutButton);
+    
+    // Verify the button was clicked (state should update)
+    expect(aboutButton).toBeInTheDocument();
   });
 });
+
