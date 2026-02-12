@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [20.x]
     steps:
       - uses: actions/checkout@v3
 
@@ -41,6 +41,7 @@ jobs:
   deploy:
     needs: test
     runs-on: ubuntu-latest
+    if: github.event_name == 'push'
     permissions:
       contents: read
       deployments: write
@@ -69,5 +70,4 @@ jobs:
           projectName: rndmdevelopment
           directory: dist
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
-          # Only deploy from main/forked-main to production
-          productionBranch: forked-main
+          branch: ${{ github.ref_name }}
