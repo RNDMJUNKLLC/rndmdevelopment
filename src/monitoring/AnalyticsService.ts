@@ -49,12 +49,12 @@ class AnalyticsService {
 
   constructor(config: AnalyticsConfig) {
     this.config = {
-      enableTracking: true,
-      enableErrorTracking: true,
-      enablePerformanceTracking: true,
-      sampleRate: 100,
-      environment: 'production',
       ...config,
+      enableTracking: config.enableTracking ?? true,
+      enableErrorTracking: config.enableErrorTracking ?? true,
+      enablePerformanceTracking: config.enablePerformanceTracking ?? true,
+      sampleRate: config.sampleRate ?? 100,
+      environment: config.environment ?? 'production',
     };
 
     // Determine if this session is sampled
@@ -82,7 +82,8 @@ class AnalyticsService {
     // Initialize gtag
     (window as any).dataLayer = (window as any).dataLayer || [];
 
-    function gtag(...args: any[]) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    function gtag(..._args: any[]) {
       (window as any).dataLayer.push(arguments);
     }
 
@@ -379,7 +380,7 @@ class AnalyticsService {
 export function initAnalytics(
   config: Partial<AnalyticsConfig>
 ): AnalyticsService {
-  return new AnalyticsService(config);
+  return new AnalyticsService(config as AnalyticsConfig);
 }
 
 /**

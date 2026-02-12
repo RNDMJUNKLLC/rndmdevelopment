@@ -3,21 +3,35 @@
  * Centralized exports for all monitoring, analytics, error tracking, and performance monitoring
  */
 
-export { default as PerformanceMonitor, initPerformanceMonitoring } from './PerformanceMonitor';
-export type { PerformanceConfig, PerformanceAssessment, PerformanceReport, PerformanceMetrics } from './PerformanceMonitor';
+import PerformanceMonitor, {
+  initPerformanceMonitoring,
+  type PerformanceConfig,
+  type PerformanceAssessment,
+  type PerformanceReport,
+} from './PerformanceMonitor';
 
-export { default as ErrorTracker, initErrorTracking } from './ErrorTracker';
-export type { ErrorTrackerConfig } from './ErrorTracker';
+import ErrorTracker, { initErrorTracking, type ErrorTrackerConfig } from './ErrorTracker';
 
-export { default as AnalyticsService, initAnalytics, getAnalytics } from './AnalyticsService';
-export type {} from './AnalyticsService';
+import AnalyticsService, { initAnalytics, getAnalytics } from './AnalyticsService';
+
+export {
+  PerformanceMonitor,
+  initPerformanceMonitoring,
+  type PerformanceConfig,
+  type PerformanceAssessment,
+  type PerformanceReport,
+};
+
+export { ErrorTracker, initErrorTracking, type ErrorTrackerConfig };
+
+export { AnalyticsService, initAnalytics, getAnalytics };
 
 /**
  * Combined initialization function
  * Initializes all monitoring services in one call
  */
 export function initializeMonitoring(config: MonitoringConfig) {
-  const services = {};
+  const services: Record<string, any> = {};
 
   // Initialize Performance Monitor
   if (config.performance) {

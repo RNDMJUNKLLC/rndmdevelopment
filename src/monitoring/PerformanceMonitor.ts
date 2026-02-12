@@ -3,8 +3,7 @@
  * Integrates Web Vitals, Google Analytics, and Error tracking
  */
 
-import { getCLS, getFCP, getFID, getLCP, getTTFB } from 'web-vitals';
-import type { Metric } from 'web-vitals';
+import { onCLS, onFCP, onFID, onLCP, onTTFB } from 'web-vitals';
 
 declare global {
   interface Window {
@@ -89,19 +88,19 @@ class PerformanceMonitor {
    */
   private initializeWebVitals() {
     // Largest Contentful Paint
-    getLCP((metric) => this.handleMetric(metric, 'LCP'));
+    onLCP((metric) => this.handleMetric(metric, 'LCP'));
 
     // First Input Delay (deprecated, but still useful)
-    getFID((metric) => this.handleMetric(metric, 'FID'));
+    onFID((metric) => this.handleMetric(metric, 'FID'));
 
     // Cumulative Layout Shift
-    getCLS((metric) => this.handleMetric(metric, 'CLS'));
+    onCLS((metric) => this.handleMetric(metric, 'CLS'));
 
     // Time to First Byte
-    getTTFB((metric) => this.handleMetric(metric, 'TTFB'));
+    onTTFB((metric) => this.handleMetric(metric, 'TTFB'));
 
     // First Contentful Paint
-    getFCP((metric) => this.handleMetric(metric, 'FCP'));
+    onFCP((metric) => this.handleMetric(metric, 'FCP'));
 
     // Also track Navigation Timing
     this.trackNavigationTiming();
@@ -110,7 +109,7 @@ class PerformanceMonitor {
   /**
    * Handle individual metrics
    */
-  private handleMetric(metric: Metric, vitalsKey: string) {
+  private handleMetric(metric: any, vitalsKey: string) {
     const key = vitalsKey.toLowerCase() as keyof typeof this.metrics.vitals;
     const value = Math.round(metric.value);
 
@@ -134,7 +133,7 @@ class PerformanceMonitor {
     }
 
     // Send to custom endpoint if configured
-    if (this.config.submitEndpoint && metric.isFinal) {
+    if (this.config.submitEndpoint && (metric as any).isFinal) {
       this.submitMetrics();
     }
   }
@@ -147,9 +146,9 @@ class PerformanceMonitor {
       const perfData = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
 
       if (perfData) {
-        const navigationStart = perfData.navigationStart || 0;
-        this.metrics.navigation.loadTime = Math.round(perfData.loadEventEnd - navigationStart);
-        this.metrics.navigation.domContentLoaded = Math.round(perfData.domContentLoadedEventEnd - navigationStart);
+        const navigationStart = (perfData as any).navigationStart || 0;
+        this.metrics.navigation.loadTime = Math.round((perfData as any).loadEventEnd - navigationStart);
+        this.metrics.navigation.domContentLoaded = Math.round((perfData as any).domContentLoadedEventEnd - navigationStart);
 
         // Calculate resource size
         const resources = performance.getEntriesByType('resource');
