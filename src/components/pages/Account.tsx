@@ -4,7 +4,7 @@ import { useAuth, useDatabase, useDiscord } from '@/hooks';
 import LoginForm from '@components/forms/LoginForm';
 import SignupForm from '@components/forms/SignupForm';
 import AdminDashboard from '@components/admin/AdminDashboard';
-import type { ContactFormSubmission } from '@/types';
+import type { ContactFormSubmission, SOSSubmission } from '@/types';
 
 type AuthMode = 'login' | 'signup';
 type AccountTab = 'submissions' | 'sos' | 'profile' | 'admin';
@@ -81,36 +81,41 @@ const SubmissionsTab: React.FC<{
 };
 
 /* ───── SOS Request Tab ───── */
-const SOSTab: React.FC<{ userEmail: string; userName: string }> = ({
-  userEmail,
-  userName,
-}) => {
-  const { sendDiscordNotification, sending } = useDiscord();
-  const [reason, setReason] = useState('');
-  const [urgency, setUrgency] = useState<'low' | 'medium' | 'high'>('medium');
+const SOSTab: React.FC<{
+  userEmail: string;
+  userName: string;
+  userSubmissions: ContactFormSubmission[];
+}> = ({ userEmail, userName, userSubmissions }) => {
+  const { sendSOSNotification, sending } = useDiscord();
   const [submitted, setSubmitted] = useState(false);
+
+  const [form, setForm] = useState({
+    name: userName,
+    business: '',
+    email: userEmail,
+    phone: '',
+    project: '',
+    projectId: '',
+    requestType: 'Bug Fix / Issue',
+    timeline: 'Flexible',
+    priority: 'Normal',
+    details: '',
+  });
+
+  const update = (field: string, value: string) =>
+    setForm((prev) => ({ ...prev, [field]: value }));
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!reason.trim()) return;
+    if (!form.details.trim()) return;
 
-    const sosSubmission = {
-      name: userName,
-      email: userEmail,
-      projectType: `🚨 SOS Request (${urgency.toUpperCase()})`,
-      budget: 'N/A',
-      timeline: 'ASAP',
-      message: reason,
-      status: 'pending' as const,
+    const sosPayload: SOSSubmission = {
+      ...form,
+      timestamp: Date.now(),
     };
 
-    await sendDiscordNotification(
-      { ...sosSubmission, timestamp: Date.now() } as ContactFormSubmission,
-      'sos'
-    );
-
+    await sendSOSNotification(sosPayload);
     setSubmitted(true);
-    setReason('');
   };
 
   if (submitted) {
@@ -119,7 +124,7 @@ const SOSTab: React.FC<{ userEmail: string; userName: string }> = ({
         <div className="text-5xl mb-4">✅</div>
         <h3 className="text-xl font-bold text-green-400 mb-2">SOS Sent!</h3>
         <p className="text-slate-400 mb-6">
-          Your request has been sent to our team on Discord. We&apos;ll get back to you shortly.
+          Your support request has been sent to our team. We&apos;ll get back to you shortly.
         </p>
         <button
           onClick={() => setSubmitted(false)}
@@ -131,58 +136,214 @@ const SOSTab: React.FC<{ userEmail: string; userName: string }> = ({
     );
   }
 
+  const requestTypes = [
+    'Bug Fix / Issue',
+    'Feature Request',
+    'Status Update',
+    'General Support',
+    'Billing / Invoice',
+    'Other',
+  ];
+
+  const timelines = ['ASAP', 'Within 24 Hours', 'Within a Week', 'Flexible'];
+
+  const priorities: { value: string; icon: string; color: string }[] = [
+    { value: 'Low', icon: '🟢', color: 'bg-green-500/20 border-green-500 text-green-300' },
+    { value: 'Normal', icon: '🎯', color: 'bg-yellow-500/20 border-yellow-500 text-yellow-300' },
+    { value: 'High', icon: '🔴', color: 'bg-orange-500/20 border-orange-500 text-orange-300' },
+    { value: 'Critical', icon: '🚨', color: 'bg-red-500/20 border-red-500 text-red-300' },
+  ];
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-xl">
+    <form onSubmit={handleSubmit} className="space-y-6 max-w-2xl">
       <div>
         <h3 className="text-xl font-bold text-red-400 mb-1 flex items-center gap-2">
-          🚨 Request Update / SOS
+          🆘 SOS - Project Support Request
         </h3>
         <p className="text-slate-500 text-sm">
-          Need a status update on a project or have an urgent issue? Let us know.
+          Fill out the details below and we&apos;ll get back to you as soon as possible.
         </p>
       </div>
 
-      {/* Urgency */}
+      {/* Row 1: Name / Business / Email */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <label htmlFor="sos-name" className="block text-sm font-medium text-slate-300 mb-1">
+            👤 Name
+          </label>
+          <input
+            id="sos-name"
+            type="text"
+            value={form.name}
+            onChange={(e) => update('name', e.target.value)}
+            className="input-field"
+            required
+          />
+        </div>
+        <div>
+          <label htmlFor="sos-business" className="block text-sm font-medium text-slate-300 mb-1">
+            🏢 Business
+          </label>
+          <input
+            id="sos-business"
+            type="text"
+            value={form.business}
+            onChange={(e) => update('business', e.target.value)}
+            placeholder="Company name"
+            className="input-field"
+          />
+        </div>
+        <div>
+          <label htmlFor="sos-email" className="block text-sm font-medium text-slate-300 mb-1">
+            📧 Email
+          </label>
+          <input
+            id="sos-email"
+            type="email"
+            value={form.email}
+            onChange={(e) => update('email', e.target.value)}
+            className="input-field"
+            required
+          />
+        </div>
+      </div>
+
+      {/* Row 2: Phone / Project / Project ID */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <div>
+          <label htmlFor="sos-phone" className="block text-sm font-medium text-slate-300 mb-1">
+            📞 Phone
+          </label>
+          <input
+            id="sos-phone"
+            type="tel"
+            value={form.phone}
+            onChange={(e) => update('phone', e.target.value)}
+            placeholder="Phone number"
+            className="input-field"
+          />
+        </div>
+        <div>
+          <label htmlFor="sos-project" className="block text-sm font-medium text-slate-300 mb-1">
+            📁 Project
+          </label>
+          {userSubmissions.length > 0 ? (
+            <select
+              id="sos-project"
+              value={form.project}
+              onChange={(e) => {
+                const selected = userSubmissions.find((s) => s.projectType === e.target.value);
+                update('project', e.target.value);
+                if (selected?.id) update('projectId', selected.id);
+              }}
+              className="input-field"
+            >
+              <option value="">Select a project</option>
+              {userSubmissions.map((s) => (
+                <option key={s.id} value={s.projectType}>
+                  {s.projectType}
+                </option>
+              ))}
+              <option value="Other">Other</option>
+            </select>
+          ) : (
+            <input
+              id="sos-project"
+              type="text"
+              value={form.project}
+              onChange={(e) => update('project', e.target.value)}
+              placeholder="Project name"
+              className="input-field"
+            />
+          )}
+        </div>
+        <div>
+          <label htmlFor="sos-projectId" className="block text-sm font-medium text-slate-300 mb-1">
+            🎯 Project ID
+          </label>
+          <input
+            id="sos-projectId"
+            type="text"
+            value={form.projectId}
+            onChange={(e) => update('projectId', e.target.value)}
+            placeholder="Auto-filled or enter manually"
+            className="input-field"
+          />
+        </div>
+      </div>
+
+      {/* Row 3: Request Type / Timeline */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label htmlFor="sos-requestType" className="block text-sm font-medium text-slate-300 mb-1">
+            🔧 Request Type
+          </label>
+          <select
+            id="sos-requestType"
+            value={form.requestType}
+            onChange={(e) => update('requestType', e.target.value)}
+            className="input-field"
+          >
+            {requestTypes.map((type) => (
+              <option key={type} value={type}>
+                {type}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div>
+          <label htmlFor="sos-timeline" className="block text-sm font-medium text-slate-300 mb-1">
+            ⏰ Timeline
+          </label>
+          <select
+            id="sos-timeline"
+            value={form.timeline}
+            onChange={(e) => update('timeline', e.target.value)}
+            className="input-field"
+          >
+            {timelines.map((t) => (
+              <option key={t} value={t}>
+                {t}
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      {/* Priority */}
       <div>
         <label className="block text-sm font-medium text-slate-300 mb-2">
-          Urgency Level
+          🚨 Priority
         </label>
-        <div className="flex gap-3">
-          {(['low', 'medium', 'high'] as const).map((level) => (
+        <div className="flex gap-3 flex-wrap">
+          {priorities.map((p) => (
             <button
-              key={level}
+              key={p.value}
               type="button"
-              onClick={() => setUrgency(level)}
-              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                urgency === level
-                  ? level === 'high'
-                    ? 'bg-red-500/20 border border-red-500 text-red-300'
-                    : level === 'medium'
-                    ? 'bg-yellow-500/20 border border-yellow-500 text-yellow-300'
-                    : 'bg-green-500/20 border border-green-500 text-green-300'
-                  : 'bg-white/5 border border-white/10 text-slate-400 hover:bg-white/10'
+              onClick={() => update('priority', p.value)}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all border ${
+                form.priority === p.value
+                  ? p.color
+                  : 'bg-white/5 border-white/10 text-slate-400 hover:bg-white/10'
               }`}
             >
-              {level.charAt(0).toUpperCase() + level.slice(1)}
+              {p.icon} {p.value}
             </button>
           ))}
         </div>
       </div>
 
-      {/* Reason */}
+      {/* Details */}
       <div>
-        <label
-          htmlFor="sos-reason"
-          className="block text-sm font-medium text-slate-300 mb-2"
-        >
-          What do you need?
+        <label htmlFor="sos-details" className="block text-sm font-medium text-slate-300 mb-1">
+          📝 Details
         </label>
         <textarea
-          id="sos-reason"
-          value={reason}
-          onChange={(e) => setReason(e.target.value)}
+          id="sos-details"
+          value={form.details}
+          onChange={(e) => update('details', e.target.value)}
           rows={5}
-          placeholder="Describe your request or issue..."
+          placeholder="Describe your issue or request in detail..."
           className="input-field resize-none"
           required
         />
@@ -190,7 +351,7 @@ const SOSTab: React.FC<{ userEmail: string; userName: string }> = ({
 
       <button
         type="submit"
-        disabled={sending || !reason.trim()}
+        disabled={sending || !form.details.trim()}
         className="btn-primary w-full flex items-center justify-center gap-2 disabled:opacity-50"
       >
         {sending ? (
@@ -199,7 +360,7 @@ const SOSTab: React.FC<{ userEmail: string; userName: string }> = ({
             Sending...
           </>
         ) : (
-          '🚨 Send SOS Request'
+          '🆘 Submit Support Request'
         )}
       </button>
     </form>
@@ -323,6 +484,7 @@ export const Account: React.FC = () => {
               <SOSTab
                 userEmail={user.email || ''}
                 userName={user.displayName || user.email || 'User'}
+                userSubmissions={userSubmissions}
               />
             )}
             {activeTab === 'profile' && (

@@ -29,6 +29,21 @@ export interface ContactFormSubmission {
   status: 'pending' | 'viewed' | 'responded';
 }
 
+export interface SOSSubmission {
+  id?: string;
+  name: string;
+  business: string;
+  email: string;
+  phone: string;
+  project: string;
+  projectId: string;
+  requestType: string;
+  timeline: string;
+  priority: string;
+  details: string;
+  timestamp: number;
+}
+
 export interface FormValidationError {
   field: string;
   message: string;
