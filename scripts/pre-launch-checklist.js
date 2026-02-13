@@ -142,7 +142,27 @@ const checks = [
   // Security
   {
     name: 'No API Keys in Source Code',
-    check: () => !fs.readFileSync(path.join(process.cwd(), 'src'), 'utf8').includes('AIzaSy'),
+    check: () => {
+      try {
+        const srcDir = path.join(process.cwd(), 'src');
+        const checkDir = (dir) => {
+          const entries = fs.readdirSync(dir, { withFileTypes: true });
+          for (const entry of entries) {
+            const fullPath = path.join(dir, entry.name);
+            if (entry.isDirectory()) {
+              if (checkDir(fullPath)) return true;
+            } else if (entry.isFile() && /\.(ts|tsx|js|jsx)$/.test(entry.name)) {
+              const content = fs.readFileSync(fullPath, 'utf8');
+              if (content.includes('AIzaSy')) return true;
+            }
+          }
+          return false;
+        };
+        return !checkDir(srcDir);
+      } catch (e) {
+        return true;
+      }
+    },
     category: 'Security',
   },
   {

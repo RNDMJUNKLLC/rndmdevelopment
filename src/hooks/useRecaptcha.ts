@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import type { reCAPTCHAConfig, ServiceResponse } from '@/types';
 
 /**
@@ -40,7 +40,7 @@ const getRecaptchaConfig = (): reCAPTCHAConfig => {
  * Handles spam detection and bot protection for forms
  */
 export const useRecaptcha = () => {
-  const config = getRecaptchaConfig();
+  const config = useMemo(() => getRecaptchaConfig(), []);
 
   /**
    * Initialize reCAPTCHA on component mount
@@ -54,7 +54,7 @@ export const useRecaptcha = () => {
     loadRecaptchaScript(config.siteKey).catch((err) => {
       console.error('Failed to load reCAPTCHA:', err);
     });
-  }, [config]);
+  }, [config.enabled, config.siteKey]);
 
   /**
    * Execute reCAPTCHA verification

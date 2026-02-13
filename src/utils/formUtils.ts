@@ -23,7 +23,7 @@ export const formatSubmission = (
  * Generate unique submission ID
  */
 export const generateSubmissionId = (): string => {
-  return `sub_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  return `sub_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`;
 };
 
 /**
@@ -124,7 +124,7 @@ export const createNotification = (
   duration: number = 5000
 ): Notification => {
   return {
-    id: `notif_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+    id: `notif_${Date.now()}_${Math.random().toString(36).substring(2, 11)}`,
     type,
     message,
     duration,

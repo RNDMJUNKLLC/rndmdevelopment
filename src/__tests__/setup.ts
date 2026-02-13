@@ -6,6 +6,36 @@ Object.defineProperty(window, 'scrollTo', {
   writable: true,
 });
 
+// Mock the firebase service module (uses import.meta.env which Jest doesn't support)
+jest.mock('@services/firebase', () => ({
+  auth: null,
+  database: null,
+  storage: null,
+  app: null,
+}));
+
+// Mock hooks that use import.meta.env (not supported in Jest/jsdom)
+jest.mock('@hooks/useEmail', () => ({
+  useEmail: () => ({
+    sendSubmissionEmail: jest.fn(),
+    sendCustomEmail: jest.fn(),
+    sendAdminNotification: jest.fn(),
+    sendConfirmationEmail: jest.fn(),
+  }),
+  initializeEmailJS: jest.fn(),
+}));
+
+jest.mock('@hooks/useRecaptcha', () => ({
+  useRecaptcha: () => ({
+    config: { siteKey: '', minimumScore: 0.5, enabled: false },
+    executeRecaptcha: jest.fn(),
+    verifyToken: jest.fn(),
+    isScoreValid: jest.fn(() => true),
+    isConfigured: jest.fn(() => false),
+  }),
+  default: jest.fn(),
+}));
+
 // Mock Firebase
 jest.mock('firebase/app', () => ({
   initializeApp: jest.fn(),
@@ -35,6 +65,21 @@ jest.mock('firebase/firestore', () => ({
   updateDoc: jest.fn(),
   deleteDoc: jest.fn(),
   setDoc: jest.fn(),
+}));
+
+jest.mock('firebase/database', () => ({
+  getDatabase: jest.fn(),
+  ref: jest.fn(),
+  push: jest.fn(),
+  set: jest.fn(),
+  get: jest.fn(),
+  update: jest.fn(),
+  remove: jest.fn(),
+  onValue: jest.fn(),
+  query: jest.fn(),
+  orderByChild: jest.fn(),
+  equalTo: jest.fn(),
+  limitToLast: jest.fn(),
 }));
 
 jest.mock('firebase/storage', () => ({

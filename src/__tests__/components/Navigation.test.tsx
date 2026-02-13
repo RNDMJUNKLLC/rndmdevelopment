@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { configureStore } from '@reduxjs/toolkit';
 import Navigation from '@components/layout/Navigation';
 import uiReducer from '@store/slices/uiSlice';
+import authReducer from '@store/slices/authSlice';
 
 describe('Navigation Component', () => {
   let store: any;
@@ -12,6 +13,7 @@ describe('Navigation Component', () => {
     store = configureStore({
       reducer: {
         ui: uiReducer,
+        auth: authReducer,
       },
     });
   });
@@ -35,8 +37,8 @@ describe('Navigation Component', () => {
     renderComponent();
     
     const buttons = screen.getAllByRole('button');
-    // Should have at least: Home, About, Services, Contact + Dark Mode Toggle
-    expect(buttons.length).toBeGreaterThanOrEqual(5);
+    // Should have: RNDM DEVS logo + Home, About, Services, Contact, Account + hamburger
+    expect(buttons.length).toBeGreaterThanOrEqual(6);
   });
 
   it('should display logo', () => {
@@ -55,12 +57,12 @@ describe('Navigation Component', () => {
     expect(screen.getByText('Contact')).toBeInTheDocument();
   });
 
-  it('should have dark mode toggle button', () => {
+  it('should have mobile menu toggle button', () => {
     renderComponent();
     
     const buttons = screen.getAllByRole('button');
-    const darkModeButton = buttons.find(btn => btn.getAttribute('aria-label') === 'Toggle dark mode');
-    expect(darkModeButton).toBeInTheDocument();
+    const menuToggle = buttons.find(btn => btn.getAttribute('aria-label') === 'Toggle menu');
+    expect(menuToggle).toBeInTheDocument();
   });
 
   it('should dispatch navigation action on button click', async () => {

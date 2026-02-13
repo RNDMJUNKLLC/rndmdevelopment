@@ -146,9 +146,8 @@ class PerformanceMonitor {
       const perfData = performance.getEntriesByType('navigation')[0] as PerformanceNavigationTiming;
 
       if (perfData) {
-        const navigationStart = (perfData as any).navigationStart || 0;
-        this.metrics.navigation.loadTime = Math.round((perfData as any).loadEventEnd - navigationStart);
-        this.metrics.navigation.domContentLoaded = Math.round((perfData as any).domContentLoadedEventEnd - navigationStart);
+        this.metrics.navigation.loadTime = Math.round(perfData.loadEventEnd - perfData.startTime);
+        this.metrics.navigation.domContentLoaded = Math.round(perfData.domContentLoadedEventEnd - perfData.startTime);
 
         // Calculate resource size
         const resources = performance.getEntriesByType('resource');
@@ -195,7 +194,7 @@ class PerformanceMonitor {
    * Generate unique load ID
    */
   private generateLoadId(): string {
-    return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    return `${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
   }
 
   /**

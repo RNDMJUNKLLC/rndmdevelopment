@@ -27,7 +27,7 @@ const securityChecks = {
       name: 'No Hardcoded API Keys in Source',
       check: () => {
         const srcDir = path.join(__dirname, '../src');
-        const files = getAllFiles(srcDir).filter((f) => f.endsWith('.js') || f.endsWith('.ts'));
+        const files = getAllFiles(srcDir).filter((f) => f.endsWith('.js') || f.endsWith('.ts') || f.endsWith('.tsx') || f.endsWith('.jsx'));
 
         const apiKeyPatterns = [
           /api[_-]?key\s*=\s*['"][^'"]{20,}/gi,
@@ -59,7 +59,7 @@ const securityChecks = {
       check: () => {
         const srcDir = path.join(__dirname, '../src');
         const files = getAllFiles(srcDir)
-          .filter((f) => f.endsWith('.js') || f.endsWith('.ts'))
+          .filter((f) => f.endsWith('.js') || f.endsWith('.ts') || f.endsWith('.tsx') || f.endsWith('.jsx'))
           .filter((f) => !f.includes('.test.'));
 
         let found = [];
@@ -267,7 +267,7 @@ const securityChecks = {
       name: 'Sensitive Data Not Logged',
       check: () => {
         const srcDir = path.join(__dirname, '../src');
-        const files = getAllFiles(srcDir).filter((f) => f.endsWith('.js') || f.endsWith('.ts'));
+        const files = getAllFiles(srcDir).filter((f) => f.endsWith('.js') || f.endsWith('.ts') || f.endsWith('.tsx') || f.endsWith('.jsx'));
 
         let found = [];
         const sensitivePatterns = [

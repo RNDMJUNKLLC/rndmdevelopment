@@ -323,7 +323,7 @@ class AnalyticsService {
     let sessionId = sessionStorage.getItem('__analytics_session_id');
 
     if (!sessionId) {
-      sessionId = `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      sessionId = `${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
       sessionStorage.setItem('__analytics_session_id', sessionId);
     }
 
@@ -334,7 +334,7 @@ class AnalyticsService {
    * Generate unique page view ID
    */
   private generatePageViewId(): string {
-    return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    return `${Date.now()}-${Math.random().toString(36).substring(2, 11)}`;
   }
 
   /**
