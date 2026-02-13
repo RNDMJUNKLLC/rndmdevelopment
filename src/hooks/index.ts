@@ -5,5 +5,6 @@
 
 export { useAuth } from './useAuth';
 export { useDatabase } from './useDatabase';
+export { useDiscord } from './useDiscord';
 export { useEmail, initializeEmailJS } from './useEmail';
 export { useRecaptcha } from './useRecaptcha';

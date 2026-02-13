@@ -21,6 +21,9 @@ jest.mock('@/hooks', () => ({
     deleteSubmission: jest.fn(),
     getSubmission: jest.fn(),
   }),
+  useDiscord: () => ({
+    sendDiscordNotification: jest.fn().mockResolvedValue({ success: true }),
+  }),
   useEmail: () => ({
     sendSubmissionEmail: jest.fn().mockResolvedValue({ success: true }),
     sendConfirmationEmail: jest.fn().mockResolvedValue({ success: true }),

@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useDispatch } from 'react-redux';
-import { useAuth, useDatabase, useEmail, useRecaptcha } from '@/hooks';
+import { useAuth, useDatabase, useDiscord, useEmail, useRecaptcha } from '@/hooks';
 import {
   validateContactForm,
   getFieldError,
@@ -48,6 +48,7 @@ export const ContactForm: React.FC = () => {
   const dispatch = useDispatch();
   const { user } = useAuth();
   const { addSubmission } = useDatabase();
+  const { sendDiscordNotification } = useDiscord();
   const { sendSubmissionEmail, sendConfirmationEmail } = useEmail();
   const { executeRecaptcha } = useRecaptcha();
 
@@ -187,6 +188,20 @@ export const ContactForm: React.FC = () => {
           console.warn('Failed to send admin notification:', adminResult.error);
         }
 
+        // Send Discord webhook notification
+        const discordResult = await sendDiscordNotification(
+          {
+            id: dbResult.data?.id,
+            ...submission,
+            timestamp: Date.now(),
+          },
+          'inquiry'
+        );
+
+        if (!discordResult.success) {
+          console.warn('Failed to send Discord notification:', discordResult.error);
+        }
+
         // Show success message
         dispatch(
           uiActions.addNotification(
@@ -225,6 +240,7 @@ export const ContactForm: React.FC = () => {
       dispatch,
       executeRecaptcha,
       addSubmission,
+      sendDiscordNotification,
       sendSubmissionEmail,
       sendConfirmationEmail,
     ]
