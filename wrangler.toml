@@ -1,9 +1,0 @@
-name = "rndmdevelopment"
-compatibility_date = "2024-09-23"
-pages_build_output_dir = "dist"
-
-[env.production]
-name = "rndmdevelopment"
-
-[env.preview]
-name = "rndmdevelopment-preview"
