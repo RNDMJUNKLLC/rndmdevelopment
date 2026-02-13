@@ -268,11 +268,11 @@ export const ContactForm: React.FC = () => {
     <div className="section container-max">
       <div className="max-w-2xl mx-auto">
         <h1 className="text-4xl font-bold mb-4">Let's Build Something Amazing</h1>
-        <p className="text-lg text-slate-600 dark:text-slate-300 mb-12">
+        <p className="text-lg text-slate-300 mb-12">
           Fill out the form below and we'll get back to you within 24 hours with a personalized proposal.
         </p>
 
-        <form onSubmit={handleSubmit} className="space-y-6 bg-white dark:bg-slate-800 p-8 rounded-lg shadow-lg">
+        <form onSubmit={handleSubmit} className="space-y-6 card p-8">
           {/* Name Field */}
           <div>
             <label htmlFor="name" className="block text-sm font-medium mb-2">
@@ -446,7 +446,7 @@ export const ContactForm: React.FC = () => {
               disabled={formState.isSubmitting}
               rows={6}
             />
-            <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+            <p className="mt-1 text-sm text-slate-400">
               {formState.data.message.length} / 5000 characters
             </p>
             {hasFieldError('message') && (
@@ -481,7 +481,7 @@ export const ContactForm: React.FC = () => {
           </div>
 
           {/* reCAPTCHA Notice */}
-          <p className="text-xs text-slate-500 dark:text-slate-400 text-center pt-2">
+          <p className="text-xs text-slate-400 text-center pt-2">
             This site is protected by reCAPTCHA and the Google
             <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="text-accent-600 hover:underline ml-1">
               Privacy Policy

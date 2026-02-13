@@ -121,7 +121,7 @@ export const AdminDashboard: React.FC = () => {
     return (
       <div className="section container-max text-center py-24">
         <h1 className="text-4xl font-bold mb-4">Admin Dashboard</h1>
-        <p className="text-lg text-slate-600 dark:text-slate-300 mb-8">
+        <p className="text-lg text-slate-300 mb-8">
           You need to be logged in to access the admin dashboard.
         </p>
         <button className="btn-primary">Sign In</button>
@@ -136,26 +136,26 @@ export const AdminDashboard: React.FC = () => {
     <div className="section container-max">
       <div className="mb-8">
         <h1 className="text-4xl font-bold mb-2">Admin Dashboard</h1>
-        <p className="text-slate-600 dark:text-slate-300">Manage and review project inquiries</p>
+        <p className="text-slate-300">Manage and review project inquiries</p>
       </div>
 
       {/* Statistics Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
         <div className="card p-6">
           <div className="text-2xl font-bold text-accent-600 mb-2">{stats.total}</div>
-          <div className="text-sm text-slate-600 dark:text-slate-400">Total Submissions</div>
+          <div className="text-sm text-slate-400">Total Submissions</div>
         </div>
         <div className="card p-6">
           <div className="text-2xl font-bold text-yellow-600 mb-2">{stats.pending}</div>
-          <div className="text-sm text-slate-600 dark:text-slate-400">Pending</div>
+          <div className="text-sm text-slate-400">Pending</div>
         </div>
         <div className="card p-6">
           <div className="text-2xl font-bold text-blue-600 mb-2">{stats.viewed}</div>
-          <div className="text-sm text-slate-600 dark:text-slate-400">Viewed</div>
+          <div className="text-sm text-slate-400">Viewed</div>
         </div>
         <div className="card p-6">
           <div className="text-2xl font-bold text-green-600 mb-2">{stats.responded}</div>
-          <div className="text-sm text-slate-600 dark:text-slate-400">Responded</div>
+          <div className="text-sm text-slate-400">Responded</div>
         </div>
       </div>
 
@@ -231,12 +231,12 @@ export const AdminDashboard: React.FC = () => {
       {/* Submissions List */}
       {loading ? (
         <div className="text-center py-12">
-          <p className="text-slate-600 dark:text-slate-300">Loading submissions...</p>
+          <p className="text-slate-300">Loading submissions...</p>
         </div>
       ) : filteredSubmissions.length === 0 ? (
         <div className="card p-12 text-center">
-          <p className="text-slate-600 dark:text-slate-300 mb-4">No submissions found</p>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
+          <p className="text-slate-300 mb-4">No submissions found</p>
+          <p className="text-sm text-slate-400">
             Inquiries will appear here when submitted
           </p>
         </div>
@@ -251,12 +251,12 @@ export const AdminDashboard: React.FC = () => {
                   selectedSubmission: submission,
                 }))
               }
-              className="card p-6 hover:bg-slate-50 dark:hover:bg-slate-700 transition text-left w-full"
+              className="card p-6 hover:bg-white/5 transition text-left w-full"
             >
               <div className="flex justify-between items-start gap-4">
                 <div className="flex-grow">
                   <h3 className="font-bold text-lg mb-1">{submission.name}</h3>
-                  <p className="text-sm text-slate-600 dark:text-slate-400 mb-2">
+                  <p className="text-sm text-slate-400 mb-2">
                     {submission.email}
                   </p>
                   <p className="text-sm mb-2">
@@ -264,7 +264,7 @@ export const AdminDashboard: React.FC = () => {
                     {' • '}
                     <span>{submission.budget}</span>
                   </p>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">
+                  <p className="text-sm text-slate-400">
                     {formatSubmissionDate(submission.timestamp)}
                   </p>
                 </div>
@@ -272,10 +272,10 @@ export const AdminDashboard: React.FC = () => {
                   <span
                     className={`px-3 py-1 rounded-full text-sm font-medium ${
                       submission.status === 'pending'
-                        ? 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200'
+                        ? 'badge-pending'
                         : submission.status === 'viewed'
-                          ? 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200'
-                          : 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200'
+                          ? 'badge-viewed'
+                          : 'badge-responded'
                     }`}
                   >
                     {submission.status}
@@ -290,7 +290,7 @@ export const AdminDashboard: React.FC = () => {
       {/* Detail View */}
       {dashboardState.selectedSubmission && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
-          <div className="bg-white dark:bg-slate-800 rounded-lg max-w-2xl w-full max-h-96 overflow-auto p-8">
+          <div className="card max-w-2xl w-full max-h-96 overflow-auto p-8">
             <div className="flex justify-between items-start mb-6">
               <h2 className="text-2xl font-bold">Submission Details</h2>
               <button
@@ -308,35 +308,35 @@ export const AdminDashboard: React.FC = () => {
 
             <div className="space-y-4 mb-6">
               <div>
-                <label className="text-sm font-medium text-slate-600 dark:text-slate-400">Name</label>
+                <label className="text-sm font-medium text-slate-400">Name</label>
                 <p className="text-lg">{dashboardState.selectedSubmission.name}</p>
               </div>
               <div>
-                <label className="text-sm font-medium text-slate-600 dark:text-slate-400">Email</label>
+                <label className="text-sm font-medium text-slate-400">Email</label>
                 <p className="text-lg">{dashboardState.selectedSubmission.email}</p>
               </div>
               <div>
-                <label className="text-sm font-medium text-slate-600 dark:text-slate-400">Company</label>
+                <label className="text-sm font-medium text-slate-400">Company</label>
                 <p className="text-lg">{dashboardState.selectedSubmission.company || 'Not specified'}</p>
               </div>
               <div>
-                <label className="text-sm font-medium text-slate-600 dark:text-slate-400">Project Type</label>
+                <label className="text-sm font-medium text-slate-400">Project Type</label>
                 <p className="text-lg">{dashboardState.selectedSubmission.projectType}</p>
               </div>
               <div>
-                <label className="text-sm font-medium text-slate-600 dark:text-slate-400">Budget</label>
+                <label className="text-sm font-medium text-slate-400">Budget</label>
                 <p className="text-lg">{dashboardState.selectedSubmission.budget}</p>
               </div>
               <div>
-                <label className="text-sm font-medium text-slate-600 dark:text-slate-400">Timeline</label>
+                <label className="text-sm font-medium text-slate-400">Timeline</label>
                 <p className="text-lg">{dashboardState.selectedSubmission.timeline}</p>
               </div>
               <div>
-                <label className="text-sm font-medium text-slate-600 dark:text-slate-400">Message</label>
+                <label className="text-sm font-medium text-slate-400">Message</label>
                 <p className="text-lg whitespace-pre-wrap">{dashboardState.selectedSubmission.message}</p>
               </div>
               <div>
-                <label className="text-sm font-medium text-slate-600 dark:text-slate-400">Date</label>
+                <label className="text-sm font-medium text-slate-400">Date</label>
                 <p className="text-lg">
                   {formatSubmissionDate(dashboardState.selectedSubmission.timestamp)}
                 </p>

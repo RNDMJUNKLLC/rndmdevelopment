@@ -220,7 +220,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSuccess }) => {
                 showPassword: !prev.showPassword,
               }))
             }
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"
           >
             {formState.showPassword ? '👁️' : '👁️‍🗨️'}
           </button>
@@ -228,7 +228,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSuccess }) => {
         {formState.errors.password && (
           <p className="mt-1 text-sm text-red-500">{formState.errors.password}</p>
         )}
-        <p className="mt-2 text-xs text-slate-500 dark:text-slate-400">
+        <p className="mt-2 text-xs text-slate-400">
           At least 8 characters with uppercase, lowercase, and numbers
         </p>
       </div>
@@ -258,7 +258,7 @@ export const SignupForm: React.FC<SignupFormProps> = ({ onSuccess }) => {
                 showConfirmPassword: !prev.showConfirmPassword,
               }))
             }
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"
           >
             {formState.showConfirmPassword ? '👁️' : '👁️‍🗨️'}
           </button>

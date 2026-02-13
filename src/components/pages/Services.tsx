@@ -182,16 +182,16 @@ export const Services: React.FC = () => {
         path="/services"
         keywords="web development, mobile apps, software development, custom solutions, services, pricing"
       />
-      <div className="section container-max">
+      <div className="section container-max relative z-10">
         {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-2">🌟 RNDM Development Services</h1>
-          <p className="text-lg text-slate-500 dark:text-slate-400 italic mb-6">
+        <div className="text-center mb-12 animate-fade-in-up">
+          <h1 className="text-4xl font-bold font-display mb-2">🌟 RNDM Development Services</h1>
+          <p className="text-lg text-slate-400 italic mb-6">
             &quot;Random ideas become remarkable solutions&quot;
           </p>
           <div className="max-w-3xl mx-auto">
             <h2 className="text-2xl font-bold mb-3">🚀 We Build Whatever You Need</h2>
-            <p className="text-slate-600 dark:text-slate-300">
+            <p className="text-slate-300">
               At RNDM, we don&apos;t limit your creativity. Got an idea? We&apos;ll build it. Need something custom? We&apos;ll create it. Want something that doesn&apos;t exist yet? We&apos;ll make it happen.{' '}
               <strong>We&apos;ll build whatever you ask for</strong> — as long as it&apos;s legal, we&apos;re up for the challenge. No project is too big, too small, or too &quot;random&quot; for our team.
             </p>
@@ -201,7 +201,7 @@ export const Services: React.FC = () => {
         {/* Why Choose RNDM */}
         <section className="mb-12">
           <h3 className="text-2xl font-bold text-center mb-6">✨ Why Choose RNDM?</h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 stagger-children">
             {[
               { icon: '🎯', title: 'Tailored Solutions', desc: 'Every project is unique, just like your business' },
               { icon: '💡', title: 'Innovation First', desc: 'We love bringing creative ideas to life' },
@@ -211,7 +211,7 @@ export const Services: React.FC = () => {
               <div key={item.title} className="card p-6 text-center">
                 <div className="text-3xl mb-3">{item.icon}</div>
                 <h4 className="font-bold mb-2">{item.title}</h4>
-                <p className="text-sm text-slate-600 dark:text-slate-300">{item.desc}</p>
+                <p className="text-sm text-slate-300">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -220,7 +220,7 @@ export const Services: React.FC = () => {
         {/* Package Includes */}
         <section className="mb-12">
           <h3 className="text-2xl font-bold text-center mb-6">📦 What Every Package Includes</h3>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 stagger-children">
             {[
               'Complete Customization',
               'Lifetime Support',
@@ -238,7 +238,7 @@ export const Services: React.FC = () => {
 
         {/* Service Tabs */}
         <section className="mb-12">
-          <div className="flex justify-center gap-2 mb-8 border-b border-slate-200 dark:border-slate-700">
+          <div className="flex justify-center gap-2 mb-8 border-b border-white/10">
             {([
               { key: 'websites' as ServiceTab, label: '💻 Websites' },
               { key: 'mobile' as ServiceTab, label: '📱 Mobile Apps' },
@@ -249,8 +249,8 @@ export const Services: React.FC = () => {
                 onClick={() => setActiveTab(tab.key)}
                 className={`px-6 py-3 font-medium transition-colors ${
                   activeTab === tab.key
-                    ? 'text-accent-600 border-b-2 border-accent-600'
-                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+                    ? 'text-purple-400 border-b-2 border-purple-400'
+                    : 'text-slate-400 hover:text-white'
                 }`}
               >
                 {tab.label}
@@ -261,36 +261,36 @@ export const Services: React.FC = () => {
           {/* Tab Content */}
           <div className="text-center mb-8">
             <h2 className="text-2xl font-bold mb-2">{currentService.heading}</h2>
-            <p className="text-slate-600 dark:text-slate-300">{currentService.description}</p>
+            <p className="text-slate-300">{currentService.description}</p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 stagger-children">
             {currentService.tiers.map((tier) => (
               <div
                 key={tier.title}
                 className={`card p-8 flex flex-col ${
-                  tier.featured ? 'border-2 border-accent-600 dark:border-accent-500 relative' : ''
+                  tier.featured ? 'border-2 border-purple-500/50 relative' : ''
                 }`}
               >
                 {tier.featured && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 text-xs font-bold rounded-full bg-accent-600 text-white">
+                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 px-4 py-1 text-xs font-bold rounded-full bg-purple-500 text-white">
                     POPULAR
                   </span>
                 )}
                 <div className="mb-4">
                   <h3 className="text-xl font-bold mb-1">{tier.title}</h3>
-                  <p className="text-sm text-slate-500 dark:text-slate-400">{tier.subtitle}</p>
+                  <p className="text-sm text-slate-400">{tier.subtitle}</p>
                 </div>
-                <p className="text-sm text-slate-600 dark:text-slate-300 mb-2">
+                <p className="text-sm text-slate-300 mb-2">
                   <strong>Ideal for:</strong> {tier.idealFor}
                 </p>
-                <p className="text-2xl font-bold text-accent-600 dark:text-accent-400 mb-1">{tier.price}</p>
-                <p className="text-sm text-slate-500 dark:text-slate-400 mb-4">Timeline: {tier.timeline}</p>
+                <p className="text-2xl font-bold text-purple-400 mb-1">{tier.price}</p>
+                <p className="text-sm text-slate-400 mb-4">Timeline: {tier.timeline}</p>
                 <div className="flex-1">
                   <h4 className="font-bold mb-2">What You Get:</h4>
                   <ul className="space-y-2">
                     {tier.features.map((feature) => (
-                      <li key={feature} className="flex items-start gap-2 text-sm text-slate-600 dark:text-slate-300">
+                      <li key={feature} className="flex items-start gap-2 text-sm text-slate-300">
                         <span className="text-green-500 mt-0.5">✓</span>
                         {feature}
                       </li>
@@ -311,7 +311,7 @@ export const Services: React.FC = () => {
         {/* CTA Section */}
         <section className="text-center py-12">
           <h2 className="text-3xl font-bold mb-4">🎯 Ready to Get Started?</h2>
-          <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mb-8">
+          <p className="text-lg text-slate-300 max-w-2xl mx-auto mb-8">
             Every great project starts with a conversation. We&apos;d love to hear about your ideas, challenges, and goals.
           </p>
           <div className="flex gap-4 justify-center">

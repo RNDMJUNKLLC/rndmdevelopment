@@ -169,7 +169,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onSuccess }) => {
                 showPassword: !prev.showPassword,
               }))
             }
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-700 dark:hover:text-slate-300"
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-500 hover:text-slate-300"
           >
             {formState.showPassword ? '👁️' : '👁️‍🗨️'}
           </button>

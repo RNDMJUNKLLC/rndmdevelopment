@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import type { ContactFormSubmission, ServiceResponse } from '@/types';
 
 /**
@@ -84,6 +84,8 @@ const buildSubmissionEmbed = (
  *   - sos      → SOS / urgent requests
  */
 export const useDiscord = () => {
+  const [sending, setSending] = useState(false);
+
   /**
    * Send a notification to a specific Discord channel
    * via the server-side proxy at /api/discord-webhook?channel=<channel>
@@ -94,6 +96,7 @@ export const useDiscord = () => {
       channel: DiscordChannel = 'inquiry'
     ): Promise<ServiceResponse<null>> => {
       try {
+        setSending(true);
         const payload = buildSubmissionEmbed(submission, channel);
 
         const response = await fetch(
@@ -127,10 +130,12 @@ export const useDiscord = () => {
           success: false,
           error: errorMessage,
         };
+      } finally {
+        setSending(false);
       }
     },
     []
   );
 
-  return { sendDiscordNotification };
+  return { sendDiscordNotification, sending };
 };

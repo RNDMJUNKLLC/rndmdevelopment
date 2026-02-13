@@ -12,37 +12,21 @@ import Contact from '@components/pages/Contact';
 import Token from '@components/pages/Token';
 import Account from '@components/pages/Account';
 import NotificationContainer from '@components/ui/NotificationContainer';
+import ParticleBackground from '@components/ui/ParticleBackground';
+import GlowOrbs from '@components/ui/GlowOrbs';
 
 function App() {
   const dispatch = useDispatch();
-  const { currentPage, isDarkMode } = useSelector((state: RootState) => state.ui);
+  const { currentPage } = useSelector((state: RootState) => state.ui);
 
   useEffect(() => {
     // Initialize EmailJS
     initializeEmailJS();
 
-    // Initialize dark mode based on system preference or localStorage
-    const savedMode = localStorage.getItem('darkMode');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const shouldBeDark = savedMode ? JSON.parse(savedMode) : prefersDark;
-    
-    dispatch(uiActions.setDarkMode(shouldBeDark));
-    updateDarkModeClass(shouldBeDark);
+    // Force dark mode — site is always dark
+    document.documentElement.classList.add('dark');
+    dispatch(uiActions.setDarkMode(true));
   }, [dispatch]);
-
-  useEffect(() => {
-    // Update dark mode class and localStorage
-    updateDarkModeClass(isDarkMode);
-    localStorage.setItem('darkMode', JSON.stringify(isDarkMode));
-  }, [isDarkMode]);
-
-  const updateDarkModeClass = (dark: boolean) => {
-    if (dark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  };
 
   const renderPage = () => {
     switch (currentPage) {
@@ -64,9 +48,13 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-white dark:bg-slate-900 transition-colors duration-300">
+    <div className="min-h-screen flex flex-col relative">
+      {/* Ambient background effects */}
+      <ParticleBackground />
+      <GlowOrbs />
+
       <Navigation />
-      <main className="flex-grow">
+      <main className="flex-grow relative z-10">
         {renderPage()}
       </main>
       <Footer />

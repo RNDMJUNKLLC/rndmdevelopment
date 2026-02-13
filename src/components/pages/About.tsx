@@ -14,39 +14,39 @@ export const About: React.FC = () => {
         path="/about"
         keywords="about us, web development company, team, expertise, projects"
       />
-      <div className="section container-max">
-        <h1 className="text-4xl font-bold mb-8 text-center">About RNDM Development</h1>
+      <div className="section container-max relative z-10">
+        <h1 className="font-display text-4xl md:text-5xl font-bold text-gradient mb-8 text-center">About RNDM Development</h1>
 
         {/* Hero Intro */}
-        <section className="text-center mb-16">
-          <h2 className="text-3xl font-bold text-accent-600 dark:text-accent-400 mb-4">
+        <section className="text-center mb-16 animate-fade-in-up">
+          <h2 className="text-3xl font-bold text-purple-400 mb-4">
             Where Creativity Meets Code
           </h2>
-          <p className="text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto">
+          <p className="text-xl text-slate-300 max-w-3xl mx-auto">
             We&apos;re not your average development team. We&apos;re the creative chaos that turns wild ideas into digital reality.
           </p>
         </section>
 
         {/* Mission / Approach / Style Cards */}
-        <section className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+        <section className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16 stagger-children">
           <div className="card p-8 text-center">
             <div className="text-4xl mb-4">🚀</div>
             <h3 className="text-xl font-bold mb-3">Our Mission</h3>
-            <p className="text-slate-600 dark:text-slate-300">
+            <p className="text-slate-300">
               To bridge the gap between professional web development and creative innovation. We believe the best websites are born from organized chaos and methodical madness.
             </p>
           </div>
           <div className="card p-8 text-center">
             <div className="text-4xl mb-4">⚡</div>
             <h3 className="text-xl font-bold mb-3">Our Approach</h3>
-            <p className="text-slate-600 dark:text-slate-300">
+            <p className="text-slate-300">
               We combine cutting-edge technology with unconventional thinking. Every project gets the perfect blend of technical expertise and creative flair.
             </p>
           </div>
           <div className="card p-8 text-center">
             <div className="text-4xl mb-4">🎨</div>
             <h3 className="text-xl font-bold mb-3">Our Style</h3>
-            <p className="text-slate-600 dark:text-slate-300">
+            <p className="text-slate-300">
               Professional yet playful, serious yet fun. We create websites that perform flawlessly while making users smile. Because why choose between function and personality?
             </p>
           </div>
@@ -54,35 +54,35 @@ export const About: React.FC = () => {
 
         {/* Team Section */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-8">The RNDM Team</h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <h2 className="text-3xl font-bold text-center mb-8 text-white">The RNDM Team</h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 stagger-children">
             <div className="card p-8 text-center">
               <div className="text-5xl mb-4">👨‍💻</div>
               <h4 className="text-xl font-bold mb-1">William</h4>
-              <p className="text-sm text-accent-600 dark:text-accent-400 font-medium mb-3">
+              <p className="text-sm text-purple-400 font-medium mb-3">
                 Lead Developer &amp; Chaos Coordinator
               </p>
-              <p className="text-slate-600 dark:text-slate-300">
+              <p className="text-slate-300">
                 Full-stack developer with a passion for turning coffee into code and ideas into reality. Specializes in making the impossible look easy.
               </p>
             </div>
             <div className="card p-8 text-center">
               <div className="text-5xl mb-4">🤖</div>
               <h4 className="text-xl font-bold mb-1">AI Assistant</h4>
-              <p className="text-sm text-accent-600 dark:text-accent-400 font-medium mb-3">
+              <p className="text-sm text-purple-400 font-medium mb-3">
                 Code Optimization &amp; Quality Assurance
               </p>
-              <p className="text-slate-600 dark:text-slate-300">
+              <p className="text-slate-300">
                 Our digital team member that never sleeps, ensuring every line of code is optimized and every user experience is smooth.
               </p>
             </div>
             <div className="card p-8 text-center">
               <div className="text-5xl mb-4">☕</div>
               <h4 className="text-xl font-bold mb-1">Coffee</h4>
-              <p className="text-sm text-accent-600 dark:text-accent-400 font-medium mb-3">
+              <p className="text-sm text-purple-400 font-medium mb-3">
                 Motivation &amp; Energy Catalyst
               </p>
-              <p className="text-slate-600 dark:text-slate-300">
+              <p className="text-slate-300">
                 The unofficial third team member. Without coffee, there would be no RNDM Development. Essential for all late-night coding sessions.
               </p>
             </div>
@@ -91,27 +91,27 @@ export const About: React.FC = () => {
 
         {/* Projects Section */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-2">🚀 Our Projects</h2>
-          <p className="text-center text-slate-500 dark:text-slate-400 italic mb-8">
+          <h2 className="text-3xl font-bold text-center mb-2 text-white">🚀 Our Projects</h2>
+          <p className="text-center text-slate-400 italic mb-8">
             &quot;Showcasing our random innovations&quot;
           </p>
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 stagger-children">
             {/* RNDM Development */}
-            <div className="card p-8 border-2 border-accent-600 dark:border-accent-500">
+            <div className="card p-8 border-2 border-purple-500/50">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-xl font-bold flex items-center gap-2">
                   <span className="text-2xl">🌐</span> RNDM Development
                 </h3>
-                <span className="px-3 py-1 text-xs font-bold rounded-full bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300">
+                <span className="px-3 py-1 text-xs font-bold rounded-full bg-green-500/20 text-green-300">
                   Live
                 </span>
               </div>
-              <p className="text-slate-600 dark:text-slate-300 mb-4">
+              <p className="text-slate-300 mb-4">
                 Professional yet fun web development agency specializing in custom websites, mobile apps, and complete digital solutions. Built with modern technologies featuring multi-page architecture, Firebase authentication, Discord webhook integration, and dynamic project management system.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 {['Vite', 'TypeScript', 'React', 'Firebase', 'Discord API'].map((tech) => (
-                  <span key={tech} className="px-3 py-1 text-xs rounded-full bg-accent-100 dark:bg-accent-900 text-accent-700 dark:text-accent-300">
+                  <span key={tech} className="px-3 py-1 text-xs rounded-full bg-purple-500/20 text-purple-300">
                     {tech}
                   </span>
                 ))}
@@ -138,16 +138,16 @@ export const About: React.FC = () => {
                 <h3 className="text-xl font-bold flex items-center gap-2">
                   <span className="text-2xl">🏥</span> Dia-Hub
                 </h3>
-                <span className="px-3 py-1 text-xs font-bold rounded-full bg-green-100 dark:bg-green-900 text-green-700 dark:text-green-300">
+                <span className="px-3 py-1 text-xs font-bold rounded-full bg-green-500/20 text-green-300">
                   Live
                 </span>
               </div>
-              <p className="text-slate-600 dark:text-slate-300 mb-4">
+              <p className="text-slate-300 mb-4">
                 Comprehensive diabetes management platform connecting patients with healthcare resources. Features smart supply tracking, automated reorder reminders, insurance coordination, and direct connections to medical suppliers for seamless diabetes care management.
               </p>
               <div className="flex flex-wrap gap-2 mb-6">
                 {['Web Platform', 'Healthcare Integration', 'Supply Management', 'Patient Portal'].map((tech) => (
-                  <span key={tech} className="px-3 py-1 text-xs rounded-full bg-accent-100 dark:bg-accent-900 text-accent-700 dark:text-accent-300">
+                  <span key={tech} className="px-3 py-1 text-xs rounded-full bg-purple-500/20 text-purple-300">
                     {tech}
                   </span>
                 ))}
@@ -174,8 +174,8 @@ export const About: React.FC = () => {
 
         {/* Values Section */}
         <section className="mb-16">
-          <h2 className="text-3xl font-bold text-center mb-8">What We Believe</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <h2 className="text-3xl font-bold text-center mb-8 text-gradient">What We Believe</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 stagger-children">
             {[
               { icon: '💡', title: 'Innovation First', desc: "We don't just follow trends, we create them. Every project pushes boundaries." },
               { icon: '🎯', title: 'Quality Always', desc: "Perfect code, flawless design, exceptional performance. We don't compromise." },
@@ -186,7 +186,7 @@ export const About: React.FC = () => {
                 <span className="text-3xl">{value.icon}</span>
                 <div>
                   <h4 className="text-lg font-bold mb-1">{value.title}</h4>
-                  <p className="text-slate-600 dark:text-slate-300">{value.desc}</p>
+                  <p className="text-slate-300">{value.desc}</p>
                 </div>
               </div>
             ))}
@@ -195,8 +195,8 @@ export const About: React.FC = () => {
 
         {/* CTA Section */}
         <section className="text-center py-12">
-          <h2 className="text-3xl font-bold mb-4">Ready to Build Something Amazing?</h2>
-          <p className="text-lg text-slate-600 dark:text-slate-300 max-w-2xl mx-auto mb-8">
+          <h2 className="text-3xl font-bold mb-4 text-white">Ready to Build Something Amazing?</h2>
+          <p className="text-lg text-slate-300 max-w-2xl mx-auto mb-8">
             Let&apos;s turn your vision into digital reality. Whether it&apos;s a simple website or a complex web application, we&apos;re here to make it happen.
           </p>
           <div className="flex gap-4 justify-center">

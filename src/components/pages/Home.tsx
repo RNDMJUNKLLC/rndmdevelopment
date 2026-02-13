@@ -1,18 +1,10 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { useAuth } from '@/hooks';
 import SEOHead from '@components/SEOHead';
-import AdminDashboard from '@components/admin/AdminDashboard';
 import { uiActions } from '@store/slices/uiSlice';
 
 export const Home: React.FC = () => {
   const dispatch = useDispatch();
-  const { isLoggedIn } = useAuth();
-
-  // Show admin dashboard if logged in
-  if (isLoggedIn) {
-    return <AdminDashboard />;
-  }
 
   return (
     <>
@@ -22,59 +14,76 @@ export const Home: React.FC = () => {
         path="/"
         keywords="web development, web design, project management, business solutions"
       />
-      <div className="section container-max">
+      <div className="relative z-10">
         {/* Hero Section */}
-        <section className="py-16 text-center">
-          <h1 className="text-4xl md:text-6xl font-bold mb-4">RNDM Development</h1>
-          <p className="text-xl text-slate-600 dark:text-slate-300 mb-2">
-            Professional yet fun random website development
-          </p>
-          <p className="text-lg text-slate-500 dark:text-slate-400 mb-8">
-            Where creativity meets code and chaos creates brilliance
-          </p>
-          <div className="flex gap-4 justify-center">
-            <button
-              onClick={() => dispatch(uiActions.setCurrentPage('contact'))}
-              className="btn-primary"
-            >
-              Get In Touch
-            </button>
-            <button
-              onClick={() => dispatch(uiActions.setCurrentPage('account'))}
-              className="btn-secondary"
-            >
-              Account Access
-            </button>
+        <section className="section container-max text-center min-h-[70vh] flex flex-col justify-center">
+          <div className="animate-fade-in-up">
+            <p className="text-sm font-semibold tracking-[0.3em] uppercase text-purple-400 mb-4">
+              Creative Digital Agency
+            </p>
+            <h1 className="font-display text-5xl md:text-7xl font-black mb-6 tracking-tight">
+              <span className="text-shimmer">RNDM</span>{' '}
+              <span className="text-white">Development</span>
+            </h1>
+            <p className="text-xl text-slate-300 mb-2 max-w-2xl mx-auto">
+              Professional yet fun random website development
+            </p>
+            <p className="text-lg text-slate-500 mb-10 max-w-xl mx-auto">
+              Where creativity meets code and chaos creates brilliance
+            </p>
+            <div className="flex gap-4 justify-center flex-wrap">
+              <button
+                onClick={() => dispatch(uiActions.setCurrentPage('contact'))}
+                className="btn-primary text-lg px-8 py-3"
+              >
+                Get In Touch
+              </button>
+              <button
+                onClick={() => dispatch(uiActions.setCurrentPage('services'))}
+                className="btn-secondary text-lg px-8 py-3"
+              >
+                Our Services
+              </button>
+            </div>
           </div>
         </section>
 
+        {/* Divider */}
+        <div className="divider-glow mx-auto max-w-4xl" />
+
         {/* What We Do Section */}
-        <section className="py-16 text-center">
-          <h2 className="text-3xl font-bold text-accent-600 dark:text-accent-400 mb-8">
+        <section className="section container-max text-center">
+          <h2 className="font-display text-3xl font-bold text-gradient mb-4">
             What We Do
           </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8">
-            <div className="card p-8 text-left">
-              <h3 className="text-xl font-bold text-accent-600 dark:text-accent-400 mb-3">
-                🚀 Web Development
+          <p className="text-slate-400 mb-12 max-w-xl mx-auto">
+            Transforming ideas into digital experiences
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 stagger-children">
+            <div className="card p-8 text-left group">
+              <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">🚀</div>
+              <h3 className="text-xl font-bold text-purple-300 mb-3">
+                Web Development
               </h3>
-              <p className="text-slate-600 dark:text-slate-300">
+              <p className="text-slate-400">
                 Modern, responsive websites with cutting-edge technology and professional design.
               </p>
             </div>
-            <div className="card p-8 text-left">
-              <h3 className="text-xl font-bold text-accent-600 dark:text-accent-400 mb-3">
-                ⚡ Performance Optimization
+            <div className="card p-8 text-left group">
+              <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">⚡</div>
+              <h3 className="text-xl font-bold text-purple-300 mb-3">
+                Performance Optimization
               </h3>
-              <p className="text-slate-600 dark:text-slate-300">
+              <p className="text-slate-400">
                 Lightning-fast websites optimized for speed, SEO, and user experience.
               </p>
             </div>
-            <div className="card p-8 text-left">
-              <h3 className="text-xl font-bold text-accent-600 dark:text-accent-400 mb-3">
-                🎨 Creative Design
+            <div className="card p-8 text-left group">
+              <div className="text-4xl mb-4 group-hover:scale-110 transition-transform">🎨</div>
+              <h3 className="text-xl font-bold text-purple-300 mb-3">
+                Creative Design
               </h3>
-              <p className="text-slate-600 dark:text-slate-300">
+              <p className="text-slate-400">
                 Unique, engaging designs that blend professionalism with creative flair.
               </p>
             </div>

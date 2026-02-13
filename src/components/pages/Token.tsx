@@ -10,18 +10,18 @@ export const Token: React.FC = () => {
         path="/token"
         keywords="token, cryptocurrency, $rndmdev, Zora, Base network, support"
       />
-      <div className="section container-max">
+      <div className="section container-max relative z-10">
         {/* Token Hero */}
         <section className="text-center py-8">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-accent-500 to-accent-700 bg-clip-text text-transparent">
+          <h1 className="text-4xl md:text-5xl font-bold font-display mb-4 text-gradient">
             $rndmdev Token
           </h1>
-          <p className="text-xl text-slate-600 dark:text-slate-300 max-w-xl mx-auto mb-4">
+          <p className="text-xl text-slate-300 max-w-xl mx-auto mb-4">
             Support RNDM Development and help us keep our services affordable for everyone
           </p>
-          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-accent-500 bg-accent-50 dark:bg-accent-900/20">
-            <span className="font-bold text-accent-600 dark:text-accent-400">$rndmdev</span>
-            <span className="px-3 py-1 text-xs rounded-full bg-accent-200 dark:bg-accent-800 text-accent-700 dark:text-accent-300">
+          <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full border border-purple-500/50 bg-purple-500/10">
+            <span className="font-bold text-purple-400">$rndmdev</span>
+            <span className="px-3 py-1 text-xs rounded-full bg-purple-500/20 text-purple-300">
               Zora / Base
             </span>
           </div>
@@ -29,7 +29,7 @@ export const Token: React.FC = () => {
 
         {/* Live Token Data */}
         <section className="py-8">
-          <h2 className="text-2xl font-bold text-center text-accent-600 dark:text-accent-400 mb-6">
+          <h2 className="text-2xl font-bold text-center text-purple-400 mb-6">
             Live Token Data
           </h2>
         </section>
@@ -40,7 +40,7 @@ export const Token: React.FC = () => {
         <div className="grid grid-cols-1 gap-8 mb-12">
           {/* Price Chart */}
           <div className="card overflow-hidden">
-            <h3 className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700">
+            <h3 className="px-6 py-4 font-bold border-b border-white/10">
               <span className="mr-2">💹</span> Price Chart &amp; Recent Transactions
             </h3>
             <iframe
@@ -54,7 +54,7 @@ export const Token: React.FC = () => {
 
           {/* Market Cap Chart */}
           <div className="card overflow-hidden">
-            <h3 className="px-6 py-4 font-bold border-b border-slate-200 dark:border-slate-700">
+            <h3 className="px-6 py-4 font-bold border-b border-white/10">
               <span className="mr-2">📈</span> Market Cap History
             </h3>
             <iframe
@@ -68,13 +68,13 @@ export const Token: React.FC = () => {
         </div>
       </div>
 
-      <div className="section container-max">
+      <div className="section container-max relative z-10">
         {/* Why Support Us */}
         <section className="mb-16">
-          <h2 className="text-2xl font-bold text-center text-accent-600 dark:text-accent-400 mb-2">
+          <h2 className="text-2xl font-bold text-center text-purple-400 mb-2">
             Why Support Us?
           </h2>
-          <p className="text-center text-slate-500 dark:text-slate-400 max-w-xl mx-auto mb-8">
+          <p className="text-center text-slate-400 max-w-xl mx-auto mb-8">
             By adding liquidity to $rndmdev, you directly help us maintain affordable services
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -97,8 +97,8 @@ export const Token: React.FC = () => {
             ].map((card) => (
               <div key={card.title} className="card p-8 text-center hover:-translate-y-1 transition-transform">
                 <div className="text-4xl mb-4">{card.icon}</div>
-                <h3 className="text-lg font-bold text-accent-600 dark:text-accent-400 mb-3">{card.title}</h3>
-                <p className="text-slate-600 dark:text-slate-300">{card.desc}</p>
+                <h3 className="text-lg font-bold text-purple-400 mb-3">{card.title}</h3>
+                <p className="text-slate-300">{card.desc}</p>
               </div>
             ))}
           </div>
@@ -106,15 +106,15 @@ export const Token: React.FC = () => {
 
         {/* CTA */}
         <section className="text-center py-8">
-          <h2 className="text-2xl font-bold text-accent-600 dark:text-accent-400 mb-3">Ready to Support?</h2>
-          <p className="text-slate-500 dark:text-slate-400 max-w-lg mx-auto mb-6">
+          <h2 className="text-2xl font-bold text-purple-400 mb-3">Ready to Support?</h2>
+          <p className="text-slate-400 max-w-lg mx-auto mb-6">
             Visit Zora to get $rndmdev tokens and add liquidity to help support our mission.
           </p>
           <a
             href="https://zora.co/rndmdev"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-accent-500 to-accent-700 text-white font-bold text-lg hover:scale-105 transition-transform shadow-lg"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-gradient-to-r from-purple-500 to-purple-700 text-white font-bold text-lg hover:scale-105 transition-transform shadow-lg"
           >
             Get $rndmdev on Zora
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -125,8 +125,8 @@ export const Token: React.FC = () => {
           </a>
 
           {/* Disclaimer */}
-          <div className="mt-12 max-w-3xl mx-auto p-6 rounded-lg border border-yellow-300 dark:border-yellow-700 bg-yellow-50 dark:bg-yellow-900/20 text-sm text-slate-600 dark:text-slate-400">
-            <strong className="text-yellow-600 dark:text-yellow-400">⚠️ Disclaimer:</strong>{' '}
+          <div className="mt-12 max-w-3xl mx-auto p-6 rounded-lg border border-yellow-500/30 bg-yellow-500/10 text-sm text-slate-400">
+            <strong className="text-yellow-400">⚠️ Disclaimer:</strong>{' '}
             Cryptocurrency investments carry risk. $rndmdev is a community support token and should not be considered a financial investment. Please do your own research and only contribute what you can afford. This is not financial advice.
           </div>
         </section>
