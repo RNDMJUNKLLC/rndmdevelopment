@@ -190,9 +190,14 @@ export const About: React.FC = () => {
                 ))}
               </div>
               <div className="flex gap-3">
-                <span className="px-4 py-2 text-sm text-slate-400 italic">
-                  Coming Soon
-                </span>
+                <a
+                  href="https://incorporate.rndmservers.net"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-primary text-sm inline-block"
+                >
+                  Visit Incorporated
+                </a>
                 <button
                   onClick={() => dispatch(uiActions.setCurrentPage('contact'))}
                   className="btn-secondary text-sm"
