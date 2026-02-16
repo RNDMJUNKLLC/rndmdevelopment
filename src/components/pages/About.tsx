@@ -198,12 +198,6 @@ export const About: React.FC = () => {
                 >
                   Visit Incorporated
                 </a>
-                <button
-                  onClick={() => dispatch(uiActions.setCurrentPage('contact'))}
-                  className="btn-secondary text-sm"
-                >
-                  Stay Updated
-                </button>
               </div>
             </div>
           </div>
