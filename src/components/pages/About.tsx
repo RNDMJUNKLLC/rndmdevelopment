@@ -169,6 +169,38 @@ export const About: React.FC = () => {
                 </button>
               </div>
             </div>
+            {/* Incorporated */}
+            <div className="card p-8">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-xl font-bold flex items-center gap-2">
+                  <span className="text-2xl">🏢</span> Incorporated
+                </h3>
+                <span className="px-3 py-1 text-xs font-bold rounded-full bg-yellow-500/20 text-yellow-300">
+                  In Development
+                </span>
+              </div>
+              <p className="text-slate-300 mb-4">
+                A persistent real-time business simulation MMORPG where you&apos;re not just playing a game—you&apos;re living in a functioning economy. Open a bakery, manage a logistics company, invest in real estate, or run for mayor. Your choices ripple through an interconnected supply chain where one player&apos;s success depends on another&apos;s hustle.
+              </p>
+              <div className="flex flex-wrap gap-2 mb-6">
+                {['React', 'TypeScript', 'Firebase', 'Local APIs'].map((tech) => (
+                  <span key={tech} className="px-3 py-1 text-xs rounded-full bg-purple-500/20 text-purple-300">
+                    {tech}
+                  </span>
+                ))}
+              </div>
+              <div className="flex gap-3">
+                <span className="px-4 py-2 text-sm text-slate-400 italic">
+                  Coming Soon
+                </span>
+                <button
+                  onClick={() => dispatch(uiActions.setCurrentPage('contact'))}
+                  className="btn-secondary text-sm"
+                >
+                  Stay Updated
+                </button>
+              </div>
+            </div>
           </div>
         </section>
 
