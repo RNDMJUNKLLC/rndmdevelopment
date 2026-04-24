@@ -67,7 +67,6 @@ export interface FormsState {
 }
 
 export interface UIState {
-  currentPage: string;
   isDarkMode: boolean;
   isMenuOpen: boolean;
   notifications: Notification[];

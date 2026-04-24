@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import SEOHead from '@components/SEOHead';
-import { uiActions } from '@store/slices/uiSlice';
 
 type ServiceTab = 'websites' | 'mobile' | 'software';
 
@@ -169,7 +167,6 @@ const serviceTiers: Record<ServiceTab, { heading: string; description: string; t
 };
 
 export const Services: React.FC = () => {
-  const dispatch = useDispatch();
   const [activeTab, setActiveTab] = useState<ServiceTab>('websites');
 
   const currentService = serviceTiers[activeTab];
@@ -297,12 +294,12 @@ export const Services: React.FC = () => {
                     ))}
                   </ul>
                 </div>
-                <button
-                  onClick={() => dispatch(uiActions.setCurrentPage('contact'))}
-                  className={`mt-6 w-full ${tier.featured ? 'btn-primary' : 'btn-secondary'}`}
+                <a
+                  href="/contact/"
+                  className={`mt-6 w-full inline-block text-center ${tier.featured ? 'btn-primary' : 'btn-secondary'}`}
                 >
                   Get Started
-                </button>
+                </a>
               </div>
             ))}
           </div>
@@ -315,18 +312,18 @@ export const Services: React.FC = () => {
             Every great project starts with a conversation. We&apos;d love to hear about your ideas, challenges, and goals.
           </p>
           <div className="flex gap-4 justify-center">
-            <button
-              onClick={() => dispatch(uiActions.setCurrentPage('contact'))}
-              className="btn-primary"
+            <a
+              href="/contact/"
+              className="btn-primary inline-block"
             >
               Start Your Project
-            </button>
-            <button
-              onClick={() => dispatch(uiActions.setCurrentPage('about'))}
-              className="btn-secondary"
+            </a>
+            <a
+              href="/about/"
+              className="btn-secondary inline-block"
             >
               Learn More About Us
-            </button>
+            </a>
           </div>
         </section>
       </div>

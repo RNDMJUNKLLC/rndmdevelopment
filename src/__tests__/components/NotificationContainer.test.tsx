@@ -12,7 +12,6 @@ describe('NotificationContainer Component', () => {
       },
       preloadedState: {
         ui: {
-          currentPage: 'home',
           isDarkMode: false,
           isMenuOpen: false,
           notifications: [],

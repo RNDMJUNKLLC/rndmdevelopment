@@ -1,54 +1,57 @@
 import React, { useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import { useAuth } from '@/hooks';
-import type { RootState } from '@store/index';
-import { uiActions } from '@store/slices/uiSlice';
+
+/**
+ * Map a pathname to the logical "page" key used for active-link styling.
+ * Treats both `/about` and `/about/` as the about page, etc.
+ */
+const pathToPage = (pathname: string): string => {
+  const trimmed = pathname.replace(/\/+$/, '') || '/';
+  if (trimmed === '' || trimmed === '/') return 'home';
+  const first = trimmed.split('/')[1];
+  return first || 'home';
+};
 
 export const Navigation: React.FC = () => {
-  const dispatch = useDispatch();
-  const { currentPage } = useSelector((state: RootState) => state.ui);
   const { isLoggedIn } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
 
-  const navLinks = [
-    { id: 'home', label: 'Home', page: 'home' },
-    { id: 'about', label: 'About', page: 'about' },
-    { id: 'services', label: 'Services', page: 'services' },
-    { id: 'contact', label: 'Contact', page: 'contact' },
-    { id: 'account', label: 'Account', page: 'account' },
-  ];
+  const currentPage =
+    typeof window !== 'undefined' ? pathToPage(window.location.pathname) : 'home';
 
-  const handleNavigate = (page: string) => {
-    dispatch(uiActions.setCurrentPage(page));
-    setMobileOpen(false);
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
+  const navLinks = [
+    { id: 'home', label: 'Home', href: '/' },
+    { id: 'about', label: 'About', href: '/about/' },
+    { id: 'services', label: 'Services', href: '/services/' },
+    { id: 'contact', label: 'Contact', href: '/contact/' },
+    { id: 'account', label: 'Account', href: '/account/' },
+  ];
 
   return (
     <nav className="glass-nav">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <button
-            onClick={() => handleNavigate('home')}
+          <a
+            href="/"
             className="font-display text-xl font-bold tracking-wider text-gradient transition-all hover:scale-105"
           >
             RNDM DEVS
-          </button>
+          </a>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">
             {navLinks.map((link) => (
-              <button
+              <a
                 key={link.id}
-                onClick={() => handleNavigate(link.page)}
+                href={link.href}
                 className={`relative px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
-                  currentPage === link.page
+                  currentPage === link.id
                     ? 'text-white'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
-                {currentPage === link.page && (
+                {currentPage === link.id && (
                   <span className="absolute inset-0 rounded-lg bg-white/5 border border-purple-500/20" />
                 )}
                 <span className="relative flex items-center gap-1.5">
@@ -57,7 +60,7 @@ export const Navigation: React.FC = () => {
                   )}
                   {link.label}
                 </span>
-              </button>
+              </a>
             ))}
           </div>
 
@@ -82,11 +85,11 @@ export const Navigation: React.FC = () => {
           <div className="md:hidden py-4 border-t border-white/5 animate-fade-in-down">
             <div className="flex flex-col gap-1">
               {navLinks.map((link) => (
-                <button
+                <a
                   key={link.id}
-                  onClick={() => handleNavigate(link.page)}
+                  href={link.href}
                   className={`px-4 py-3 rounded-lg text-sm font-medium text-left transition-all ${
-                    currentPage === link.page
+                    currentPage === link.id
                       ? 'text-white bg-white/5 border border-purple-500/20'
                       : 'text-slate-400 hover:text-white hover:bg-white/5'
                   }`}
@@ -97,7 +100,7 @@ export const Navigation: React.FC = () => {
                     )}
                     {link.label}
                   </span>
-                </button>
+                </a>
               ))}
             </div>
           </div>

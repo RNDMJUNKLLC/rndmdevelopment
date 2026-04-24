@@ -1,1 +1,2 @@
-/*  /index.html  200
+# MPA: each route is its own HTML file under /about/, /services/, etc.
+# No SPA catch-all needed — Cloudflare Pages auto-resolves /about to /about/index.html.

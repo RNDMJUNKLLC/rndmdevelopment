@@ -1,11 +1,7 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import SEOHead from '@components/SEOHead';
-import { uiActions } from '@store/slices/uiSlice';
 
 export const Home: React.FC = () => {
-  const dispatch = useDispatch();
-
   return (
     <>
       <SEOHead
@@ -32,18 +28,18 @@ export const Home: React.FC = () => {
               Where creativity meets code and chaos creates brilliance
             </p>
             <div className="flex gap-4 justify-center flex-wrap">
-              <button
-                onClick={() => dispatch(uiActions.setCurrentPage('contact'))}
+              <a
+                href="/contact/"
                 className="btn-primary text-lg px-8 py-3"
               >
                 Get In Touch
-              </button>
-              <button
-                onClick={() => dispatch(uiActions.setCurrentPage('services'))}
+              </a>
+              <a
+                href="/services/"
                 className="btn-secondary text-lg px-8 py-3"
               >
                 Our Services
-              </button>
+              </a>
             </div>
           </div>
         </section>

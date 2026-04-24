@@ -36,6 +36,18 @@ export default defineConfig({
     minify: 'esbuild',
     reportCompressedSize: true,
     chunkSizeWarningLimit: 500,
+    rollupOptions: {
+      input: {
+        // Each entry produces a separate HTML file (true MPA).
+        // Subdirectories give clean URLs: /about/, /services/, etc.
+        main: path.resolve(__dirname, 'index.html'),
+        about: path.resolve(__dirname, 'about/index.html'),
+        services: path.resolve(__dirname, 'services/index.html'),
+        contact: path.resolve(__dirname, 'contact/index.html'),
+        token: path.resolve(__dirname, 'token/index.html'),
+        account: path.resolve(__dirname, 'account/index.html'),
+      },
+    },
   },
   envPrefix: 'VITE_',
 })

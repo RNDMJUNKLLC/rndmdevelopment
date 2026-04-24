@@ -1,15 +1,6 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import { uiActions } from '@store/slices/uiSlice';
 
 export const Footer: React.FC = () => {
-  const dispatch = useDispatch();
-
-  const handleNavigate = (page: string) => {
-    dispatch(uiActions.setCurrentPage(page));
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  };
-
   return (
     <footer className="relative z-10 border-t border-white/10 bg-black/30 backdrop-blur-md">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -28,24 +19,24 @@ export const Footer: React.FC = () => {
             </h3>
             <ul className="space-y-2 text-slate-500">
               <li>
-                <button onClick={() => handleNavigate('home')} className="hover:text-purple-400 transition">
+                <a href="/" className="hover:text-purple-400 transition">
                   Home
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => handleNavigate('about')} className="hover:text-purple-400 transition">
+                <a href="/about/" className="hover:text-purple-400 transition">
                   About
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => handleNavigate('services')} className="hover:text-purple-400 transition">
+                <a href="/services/" className="hover:text-purple-400 transition">
                   Services
-                </button>
+                </a>
               </li>
               <li>
-                <button onClick={() => handleNavigate('contact')} className="hover:text-purple-400 transition">
+                <a href="/contact/" className="hover:text-purple-400 transition">
                   Contact
-                </button>
+                </a>
               </li>
             </ul>
           </div>

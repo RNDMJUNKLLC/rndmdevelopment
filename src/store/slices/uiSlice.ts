@@ -2,7 +2,6 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import type { UIState, Notification } from '@/types';
 
 const initialState: UIState = {
-  currentPage: 'home',
   isDarkMode: false,
   isMenuOpen: false,
   notifications: [],
@@ -12,9 +11,6 @@ const uiSlice = createSlice({
   name: 'ui',
   initialState,
   reducers: {
-    setCurrentPage: (state: UIState, action: PayloadAction<string>) => {
-      state.currentPage = action.payload;
-    },
     setDarkMode: (state: UIState, action: PayloadAction<boolean>) => {
       state.isDarkMode = action.payload;
     },

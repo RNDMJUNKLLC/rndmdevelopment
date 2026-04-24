@@ -1,11 +1,7 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import SEOHead from '@components/SEOHead';
-import { uiActions } from '@store/slices/uiSlice';
 
 export const About: React.FC = () => {
-  const dispatch = useDispatch();
-
   return (
     <>
       <SEOHead
@@ -117,18 +113,18 @@ export const About: React.FC = () => {
                 ))}
               </div>
               <div className="flex gap-3">
-                <button
-                  onClick={() => dispatch(uiActions.setCurrentPage('home'))}
-                  className="btn-primary text-sm"
+                <a
+                  href="/"
+                  className="btn-primary text-sm inline-block"
                 >
                   View Site
-                </button>
-                <button
-                  onClick={() => dispatch(uiActions.setCurrentPage('contact'))}
-                  className="btn-secondary text-sm"
+                </a>
+                <a
+                  href="/contact/"
+                  className="btn-secondary text-sm inline-block"
                 >
                   Start Your Project
-                </button>
+                </a>
               </div>
             </div>
 
@@ -161,12 +157,12 @@ export const About: React.FC = () => {
                 >
                   Visit Dia-Hub
                 </a>
-                <button
-                  onClick={() => dispatch(uiActions.setCurrentPage('contact'))}
-                  className="btn-secondary text-sm"
+                <a
+                  href="/contact/"
+                  className="btn-secondary text-sm inline-block"
                 >
                   Request Similar
-                </button>
+                </a>
               </div>
             </div>
             {/* Incorporated */}
@@ -231,18 +227,18 @@ export const About: React.FC = () => {
             Let&apos;s turn your vision into digital reality. Whether it&apos;s a simple website or a complex web application, we&apos;re here to make it happen.
           </p>
           <div className="flex gap-4 justify-center">
-            <button
-              onClick={() => dispatch(uiActions.setCurrentPage('contact'))}
-              className="btn-primary"
+            <a
+              href="/contact/"
+              className="btn-primary inline-block"
             >
               Start Your Project
-            </button>
-            <button
-              onClick={() => dispatch(uiActions.setCurrentPage('services'))}
-              className="btn-secondary"
+            </a>
+            <a
+              href="/services/"
+              className="btn-secondary inline-block"
             >
               View Services
-            </button>
+            </a>
           </div>
         </section>
       </div>
