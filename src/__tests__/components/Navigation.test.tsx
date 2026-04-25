@@ -33,12 +33,13 @@ describe('Navigation Component', () => {
     expect(nav).toBeInTheDocument();
   });
 
-  it('should have navigation buttons', () => {
+  it('should have navigation links', () => {
     renderComponent();
-    
-    const buttons = screen.getAllByRole('button');
-    // Should have: RNDM DEVS logo + Home, About, Services, Contact, Account + hamburger
-    expect(buttons.length).toBeGreaterThanOrEqual(6);
+
+    // Logo + 5 nav links (Home, About, Services, Contact, Account) = 6 anchors,
+    // plus duplicates from the mobile menu wrapper. We just need at least one.
+    const links = screen.getAllByRole('link');
+    expect(links.length).toBeGreaterThanOrEqual(6);
   });
 
   it('should display logo', () => {
@@ -65,15 +66,14 @@ describe('Navigation Component', () => {
     expect(menuToggle).toBeInTheDocument();
   });
 
-  it('should dispatch navigation action on button click', async () => {
+  it('should dispatch navigation action on link click', async () => {
     const user = userEvent.setup();
     renderComponent();
-    
-    const aboutButton = screen.getByText('About');
-    await user.click(aboutButton);
-    
-    // Verify the button was clicked (state should update)
-    expect(aboutButton).toBeInTheDocument();
+
+    const aboutLink = screen.getByText('About');
+    await user.click(aboutLink);
+
+    expect(aboutLink).toBeInTheDocument();
   });
 });
 
