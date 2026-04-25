@@ -3,7 +3,7 @@
  * Integrates Web Vitals, Google Analytics, and Error tracking
  */
 
-import { onCLS, onFCP, onFID, onLCP, onTTFB } from 'web-vitals';
+import { onCLS, onFCP, onFID, onLCP, onTTFB, type Metric } from 'web-vitals';
 
 declare global {
   interface Window {
@@ -109,7 +109,7 @@ class PerformanceMonitor {
   /**
    * Handle individual metrics
    */
-  private handleMetric(metric: any, vitalsKey: string) {
+  private handleMetric(metric: Metric, vitalsKey: string) {
     const key = vitalsKey.toLowerCase() as keyof typeof this.metrics.vitals;
     const value = Math.round(metric.value);
 

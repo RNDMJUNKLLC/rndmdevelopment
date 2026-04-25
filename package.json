@@ -12,9 +12,6 @@
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage",
     "test:ci": "jest --ci --coverage --maxWorkers=2",
-    "build:analyze": "vite build && npm run analyze:bundle",
-    "analyze:bundle": "echo 'Bundle analysis: Check dist folder with du -sh dist'",
-    "analyze:performance": "npm run build && npm run preview",
     "seo:sitemap": "node scripts/generate-sitemap.js",
     "security:audit": "node scripts/security-audit.js",
     "pre-launch": "node scripts/pre-launch-checklist.js",
@@ -49,7 +46,6 @@
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3",
     "vite": "^7.0.4",
-    "vite-plugin-compression": "^0.5.1",
-    "webpack-bundle-analyzer": "^5.2.0"
+    "vite-plugin-compression": "^0.5.1"
   }
 }

@@ -6,6 +6,7 @@ Disallow: /private/
 Disallow: /*.json$
 Disallow: /*?*sort=
 Disallow: /~*
+Crawl-delay: 1
 
 # Google
 User-agent: Googlebot
@@ -24,10 +25,6 @@ Crawl-delay: 1
 
 # Sitemap
 Sitemap: https://rndm.dev/sitemap.xml
-
-# Comment: Crawl delay and request time
-User-agent: *
-Crawl-delay: 1
 
 # Security - disallow sensitive endpoints
 Allow: /api/public/*

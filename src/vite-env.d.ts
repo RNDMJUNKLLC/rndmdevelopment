@@ -25,13 +25,23 @@ interface ImportMeta {
 }
 
 // reCAPTCHA v3 types
+interface ReCaptchaRenderOptions {
+  sitekey: string;
+  theme?: 'light' | 'dark';
+  size?: 'normal' | 'compact' | 'invisible';
+  badge?: 'bottomright' | 'bottomleft' | 'inline';
+  callback?: (token: string) => void;
+  'expired-callback'?: () => void;
+  'error-callback'?: () => void;
+}
+
 declare global {
   interface Window {
     grecaptcha: {
       ready: (callback: () => void) => void;
       execute: (siteKey: string, options: { action: string }) => Promise<string>;
-      render: (element: string | HTMLElement, options: any) => void;
-      reset: () => void;
+      render: (element: string | HTMLElement, options: ReCaptchaRenderOptions) => number;
+      reset: (widgetId?: number) => void;
       getResponse: (widgetId?: number) => string;
       hideReCaptcha: (widgetId?: number) => void;
       showReCaptcha: (widgetId?: number) => void;

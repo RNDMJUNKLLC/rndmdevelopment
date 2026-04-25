@@ -65,7 +65,6 @@ export const SEOHead: React.FC<SEOHeadProps> = ({
     ],
     contactPoint: {
       '@type': 'ContactPoint',
-      telephone: '+1-XXX-XXX-XXXX',
       contactType: 'Customer Support',
       email: 'info@rndm.dev',
     },

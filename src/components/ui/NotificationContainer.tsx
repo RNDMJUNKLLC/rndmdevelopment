@@ -48,8 +48,10 @@ export const NotificationContainer: React.FC = () => {
         >
           <span>{notification.message}</span>
           <button
+            type="button"
             onClick={() => dispatch(uiActions.removeNotification(notification.id))}
-            className="text-lg font-bold hover:opacity-75 transition"
+            aria-label="Dismiss notification"
+            className="text-lg font-bold leading-none hover:opacity-75 transition"
           >
             ×
           </button>

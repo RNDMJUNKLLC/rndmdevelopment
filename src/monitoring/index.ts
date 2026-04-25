@@ -30,20 +30,23 @@ export { AnalyticsService, initAnalytics, getAnalytics };
  * Combined initialization function
  * Initializes all monitoring services in one call
  */
-export function initializeMonitoring(config: MonitoringConfig) {
-  const services: Record<string, any> = {};
+export interface MonitoringServices {
+  performance?: ReturnType<typeof initPerformanceMonitoring>;
+  errorTracking?: ReturnType<typeof initErrorTracking>;
+  analytics?: ReturnType<typeof initAnalytics>;
+}
 
-  // Initialize Performance Monitor
+export function initializeMonitoring(config: MonitoringConfig): MonitoringServices {
+  const services: MonitoringServices = {};
+
   if (config.performance) {
     services.performance = initPerformanceMonitoring(config.performance);
   }
 
-  // Initialize Error Tracker
   if (config.errorTracking) {
     services.errorTracking = initErrorTracking(config.errorTracking);
   }
 
-  // Initialize Analytics
   if (config.analytics) {
     services.analytics = initAnalytics(config.analytics);
   }
@@ -55,9 +58,9 @@ export function initializeMonitoring(config: MonitoringConfig) {
  * Configuration for all monitoring services
  */
 export interface MonitoringConfig {
-  performance?: any;
-  errorTracking?: any;
-  analytics?: any;
+  performance?: PerformanceConfig;
+  errorTracking?: ErrorTrackerConfig;
+  analytics?: Parameters<typeof initAnalytics>[0];
 }
 
 export default {
