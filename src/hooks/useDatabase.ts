@@ -11,7 +11,7 @@ import {
 } from 'firebase/database';
 import { database } from '@services/firebase';
 import { formsActions } from '@store/slices/formsSlice';
-import type { RootState, ContactFormSubmission, ServiceResponse } from '@/types';
+import type { RootState, ContactFormSubmission, SOSSubmission, ServiceResponse } from '@/types';
 
 /**
  * Custom hook for Firebase Realtime Database operations
@@ -19,7 +19,7 @@ import type { RootState, ContactFormSubmission, ServiceResponse } from '@/types'
  */
 export const useDatabase = () => {
   const dispatch = useDispatch();
-  const { submissions, loading, error } = useSelector((state: RootState) => state.forms);
+  const { submissions, sosRequests, loading, error } = useSelector((state: RootState) => state.forms);
 
   /**
    * Add a new form submission to the database
@@ -194,6 +194,7 @@ export const useDatabase = () => {
         const submissionRef = ref(database, `formSubmissions/${id}`);
         await remove(submissionRef);
 
+        dispatch(formsActions.removeSubmission(id));
         dispatch(formsActions.setLoading(false));
 
         return {
@@ -264,9 +265,103 @@ export const useDatabase = () => {
     dispatch(formsActions.clearError());
   }, [dispatch]);
 
+  /* ─────────────── SOS Requests ─────────────── */
+
+  const addSOSRequest = useCallback(
+    async (sos: Omit<SOSSubmission, 'id'>): Promise<ServiceResponse<SOSSubmission>> => {
+      try {
+        if (!database) throw new Error('Firebase is not configured');
+        const sosRef = ref(database, 'sosRequests');
+        const payload: Omit<SOSSubmission, 'id'> = {
+          ...sos,
+          status: sos.status || 'pending',
+        };
+        const newRef = await push(sosRef, payload);
+        const created: SOSSubmission = { id: newRef.key || '', ...payload };
+        dispatch(formsActions.addSOSRequest(created));
+        return { success: true, data: created, message: 'SOS request saved' };
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Failed to save SOS request';
+        return { success: false, error: errorMessage };
+      }
+    },
+    [dispatch]
+  );
+
+  const fetchSOSRequests = useCallback(
+    async (): Promise<ServiceResponse<SOSSubmission[]>> => {
+      try {
+        if (!database) throw new Error('Firebase is not configured');
+        const sosRef = ref(database, 'sosRequests');
+        const snapshot = await get(sosRef);
+        const list: SOSSubmission[] = [];
+        snapshot.forEach((child) => {
+          list.push({ id: child.key || '', ...child.val() });
+        });
+        dispatch(formsActions.setSOSRequests(list));
+        return { success: true, data: list };
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Failed to fetch SOS requests';
+        return { success: false, error: errorMessage };
+      }
+    },
+    [dispatch]
+  );
+
+  const subscribeToSOSRequests = useCallback(
+    (callback?: (list: SOSSubmission[]) => void): Unsubscribe => {
+      if (!database) return () => {};
+      const sosRef = ref(database, 'sosRequests');
+      return onValue(sosRef, (snapshot) => {
+        const list: SOSSubmission[] = [];
+        snapshot.forEach((child) => {
+          list.push({ id: child.key || '', ...child.val() });
+        });
+        dispatch(formsActions.setSOSRequests(list));
+        if (callback) callback(list);
+      });
+    },
+    [dispatch]
+  );
+
+  const updateSOSRequest = useCallback(
+    async (id: string, updates: Partial<SOSSubmission>): Promise<ServiceResponse<SOSSubmission>> => {
+      try {
+        if (!database) throw new Error('Firebase is not configured');
+        const sosRef = ref(database, `sosRequests/${id}`);
+        await update(sosRef, updates);
+        const existing = sosRequests.find((s) => s.id === id);
+        const updated: SOSSubmission = { ...(existing as SOSSubmission), ...updates, id };
+        dispatch(formsActions.updateSOSRequest(updated));
+        return { success: true, data: updated };
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Failed to update SOS request';
+        return { success: false, error: errorMessage };
+      }
+    },
+    [dispatch, sosRequests]
+  );
+
+  const deleteSOSRequest = useCallback(
+    async (id: string): Promise<ServiceResponse<null>> => {
+      try {
+        if (!database) throw new Error('Firebase is not configured');
+        const sosRef = ref(database, `sosRequests/${id}`);
+        await remove(sosRef);
+        dispatch(formsActions.removeSOSRequest(id));
+        return { success: true, message: 'SOS request deleted' };
+      } catch (err) {
+        const errorMessage = err instanceof Error ? err.message : 'Failed to delete SOS request';
+        return { success: false, error: errorMessage };
+      }
+    },
+    [dispatch]
+  );
+
   return {
     // State
     submissions,
+    sosRequests,
     loading,
     error,
 
@@ -278,6 +373,11 @@ export const useDatabase = () => {
     deleteSubmission,
     getSubmission,
     clearError,
+    addSOSRequest,
+    fetchSOSRequests,
+    subscribeToSOSRequests,
+    updateSOSRequest,
+    deleteSOSRequest,
   };
 };
 

@@ -26,8 +26,9 @@ const StatusBadge: React.FC<{ status: string }> = ({ status }) => {
 /* ───── My Submissions Tab ───── */
 const SubmissionsTab: React.FC<{
   submissions: ContactFormSubmission[];
+  sosRequests: SOSSubmission[];
   loading: boolean;
-}> = ({ submissions, loading }) => {
+}> = ({ submissions, sosRequests, loading }) => {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-16">
@@ -36,7 +37,7 @@ const SubmissionsTab: React.FC<{
     );
   }
 
-  if (submissions.length === 0) {
+  if (submissions.length === 0 && sosRequests.length === 0) {
     return (
       <div className="text-center py-16">
         <div className="text-5xl mb-4">📭</div>
@@ -49,44 +50,92 @@ const SubmissionsTab: React.FC<{
   }
 
   return (
-    <div className="space-y-4">
-      {submissions.map((sub) => (
-        <div key={sub.id} className="card p-6 group">
-          <div className="flex items-start justify-between gap-4 mb-3">
-            <div>
-              <h4 className="font-semibold text-white group-hover:text-purple-300 transition">
-                {sub.projectType}
-              </h4>
-              <p className="text-xs text-slate-500">
-                {new Date(sub.timestamp).toLocaleDateString('en-US', {
-                  year: 'numeric',
-                  month: 'short',
-                  day: 'numeric',
-                  hour: '2-digit',
-                  minute: '2-digit',
-                })}
-              </p>
-            </div>
-            <StatusBadge status={sub.status} />
+    <div className="space-y-8">
+      {submissions.length > 0 && (
+        <section>
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-slate-500 mb-3">
+            📋 Inquiries
+          </h3>
+          <div className="space-y-4">
+            {submissions.map((sub) => (
+              <div key={sub.id} className="card p-6 group">
+                <div className="flex items-start justify-between gap-4 mb-3">
+                  <div>
+                    <h4 className="font-semibold text-white group-hover:text-purple-300 transition">
+                      {sub.projectType}
+                    </h4>
+                    <p className="text-xs text-slate-500">
+                      {new Date(sub.timestamp).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    </p>
+                  </div>
+                  <StatusBadge status={sub.status} />
+                </div>
+                <p className="text-slate-400 text-sm line-clamp-2">{sub.message}</p>
+                <div className="flex gap-4 mt-3 text-xs text-slate-500">
+                  <span>💰 {sub.budget}</span>
+                  <span>⏱ {sub.timeline}</span>
+                </div>
+              </div>
+            ))}
           </div>
-          <p className="text-slate-400 text-sm line-clamp-2">{sub.message}</p>
-          <div className="flex gap-4 mt-3 text-xs text-slate-500">
-            <span>💰 {sub.budget}</span>
-            <span>⏱ {sub.timeline}</span>
+        </section>
+      )}
+
+      {sosRequests.length > 0 && (
+        <section>
+          <h3 className="text-sm font-semibold uppercase tracking-wider text-red-400 mb-3">
+            🆘 SOS Requests
+          </h3>
+          <div className="space-y-4">
+            {sosRequests.map((sos) => (
+              <div key={sos.id} className="card p-6 group border-l-4 border-red-500/50">
+                <div className="flex items-start justify-between gap-4 mb-3">
+                  <div>
+                    <h4 className="font-semibold text-white group-hover:text-red-300 transition">
+                      {sos.requestType}
+                    </h4>
+                    <p className="text-xs text-slate-500">
+                      {new Date(sos.timestamp).toLocaleDateString('en-US', {
+                        year: 'numeric',
+                        month: 'short',
+                        day: 'numeric',
+                        hour: '2-digit',
+                        minute: '2-digit',
+                      })}
+                    </p>
+                  </div>
+                  <StatusBadge status={sos.status || 'pending'} />
+                </div>
+                <p className="text-slate-400 text-sm line-clamp-2">{sos.details}</p>
+                <div className="flex gap-4 mt-3 text-xs text-slate-500 flex-wrap">
+                  <span>🚨 {sos.priority}</span>
+                  <span>⏱ {sos.timeline}</span>
+                  {sos.project && <span>📁 {sos.project}</span>}
+                </div>
+              </div>
+            ))}
           </div>
-        </div>
-      ))}
+        </section>
+      )}
     </div>
   );
 };
 
 /* ───── SOS Request Tab ───── */
 const SOSTab: React.FC<{
+  userId: string;
   userEmail: string;
   userName: string;
   userSubmissions: ContactFormSubmission[];
-}> = ({ userEmail, userName, userSubmissions }) => {
+}> = ({ userId, userEmail, userName, userSubmissions }) => {
   const { sendSOSNotification, sending } = useDiscord();
+  const { addSOSRequest } = useDatabase();
   const [submitted, setSubmitted] = useState(false);
 
   const [form, setForm] = useState({
@@ -112,9 +161,16 @@ const SOSTab: React.FC<{
     const sosPayload: SOSSubmission = {
       ...form,
       timestamp: Date.now(),
+      userId,
+      status: 'pending',
     };
 
+    // Persist to Firebase so admin can manage it
+    await addSOSRequest(sosPayload);
+
+    // Fire Discord notification
     await sendSOSNotification(sosPayload);
+
     setSubmitted(true);
   };
 
@@ -413,19 +469,36 @@ const ProfileTab: React.FC<{
    ═══════════════════════════════════════════════════════ */
 export const Account: React.FC = () => {
   const { user, isLoggedIn, signout } = useAuth();
-  const { submissions, loading, fetchSubmissions } = useDatabase();
+  const {
+    submissions,
+    sosRequests,
+    loading,
+    fetchSubmissions,
+    subscribeToSubmissions,
+    fetchSOSRequests,
+    subscribeToSOSRequests,
+  } = useDatabase();
   const [authMode, setAuthMode] = useState<AuthMode>('login');
   const [activeTab, setActiveTab] = useState<AccountTab>('submissions');
 
-  // Fetch user submissions when logged in
+  // Fetch + subscribe to user submissions when logged in
   useEffect(() => {
-    if (isLoggedIn) {
-      fetchSubmissions();
-    }
-  }, [isLoggedIn, fetchSubmissions]);
+    if (!isLoggedIn) return;
+    fetchSubmissions();
+    fetchSOSRequests();
+    const unsub = subscribeToSubmissions();
+    const unsubSOS = subscribeToSOSRequests();
+    return () => {
+      unsub();
+      unsubSOS();
+    };
+  }, [isLoggedIn, fetchSubmissions, subscribeToSubmissions, fetchSOSRequests, subscribeToSOSRequests]);
 
   // Filter submissions for current user
   const userSubmissions = submissions.filter(
+    (s) => s.userId === user?.uid || s.email === user?.email
+  );
+  const userSOSRequests = sosRequests.filter(
     (s) => s.userId === user?.uid || s.email === user?.email
   );
 
@@ -478,10 +551,15 @@ export const Account: React.FC = () => {
           {/* Tab Content */}
           <div className="animate-fade-in-up">
             {activeTab === 'submissions' && (
-              <SubmissionsTab submissions={userSubmissions} loading={loading} />
+              <SubmissionsTab
+                submissions={userSubmissions}
+                sosRequests={userSOSRequests}
+                loading={loading}
+              />
             )}
             {activeTab === 'sos' && (
               <SOSTab
+                userId={user.uid}
                 userEmail={user.email || ''}
                 userName={user.displayName || user.email || 'User'}
                 userSubmissions={userSubmissions}

@@ -42,6 +42,8 @@ export interface SOSSubmission {
   priority: string;
   details: string;
   timestamp: number;
+  userId?: string;
+  status?: 'pending' | 'viewed' | 'responded';
 }
 
 export interface FormValidationError {
@@ -60,6 +62,7 @@ export interface AuthState {
 
 export interface FormsState {
   submissions: ContactFormSubmission[];
+  sosRequests: SOSSubmission[];
   currentSubmission: ContactFormSubmission | null;
   loading: boolean;
   error: string | null;

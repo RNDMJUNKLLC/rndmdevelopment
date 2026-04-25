@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import type { FormsState, ContactFormSubmission } from '@/types';
+import type { FormsState, ContactFormSubmission, SOSSubmission } from '@/types';
 
 const initialState: FormsState = {
   submissions: [],
+  sosRequests: [],
   currentSubmission: null,
   loading: false,
   error: null,
@@ -24,6 +25,24 @@ const formsSlice = createSlice({
       if (index !== -1) {
         state.submissions[index] = action.payload;
       }
+    },
+    removeSubmission: (state: FormsState, action: PayloadAction<string>) => {
+      state.submissions = state.submissions.filter((s) => s.id !== action.payload);
+    },
+    setSOSRequests: (state: FormsState, action: PayloadAction<SOSSubmission[]>) => {
+      state.sosRequests = action.payload;
+    },
+    addSOSRequest: (state: FormsState, action: PayloadAction<SOSSubmission>) => {
+      state.sosRequests.push(action.payload);
+    },
+    updateSOSRequest: (state: FormsState, action: PayloadAction<SOSSubmission>) => {
+      const index = state.sosRequests.findIndex((s) => s.id === action.payload.id);
+      if (index !== -1) {
+        state.sosRequests[index] = action.payload;
+      }
+    },
+    removeSOSRequest: (state: FormsState, action: PayloadAction<string>) => {
+      state.sosRequests = state.sosRequests.filter((s) => s.id !== action.payload);
     },
     setCurrentSubmission: (state: FormsState, action: PayloadAction<ContactFormSubmission | null>) => {
       state.currentSubmission = action.payload;
