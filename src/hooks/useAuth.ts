@@ -8,7 +8,8 @@ import {
   updateProfile,
   User as FirebaseUser,
 } from 'firebase/auth';
-import { auth } from '@services/firebase';
+import { ref, set, update as dbUpdate } from 'firebase/database';
+import { auth, database } from '@services/firebase';
 import { authActions } from '@store/slices/authSlice';
 import type { RootState, User, UserProfile, ServiceResponse } from '@/types';
 
@@ -69,6 +70,23 @@ export const useAuth = () => {
           photoURL: result.user.photoURL,
         };
 
+        // Persist user record under /users/{uid} so the admin dashboard can list them
+        if (database) {
+          try {
+            await set(ref(database, `users/${user.uid}`), {
+              uid: user.uid,
+              email: user.email,
+              displayName: user.displayName,
+              dateJoined: Date.now(),
+              dateJoinedISO: new Date().toISOString(),
+              source: 'rndmdevelopment',
+            });
+          } catch (dbErr) {
+            // Non-fatal — auth user was created
+            console.warn('Failed to write user record to RTDB:', dbErr);
+          }
+        }
+
         dispatch(authActions.setUser(user));
         dispatch(authActions.setLoading(false));
 
@@ -109,6 +127,20 @@ export const useAuth = () => {
           displayName: result.user.displayName,
           photoURL: result.user.photoURL,
         };
+
+        // Update lastLogin timestamp under /users/{uid}
+        if (database) {
+          try {
+            await dbUpdate(ref(database, `users/${user.uid}`), {
+              lastLogin: Date.now(),
+              lastLoginISO: new Date().toISOString(),
+              email: user.email,
+              displayName: user.displayName,
+            });
+          } catch (dbErr) {
+            console.warn('Failed to update user lastLogin:', dbErr);
+          }
+        }
 
         dispatch(authActions.setUser(user));
         dispatch(authActions.setLoading(false));

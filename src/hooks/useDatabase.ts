@@ -20,6 +20,7 @@ import type { RootState, ContactFormSubmission, SOSSubmission, ServiceResponse }
 export const useDatabase = () => {
   const dispatch = useDispatch();
   const { submissions, sosRequests, loading, error } = useSelector((state: RootState) => state.forms);
+  const currentUser = useSelector((state: RootState) => state.auth.user);
 
   /**
    * Add a new form submission to the database
@@ -30,10 +31,12 @@ export const useDatabase = () => {
         if (!database) throw new Error('Firebase is not configured');
         dispatch(formsActions.setLoading(true));
 
-        const submissionsRef = ref(database, 'formSubmissions');
+        const submissionsRef = ref(database, 'contact-forms');
         const submissionWithTimestamp = {
           ...submission,
+          userId: submission.userId || currentUser?.uid || undefined,
           timestamp: Date.now(),
+          dateSubmitted: new Date().toISOString(),
           status: 'pending' as const,
         };
 
@@ -63,7 +66,7 @@ export const useDatabase = () => {
         };
       }
     },
-    [dispatch]
+    [dispatch, currentUser]
   );
 
   /**
@@ -75,7 +78,7 @@ export const useDatabase = () => {
         if (!database) throw new Error('Firebase is not configured');
         dispatch(formsActions.setLoading(true));
 
-        const submissionsRef = ref(database, 'formSubmissions');
+        const submissionsRef = ref(database, 'contact-forms');
         const snapshot = await get(submissionsRef);
 
         const submissions: ContactFormSubmission[] = [];
@@ -118,7 +121,7 @@ export const useDatabase = () => {
         return () => {};
       }
 
-      const submissionsRef = ref(database, 'formSubmissions');
+      const submissionsRef = ref(database, 'contact-forms');
 
       const unsubscribe = onValue(submissionsRef, (snapshot) => {
         const submissions: ContactFormSubmission[] = [];
@@ -151,7 +154,7 @@ export const useDatabase = () => {
         if (!database) throw new Error('Firebase is not configured');
         dispatch(formsActions.setLoading(true));
 
-        const submissionRef = ref(database, `formSubmissions/${id}`);
+        const submissionRef = ref(database, `contact-forms/${id}`);
         await update(submissionRef, updates);
 
         const updatedSubmission: ContactFormSubmission = {
@@ -191,7 +194,7 @@ export const useDatabase = () => {
         if (!database) throw new Error('Firebase is not configured');
         dispatch(formsActions.setLoading(true));
 
-        const submissionRef = ref(database, `formSubmissions/${id}`);
+        const submissionRef = ref(database, `contact-forms/${id}`);
         await remove(submissionRef);
 
         dispatch(formsActions.removeSubmission(id));
@@ -224,7 +227,7 @@ export const useDatabase = () => {
         if (!database) throw new Error('Firebase is not configured');
         dispatch(formsActions.setLoading(true));
 
-        const submissionRef = ref(database, `formSubmissions/${id}`);
+        const submissionRef = ref(database, `contact-forms/${id}`);
         const snapshot = await get(submissionRef);
 
         if (!snapshot.exists()) {
@@ -271,9 +274,10 @@ export const useDatabase = () => {
     async (sos: Omit<SOSSubmission, 'id'>): Promise<ServiceResponse<SOSSubmission>> => {
       try {
         if (!database) throw new Error('Firebase is not configured');
-        const sosRef = ref(database, 'sosRequests');
+        const sosRef = ref(database, 'support-tickets');
         const payload: Omit<SOSSubmission, 'id'> = {
           ...sos,
+          userId: sos.userId || currentUser?.uid || undefined,
           status: sos.status || 'pending',
         };
         const newRef = await push(sosRef, payload);
@@ -285,14 +289,14 @@ export const useDatabase = () => {
         return { success: false, error: errorMessage };
       }
     },
-    [dispatch]
+    [dispatch, currentUser]
   );
 
   const fetchSOSRequests = useCallback(
     async (): Promise<ServiceResponse<SOSSubmission[]>> => {
       try {
         if (!database) throw new Error('Firebase is not configured');
-        const sosRef = ref(database, 'sosRequests');
+        const sosRef = ref(database, 'support-tickets');
         const snapshot = await get(sosRef);
         const list: SOSSubmission[] = [];
         snapshot.forEach((child) => {
@@ -311,7 +315,7 @@ export const useDatabase = () => {
   const subscribeToSOSRequests = useCallback(
     (callback?: (list: SOSSubmission[]) => void): Unsubscribe => {
       if (!database) return () => {};
-      const sosRef = ref(database, 'sosRequests');
+      const sosRef = ref(database, 'support-tickets');
       return onValue(sosRef, (snapshot) => {
         const list: SOSSubmission[] = [];
         snapshot.forEach((child) => {
@@ -328,7 +332,7 @@ export const useDatabase = () => {
     async (id: string, updates: Partial<SOSSubmission>): Promise<ServiceResponse<SOSSubmission>> => {
       try {
         if (!database) throw new Error('Firebase is not configured');
-        const sosRef = ref(database, `sosRequests/${id}`);
+        const sosRef = ref(database, `support-tickets/${id}`);
         await update(sosRef, updates);
         const existing = sosRequests.find((s) => s.id === id);
         const updated: SOSSubmission = { ...(existing as SOSSubmission), ...updates, id };
@@ -346,7 +350,7 @@ export const useDatabase = () => {
     async (id: string): Promise<ServiceResponse<null>> => {
       try {
         if (!database) throw new Error('Firebase is not configured');
-        const sosRef = ref(database, `sosRequests/${id}`);
+        const sosRef = ref(database, `support-tickets/${id}`);
         await remove(sosRef);
         dispatch(formsActions.removeSOSRequest(id));
         return { success: true, message: 'SOS request deleted' };
